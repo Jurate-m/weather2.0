@@ -1,4 +1,9 @@
-const SearchResults = ({ results }) => {
+interface Result {
+  place_id: string;
+  name: string;
+}
+
+const SearchResults = ({ results }: { results: [Result] }) => {
   return (
     <ul>
       {results.map((item) => (
