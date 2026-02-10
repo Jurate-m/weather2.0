@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 import SearchResults from "./searchResults";
 
@@ -9,18 +9,33 @@ const Search = () => {
   const [data, setData] = useState(null);
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
+  const [location, setLocation] = useState("");
 
   const timer = useRef<NodeJS.Timeout | null>(null);
   const prevQuery = useRef("");
 
+  const route = useRouter();
+  const path = usePathname();
+  const searchParams = useSearchParams();
+
   const checkIfNotValid = (value: string) => {
     return /[-'/`~!#*$@_%,'"+=^&(){}[\]|;:<>?\\]/.test(value);
+  };
+
+  const handleClick = (value: string) => {
+    setLocation(value);
   };
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
 
     if (error) return;
+
+    const params = new URLSearchParams(searchParams);
+
+    params.set("location", location);
+
+    route.replace(`${path}?${params.toString()}`);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,9 +57,9 @@ const Search = () => {
   const fetchData = async (value: string) => {
     const endpoint = `?location=${encodeURIComponent(value)}`;
 
-    // prevQuery.current.match(value);
+    const matchLength = prevQuery.current.length - value.length;
 
-    if (prevQuery.current.includes(value) && !error) return;
+    if (prevQuery.current.includes(value) && matchLength < 4 && !error) return;
 
     try {
       prevQuery.current = value;
@@ -75,7 +90,7 @@ const Search = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <input type='text' value={query} onChange={handleChange} />
-        {data && <SearchResults results={data} />}
+        {data && <SearchResults results={data} onClick={handleClick} />}
       </form>
       <p>{error}</p>
     </div>
