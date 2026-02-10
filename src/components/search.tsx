@@ -1,49 +1,98 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRef, useState, useEffect } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+
+import SearchResults from "./searchResults";
 
 const Search = () => {
-  const path = usePathname();
-  const route = useRouter();
-
-  const userInput = useRef<HTMLInputElement>(null);
-
   const [data, setData] = useState(null);
+  const [query, setQuery] = useState("");
   const [error, setError] = useState("");
+  const [location, setLocation] = useState("");
 
-  const handleSubmit = async (e) => {
+  const timer = useRef<NodeJS.Timeout | null>(null);
+  const prevQuery = useRef("");
+
+  const route = useRouter();
+  const path = usePathname();
+  const searchParams = useSearchParams();
+
+  const checkIfNotValid = (value: string) => {
+    return /[-'/`~!#*$@_%,'"+=^&(){}[\]|;:<>?\\]/.test(value);
+  };
+
+  const handleClick = (value: string) => {
+    setLocation(value);
+  };
+
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
 
-    if (!userInput.current?.value) return;
+    if (error) return;
 
-    const endpoint = `?location=${encodeURIComponent(userInput.current.value)}`;
-    route.replace(`${path}${endpoint}`);
+    const params = new URLSearchParams(searchParams);
 
-    userInput.current.value = "";
+    params.set("location", location);
+
+    route.replace(`${path}?${params.toString()}`);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError("");
+
+    const userinput = e.target.value;
+
+    const invalidInput = checkIfNotValid(userinput);
+
+    if (invalidInput) {
+      setError("Please use only alphabetical values to search for a location.");
+
+      return;
+    }
+
+    setQuery((q) => userinput);
+  };
+
+  const fetchData = async (value: string) => {
+    const endpoint = `?location=${encodeURIComponent(value)}`;
+
+    const matchLength = prevQuery.current.length - value.length;
+
+    if (prevQuery.current.includes(value) && matchLength < 4 && !error) return;
 
     try {
-      const response = await fetch(`api/weather${endpoint}`);
+      prevQuery.current = value;
+      const response = await fetch(`api/findPlace${endpoint}`);
+      if (!response.ok) throw new Error("Problem.");
+      const json = await response.json();
 
-      if (!response.ok) throw new Error("Trouble reaching api");
+      if (!json.length) throw new Error();
 
-      const data = await response.json();
-
-      setData(data);
+      setData(json);
     } catch (error) {
-      setError(
-        "Oh no! There was a problem retrieving Weather data, please try again or come back later. Thank You for Your patience.",
-      );
-
-      console.error("Weather fetch failed:", error);
+      setError("Unfortuantelly there were no results matching your search");
     }
   };
+
+  useEffect(() => {
+    timer.current = setTimeout(() => {
+      fetchData(query);
+    }, 3000);
+    return () => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+    };
+  }, [query]);
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type='text' name='location' ref={userInput} />
+        <input type='text' value={query} onChange={handleChange} />
+        {data && <SearchResults results={data} onClick={handleClick} />}
       </form>
+      <p>{error}</p>
     </div>
   );
 };
