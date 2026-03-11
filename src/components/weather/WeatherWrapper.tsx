@@ -1,18 +1,22 @@
 import { cookies } from "next/headers";
 import { isValidQuery } from "@/utils/functions";
 import ClientCoords from "../ClientCoords";
-
 import CurrentWeather from "./CurrentWeather";
+import { notFound } from "next/navigation";
+import DailyWeather from "./DailyWeather";
+import HourlyWeather from "./HourlyWeather";
 
 export default async function WeatherWrapper({
+  searchParams,
   params,
 }: {
-  params: Promise<{
+  searchParams: Promise<{
     q: string | undefined;
     location: string | undefined;
   }>;
+  params?: string;
 }) {
-  const { location } = await params;
+  const { location } = await searchParams;
 
   const cookie = await cookies();
 
@@ -23,13 +27,30 @@ export default async function WeatherWrapper({
 
   if (!validLocation && !coordsCookie) return <ClientCoords />;
 
-  return (
-    <>
-      <CurrentWeather
-        validLocation={validLocation}
-        location={location}
-        coords={coordsCookie}
-      />
-    </>
-  );
+  if (params && params !== "daily" && params !== "hourly") return notFound();
+
+  if (params === "daily")
+    return (
+      <section>
+        <DailyWeather />
+      </section>
+    );
+
+  if (params === "hourly")
+    return (
+      <section>
+        <HourlyWeather />
+      </section>
+    );
+
+  if (!params)
+    return (
+      <section>
+        <CurrentWeather
+          validLocation={validLocation}
+          location={location}
+          coords={coordsCookie}
+        />
+      </section>
+    );
 }
