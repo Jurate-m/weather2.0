@@ -1,3 +1,24 @@
-export default function Home() {
-  return <main></main>;
+import WeatherWrapper from "@/components/weather/WeatherWrapper";
+
+import Header from "@/components/Header";
+import { Suspense } from "react";
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    q: string | undefined;
+    location: string | undefined;
+  }>;
+}) {
+  return (
+    <main>
+      <Suspense fallback={<div>....Header goes here...</div>}>
+        <Header params={searchParams} />
+      </Suspense>
+      <Suspense fallback={<div>Loading weather (to be skeleton)...</div>}>
+        <WeatherWrapper params={searchParams} />
+      </Suspense>
+    </main>
+  );
 }
