@@ -17,7 +17,7 @@ export default async function Home({
         <Header params={searchParams} />
       </Suspense>
       <Suspense fallback={<div>Loading weather (to be skeleton)...</div>}>
-        <WeatherWrapper params={searchParams} />
+        <WeatherWrapper searchParams={searchParams} />
       </Suspense>
     </main>
   );
