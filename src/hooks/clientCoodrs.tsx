@@ -11,7 +11,6 @@ export function useCoords() {
   const success = (position: GeolocationPosition) => {
     const { latitude, longitude } = position.coords;
     saveClientCoordsCookie(latitude, longitude);
-    console.log("success");
   };
 
   const error = (error: GeolocationPositionError) => {
