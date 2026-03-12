@@ -7,6 +7,7 @@ export interface SearchContextType {
   userQuery: string;
   setUserQuery: React.Dispatch<React.SetStateAction<string>>;
   setLocationQuery: React.Dispatch<React.SetStateAction<string>>;
+  display: boolean;
 }
 
 export interface SearchResultsType {
