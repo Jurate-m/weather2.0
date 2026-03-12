@@ -12,13 +12,15 @@ export default async function Home({
   }>;
 }) {
   return (
-    <main>
+    <>
       <Suspense fallback={<div>....Header goes here...</div>}>
         <Header params={searchParams} />
       </Suspense>
-      <Suspense fallback={<div>Loading weather (to be skeleton)...</div>}>
-        <WeatherWrapper searchParams={searchParams} />
-      </Suspense>
-    </main>
+      <main>
+        <Suspense fallback={<div>Loading weather (to be skeleton)...</div>}>
+          <WeatherWrapper searchParams={searchParams} />
+        </Suspense>
+      </main>
+    </>
   );
 }
