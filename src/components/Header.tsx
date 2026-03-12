@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import SearchContextWrapper from "./search/SearchContextWrapper";
 import SearchOuter from "@/components/search/SearchOuter";
+import Nav from "@/components/nav/Nav";
 
 export default async function Header({
   params,
@@ -13,7 +14,8 @@ export default async function Header({
   const { q } = await params;
 
   return (
-    <header>
+    <header className='max-w-4xl m-auto px-5 py-4 flex flex-col'>
+      <Nav />
       <SearchContextWrapper>
         <Suspense>
           <SearchOuter q={q} />

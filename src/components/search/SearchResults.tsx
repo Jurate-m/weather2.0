@@ -9,7 +9,7 @@ export default function SearchResultsWrapper({
 }: {
   results: SearchResultsType[] | null;
 }) {
-  const { userQuery, setUserQuery, setLocationQuery } =
+  const { userQuery, setUserQuery, setLocationQuery, display } =
     useContext(SearchContext);
 
   if (!userQuery) return;
@@ -24,12 +24,16 @@ export default function SearchResultsWrapper({
   };
 
   return (
-    <ul>
+    <ul className={`p-4 ${display ? "" : "hidden"}`}>
       {results &&
         results.map((_) => {
           return (
             <li key={_.place_id}>
-              <button type='button' onClick={() => handleClick(_.place_id)}>
+              <button
+                type='button'
+                onClick={() => handleClick(_.place_id)}
+                className='w-full hover:bg-stone-300 text-left'
+              >
                 <p>{_.name}</p>
               </button>
             </li>

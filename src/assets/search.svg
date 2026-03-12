@@ -1,0 +1,18 @@
+<svg
+          xmlns='http://www.w3.org/2000/svg'
+          width='34'
+          height='33'
+          fill='none'
+          stroke='#000'
+          stroke-width='2'
+        >
+          <path
+            d='M13 25c6.627 0 12-5.373 12-12S19.627 1 13 1 1 6.373 1 13s5.373 12 12 12z'
+            stroke-miterlimit='10'
+          />
+          <path
+            d='M22 21L33 32'
+            stroke-linecap='round'
+            stroke-linejoin='round'
+          />
+        </svg>
