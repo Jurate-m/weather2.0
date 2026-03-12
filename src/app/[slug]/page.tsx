@@ -21,7 +21,6 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  console.log(slug);
   return (
     <main>
       <Suspense fallback={<div>....Header goes here...</div>}>
@@ -29,7 +28,9 @@ export default async function Page({
       </Suspense>
 
       <section>
-        <WeatherWrapper searchParams={searchParams} params={slug} />
+        <Suspense>
+          <WeatherWrapper searchParams={searchParams} params={slug} />
+        </Suspense>
       </section>
     </main>
   );
