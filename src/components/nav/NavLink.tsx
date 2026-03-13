@@ -12,7 +12,7 @@ export default function NavLink({ name, url }: { name: string; url: string }) {
     <li className='px-1'>
       <Link
         href={`${url}${searchParams ? `?${searchParams}` : ""}`}
-        className={`block px-1 py-2 hover:text-gray-900 ${path === url ? "text-gray-950" : "text-gray-700"}`}
+        className={`block px-4 py-2 hover:text-gray-900 hover:bg-gray-100 ${path === url ? "text-gray-950" : "text-gray-700"}`}
       >
         {name}
       </Link>
