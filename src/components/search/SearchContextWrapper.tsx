@@ -66,7 +66,10 @@ export default function SearchContextWrapper({
     <SearchContext
       value={{ userQuery, setUserQuery, setLocationQuery, display }}
     >
-      <div ref={searchWrapper} className='py-4 max-w-sm w-full ml-auto'>
+      <div
+        ref={searchWrapper}
+        className='py-4 max-w-sm w-full ml-auto relative'
+      >
         {children}
       </div>
     </SearchContext>
