@@ -21,7 +21,7 @@ export default function SearchBar() {
     <>
       <form
         onSubmit={(e) => e.preventDefault()}
-        className='relative border-1 border-stone-300'
+        className='relative border border-stone-300'
       >
         <Image
           src={Icon}
