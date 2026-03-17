@@ -11,8 +11,8 @@ export default async function WeatherWrapper({
   params,
 }: {
   searchParams: Promise<{
-    q: string | undefined;
-    location: string | undefined;
+    q?: string | undefined;
+    location?: string | undefined;
   }>;
   params?: string;
 }) {
