@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext } from "react";
 import { SearchResultsType } from "@/utils/interfaces";
 import { SearchContext } from "./SearchWrapper";
@@ -13,6 +13,7 @@ export default function SearchResults({
 }) {
   const path = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const { display, activeSearch, setActiveSearch } = useContext(SearchContext);
 
@@ -33,14 +34,16 @@ export default function SearchResults({
     >
       {results &&
         results.map((result) => {
+          const disabled = searchParams.get("location") === result.place_id;
           return (
             <li key={result.place_id}>
               <button
+                disabled={disabled}
                 type='button'
                 onClick={() => handleClick(result.place_id)}
-                className='w-full hover:bg-gray-100 text-left py-1 px-2 rounded-md'
+                className={`w-full hover:bg-gray-100 text-left py-1 px-2 rounded-md ${disabled ? "text-gray-400" : ""}`}
               >
-                <p>{result.name}</p>
+                {result.name}
               </button>
             </li>
           );
