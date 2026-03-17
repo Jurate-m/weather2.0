@@ -1,40 +1,55 @@
 "use client";
 
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext } from "react";
-import { SearchContext } from "./SearchContextWrapper";
 import { SearchResultsType } from "@/utils/interfaces";
+import { SearchContext } from "./SearchWrapper";
+import { ResultsSkeleton } from "@/components/skeletons";
 
-export default function SearchResultsWrapper({
+export default function SearchResults({
   results,
 }: {
-  results: SearchResultsType[] | null;
+  results?: SearchResultsType[] | null;
 }) {
-  const { userQuery, setUserQuery, setLocationQuery } =
-    useContext(SearchContext);
+  const path = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  if (!userQuery) return;
+  const { display, activeSearch, setActiveSearch } = useContext(SearchContext);
 
-  if (results && !results.length) return <div>No results were found</div>;
+  if (results && !results.length)
+    return <ResultsSkeleton message='No results were found' />;
 
-  if (userQuery && !results) return <div>Loading...</div>;
+  if (activeSearch && !results) return <ResultsSkeleton />;
 
   const handleClick = (id: string) => {
-    setUserQuery("");
-    setLocationQuery(id);
+    if (!id) return;
+    setActiveSearch(false);
+    router.push(`${path}?location=${encodeURIComponent(id)}`);
   };
 
-  return (
-    <ul>
+  return display && activeSearch ? (
+    <ul
+      className={`py-4 ${display ? "" : "hidden"} border border-t-0 border-stone-300 px-4 absolute w-full bg-white`}
+    >
       {results &&
-        results.map((_) => {
+        results.map((result) => {
+          const disabled = searchParams.get("location") === result.place_id;
           return (
-            <li key={_.place_id}>
-              <button type='button' onClick={() => handleClick(_.place_id)}>
-                <p>{_.name}</p>
+            <li key={result.place_id}>
+              <button
+                disabled={disabled}
+                type='button'
+                onClick={() => handleClick(result.place_id)}
+                className={`w-full hover:bg-gray-100 text-left py-1 px-2 rounded-md ${disabled ? "text-gray-400" : ""}`}
+              >
+                {result.name}
               </button>
             </li>
           );
         })}
     </ul>
+  ) : (
+    ""
   );
 }

@@ -5,6 +5,12 @@
   --foreground: #171717;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -14,8 +20,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* --background: #0a0a0a;
+    --foreground: #ededed; */
   }
 }
 
@@ -23,4 +29,34 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+.btn--clear {
+  width: 20px;
+  height: 20px;
+}
+
+.btn--clear::before,
+.btn--clear::after {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: 2px;
+  border-radius: 50%;
+  background-color: var(--foreground);
+}
+
+.btn--clear::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.btn--clear::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }

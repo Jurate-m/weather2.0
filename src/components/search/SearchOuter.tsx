@@ -21,9 +21,7 @@ export default async function SearchOuter({ q }: { q: string | undefined }) {
       <Suspense>
         <SearchBar />
       </Suspense>
-      <Suspense>
-        <SearchResults results={results} />
-      </Suspense>
+      <SearchResults results={results} />
     </>
   );
 }
