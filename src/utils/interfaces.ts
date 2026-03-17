@@ -4,10 +4,9 @@ export interface ClientCoordsType {
 }
 
 export interface SearchContextType {
-  userQuery: string;
-  setUserQuery: React.Dispatch<React.SetStateAction<string>>;
-  setLocationQuery: React.Dispatch<React.SetStateAction<string>>;
   display: boolean;
+  activeSearch: boolean;
+  setActiveSearch: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface SearchResultsType {
