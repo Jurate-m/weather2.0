@@ -12,21 +12,32 @@ export function ResultsSkeleton({ message }: { message?: string }) {
 }
 
 export function HeaderSkeleton() {
-  return <div className='h-41'></div>;
-}
-
-export function NavSkeleton() {
-  return <div className='block h-14 border-b-2 w-full '></div>;
-}
-
-export function NavLinkSkeleton() {
   return (
-    <div className='block px-1'>
-      <div className='block h-10 w-17.5 bg-stone-100 motion-safe:animate-pulse'></div>
+    <div className='h-41 max-w-4xl m-auto px-5 py-4 flex flex-col'>
+      {/* Nav imitation */}
+      <div className='block h-14 border-b-2 w-full'>
+        <ul className='ml-auto flex justify-end -mx-1 py-2'>
+          <li className='px-1'>
+            <span className='block px-4 py-2'>
+              <span className='block h-6 w-11.25 bg-gray-100 motion-safe:animate-pulse'></span>
+            </span>
+          </li>
+          <li className='px-1'>
+            <span className='block px-4 py-2'>
+              <span className='block h-6 w-11.25 bg-gray-100 motion-safe:animate-pulse'></span>
+            </span>
+          </li>
+          <li className='px-1'>
+            <span className='block px-4 py-2'>
+              <span className='block h-6 w-11.25 bg-gray-100 motion-safe:animate-pulse'></span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      {/* Search bar */}
+      <div className='py-4 max-w-sm w-full ml-auto relative'>
+        <div className='h-10.5 bg-gray-100 motion-safe:animate-pulse'></div>
+      </div>
     </div>
   );
-}
-
-export function SearchSkeleton() {
-  return <div className='h-10 bg-grey-100 motion-safe:animate-pulse'></div>;
 }

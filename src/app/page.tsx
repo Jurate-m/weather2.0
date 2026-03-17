@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Header from "@/components/Header";
 import WeatherWrapper from "@/components/weather/WeatherWrapper";
+import { HeaderSkeleton } from "@/components/skeletons";
 
 export default async function Home({
   searchParams,
@@ -9,7 +10,7 @@ export default async function Home({
 }) {
   return (
     <>
-      <Suspense>
+      <Suspense fallback={<HeaderSkeleton />}>
         <Header searchParams={searchParams} />
       </Suspense>
       <main>
