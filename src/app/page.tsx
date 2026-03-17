@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Header from "@/components/Header";
-import WeatherWrapper from "@/components/weather/WeatherWrapper";
+import WeatherWrapper from "@/components/forecast/Wrapper";
 import { HeaderSkeleton } from "@/components/skeletons";
 
 export default async function Home({

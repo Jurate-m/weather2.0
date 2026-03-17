@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
 import { isValidQuery } from "@/utils/functions";
 import ClientCoords from "../ClientCoords";
-import CurrentWeather from "./CurrentWeather";
+import CurrentWeather from "./Current";
 import { notFound } from "next/navigation";
-import DailyWeather from "./DailyWeather";
-import HourlyWeather from "./HourlyWeather";
+import DailyWeather from "./Daily";
+import HourlyWeather from "./Hourly";
 
 export default async function WeatherWrapper({
   searchParams,
