@@ -1,7 +1,7 @@
 import { Suspense } from "react";
+import { routes } from "@/routes";
 import Header from "@/components/Header";
 import WeatherWrapper from "@/components/weather/WeatherWrapper";
-import { routes } from "@/routes";
 
 export async function generateStaticParams() {
   return routes.map((route) => ({
@@ -13,25 +13,21 @@ export default async function Page({
   searchParams,
   params,
 }: {
-  searchParams: Promise<{
-    location: string | undefined;
-    q: string | undefined;
-  }>;
+  searchParams: Promise<{ q?: string; location?: string }>;
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
 
   return (
-    <main>
-      <Suspense fallback={<div>....Header goes here...</div>}>
-        <Header params={searchParams} />
+    <>
+      <Suspense>
+        <Header searchParams={searchParams} />
       </Suspense>
-
-      <section>
-        <Suspense>
+      <main>
+        <Suspense fallback={<div>Loading weather (to be skeleton)...</div>}>
           <WeatherWrapper searchParams={searchParams} params={slug} />
         </Suspense>
-      </section>
-    </main>
+      </main>
+    </>
   );
 }

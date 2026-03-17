@@ -1,26 +1,20 @@
-import { Suspense } from "react";
-import SearchContextWrapper from "./search/SearchContextWrapper";
-import SearchOuter from "@/components/search/SearchOuter";
-import Nav from "@/components/nav/Nav";
+import Nav from "./nav/Nav";
+import SearchOuter from "./search/SearchOuter";
+import SearchWrapper from "./search/SearchWrapper";
 
 export default async function Header({
-  params,
+  searchParams,
 }: {
-  params: Promise<{
-    q: string | undefined;
-    location: string | undefined;
-  }>;
+  searchParams: Promise<{ q?: string; location?: string }>;
 }) {
-  const { q } = await params;
+  const { q } = await searchParams;
 
   return (
     <header className='max-w-4xl m-auto px-5 py-4 flex flex-col'>
       <Nav />
-      <SearchContextWrapper>
-        <Suspense>
-          <SearchOuter q={q} />
-        </Suspense>
-      </SearchContextWrapper>
+      <SearchWrapper>
+        <SearchOuter q={q} />
+      </SearchWrapper>
     </header>
   );
 }
