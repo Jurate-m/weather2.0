@@ -1,12 +1,12 @@
 import { cookies } from "next/headers";
 import { isValidQuery } from "@/utils/functions";
 import ClientCoords from "../ClientCoords";
-import CurrentWeather from "./Current";
+import Current from "./Current";
 import { notFound } from "next/navigation";
-import DailyWeather from "./Daily";
-import HourlyWeather from "./Hourly";
+import Daily from "./Daily";
+import Hourly from "./Hourly";
 
-export default async function WeatherWrapper({
+export default async function Wrapper({
   searchParams,
   params,
 }: {
@@ -32,21 +32,21 @@ export default async function WeatherWrapper({
   if (params === "daily")
     return (
       <section>
-        <DailyWeather />
+        <Daily />
       </section>
     );
 
   if (params === "hourly")
     return (
       <section>
-        <HourlyWeather />
+        <Hourly />
       </section>
     );
 
   if (!params)
     return (
       <section>
-        <CurrentWeather
+        <Current
           validLocation={validLocation}
           location={location}
           coords={coordsCookie}

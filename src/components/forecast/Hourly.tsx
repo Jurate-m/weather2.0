@@ -1,3 +1,3 @@
-export default function HourlyWeather() {
+export default function Hourly() {
   return <div>Hourly Weather</div>;
 }

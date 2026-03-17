@@ -1,3 +1,3 @@
-export default function DailyWeather() {
+export default function Daily() {
   return <div>Daily Weather</div>;
 }

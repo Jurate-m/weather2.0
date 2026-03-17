@@ -1,4 +1,4 @@
-export default async function CurrentWeather({
+export default async function Current({
   validLocation,
   location,
   coords,
