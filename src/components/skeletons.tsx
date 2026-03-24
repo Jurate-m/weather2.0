@@ -15,7 +15,7 @@ export function HeaderSkeleton() {
   return (
     <div className='h-41 max-w-4xl m-auto px-5 py-4 flex flex-col'>
       {/* Nav imitation */}
-      <div className='block h-14 border-b w-full'>
+      <div className='block h-14 border-b border-gray-200 w-full'>
         <ul className='ml-auto flex justify-end -mx-1 py-2'>
           <li className='px-1'>
             <span className='block px-4 py-2'>
@@ -44,7 +44,7 @@ export function HeaderSkeleton() {
 
 export function WrapperSkeleton({ children }: { children: React.ReactNode }) {
   return (
-    <section className=''>
+    <section>
       <span className='block rounded-full h-10 w-60 font-bold mb-6 bg-gray-200 motion-safe:animate-pulse'></span>
       {children}
     </section>

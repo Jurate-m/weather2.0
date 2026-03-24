@@ -30,7 +30,7 @@ export default function SearchResults({
 
   return display && activeSearch ? (
     <ul
-      className={`py-4 ${display ? "" : "hidden"} border border-t-0 border-stone-300 px-4 absolute w-full bg-white`}
+      className={`py-4 ${display ? "" : "hidden"} border border-t-0 border-stone-300 px-4 absolute top-[59px] w-full bg-white`}
     >
       {results &&
         results.map((result) => {
