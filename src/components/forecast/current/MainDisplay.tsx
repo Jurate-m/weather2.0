@@ -30,12 +30,12 @@ export default function MainDisplay({
         </div>
         <Icon id={icon} />
       </div>
-      <ul className='grid grid-cols-2 gap-x-6'>
+      <ul className='xs:grid grid-cols-2 gap-x-6'>
         {Object.entries(forecastItems).map(([key, value]) => {
           return (
             <li
               key={key}
-              className='grid gap-2 grid-cols-[repeat(auto-fit,minmax(100px,1fr))] not-nth-last-[-n+2]:border-b py-4'
+              className='grid gap-2 grid-cols-[repeat(auto-fit,minmax(100px,1fr))] border-b last:border-b-0 xs:nth-last-[-n+2]:border-0 py-4'
             >
               <p className='font-montserrat font-bold'>{key}</p>
               <p className='text-right'>{value}</p>

@@ -11,10 +11,14 @@
   box-sizing: border-box;
 }
 
+@theme {
+  --font-montserrat: var(--font-montserrat), sans-serif;
+  --breakpoint-xs: 30rem;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-montserrat: var(--font-montserrat), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {

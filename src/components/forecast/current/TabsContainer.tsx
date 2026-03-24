@@ -14,7 +14,7 @@ export default function TabsContainer({
   index: number;
 }) {
   return (
-    <ul className='grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] py-4 divide-x-4 divide-gray-950/2'>
+    <ul className='grid grid-cols-3 xs:grid-cols-[repeat(auto-fit,minmax(100px,1fr))] py-4 divide-x-4 divide-gray-950/2'>
       {data.map((item, id) => {
         const formattedData = formatData(units, item);
         const { date, temperature, icon } = formattedData;
