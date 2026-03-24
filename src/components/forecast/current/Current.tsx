@@ -5,8 +5,10 @@ import { HourlyData } from "@/utils/interfaces";
 import MainDisplay from "./MainDisplay";
 import TabsContainer from "./TabsContainer";
 
-export default function Current({ data }: { data: HourlyData }) {
+export default function Current({ data }: { data: HourlyData | null }) {
   const [index, setIndex] = useState(0);
+
+  if (!data) return;
 
   const units = data.units;
 
