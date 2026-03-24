@@ -1,40 +1,26 @@
-import { fetchCurrentWeather, nearestPlace } from "@/lib/data";
+import { fetchHourlyWeather } from "@/lib/data";
+import { HourlyData } from "@/utils/interfaces";
 import Current from "./Current";
-
-import { HomeForecastSkeleton } from "@/components/skeletons";
-
-import { forecastData } from "@/lib/data";
 
 export default async function CurrentContainer({
   location,
-  coords,
 }: {
-  location: string | undefined;
-  coords: string | undefined;
+  location: string;
 }) {
-  // "use cache";
+  "use cache";
 
-  // if (location) {
-  //   forecast = await fetchCurrentWeather(location);
-  // }
+  let forecast: HourlyData | null = null;
+  let errorMsg: string | null = null;
 
-  // if (!location && coords) {
-  //   const locationID = (await nearestPlace(coords))?.place_id;
-  //   forecast = await fetchCurrentWeather(locationID);
-  // }
+  try {
+    forecast = await fetchHourlyWeather(location);
+  } catch (error: unknown) {
+    errorMsg = (error as Error).message;
+  }
 
-  const promiseDelay = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve("Lorem");
-    }, 1500);
-  });
+  if (errorMsg) {
+    return <div>{errorMsg}</div>;
+  }
 
-  await promiseDelay;
-
-  return (
-    <>
-      {/* <HomeForecastSkeleton /> */}
-      <Current data={forecastData} />
-    </>
-  );
+  return <Current data={forecast} />;
 }

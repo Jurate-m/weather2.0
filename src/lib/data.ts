@@ -13,6 +13,11 @@ async function fetchData(endpoint?: string) {
 
   const results = await fetch(url, options);
 
+  if (!results.ok)
+    throw new Error(
+      "There was a problem retrieving forecast. Please try again",
+    );
+
   return await results.json();
 }
 
@@ -26,6 +31,10 @@ export async function findPlaces(searchQuery: string) {
 
 export async function fetchCurrentWeather(place_id: string) {
   return await fetchData(`current?place_id=${place_id}`);
+}
+
+export async function fetchHourlyWeather(place_id: string) {
+  return await fetchData(`hourly?place_id=${place_id}`);
 }
 
 export const forecastData = {
