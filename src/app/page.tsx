@@ -10,7 +10,7 @@ import {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; location?: string }>;
+  searchParams: Promise<{ q?: string; location?: string; name?: string }>;
 }) {
   return (
     <>

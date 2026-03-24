@@ -22,10 +22,12 @@ export default function SearchResults({
 
   if (activeSearch && !results) return <ResultsSkeleton />;
 
-  const handleClick = (id: string) => {
-    if (!id) return;
+  const handleClick = (id: string, name: string) => {
+    if (!id || !name) return;
     setActiveSearch(false);
-    router.push(`${path}?location=${encodeURIComponent(id)}`);
+    router.push(
+      `${path}?location=${encodeURIComponent(id)}&name=${encodeURIComponent(name)}`,
+    );
   };
 
   return display && activeSearch ? (
@@ -40,7 +42,7 @@ export default function SearchResults({
               <button
                 disabled={disabled}
                 type='button'
-                onClick={() => handleClick(result.place_id)}
+                onClick={() => handleClick(result.place_id, result.name)}
                 className={`w-full hover:bg-gray-100 text-left py-1 px-2 rounded-md ${disabled ? "text-gray-400" : ""}`}
               >
                 {result.name}
