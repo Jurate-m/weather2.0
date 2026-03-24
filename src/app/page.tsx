@@ -1,20 +1,31 @@
 import { Suspense } from "react";
 import Header from "@/components/Header";
-import WeatherWrapper from "@/components/weather/WeatherWrapper";
+import Wrapper from "@/components/forecast/Wrapper";
+import {
+  HeaderSkeleton,
+  WrapperSkeleton,
+  HomeForecastSkeleton,
+} from "@/components/skeletons";
 
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; location?: string }>;
+  searchParams: Promise<{ q?: string; location?: string; name?: string }>;
 }) {
   return (
     <>
-      <Suspense>
+      <Suspense fallback={<HeaderSkeleton />}>
         <Header searchParams={searchParams} />
       </Suspense>
       <main>
-        <Suspense fallback={<div>Loading weather (to be skeleton)...</div>}>
-          <WeatherWrapper searchParams={searchParams} />
+        <Suspense
+          fallback={
+            <WrapperSkeleton>
+              <HomeForecastSkeleton />
+            </WrapperSkeleton>
+          }
+        >
+          <Wrapper searchParams={searchParams} />
         </Suspense>
       </main>
     </>

@@ -63,7 +63,9 @@ export function useCoords() {
         message: "Navigator not available",
       });
     } else {
-      navigator.geolocation.getCurrentPosition(success, error);
+      navigator.geolocation.getCurrentPosition(success, error, {
+        enableHighAccuracy: true,
+      });
     }
   }, [reqLocation]);
 
