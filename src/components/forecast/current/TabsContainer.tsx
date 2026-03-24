@@ -25,10 +25,10 @@ export default function TabsContainer({
               onClick={() => {
                 onSelect(id);
               }}
-              className={`${id === index ? "bg-gray-950/2" : ""} block w-full px-6 py-4`}
+              className={`${id === index ? "bg-gray-950/2" : ""} w-full p-4 grid grid-flow-row gap-2`}
             >
-              <p className='pb-2'>{`${new Date(date).getHours().toString().padStart(2, "0")}:${new Date(date).getMinutes().toString().padStart(2, "0")}`}</p>
-              <Icon id={icon} className='h-10 pb-2' />
+              <p>{`${new Date(date).getHours().toString().padStart(2, "0")}:${new Date(date).getMinutes().toString().padStart(2, "0")}`}</p>
+              <Icon id={icon} className='h-10' />
               <p className='font-bold'>{temperature}</p>
             </button>
           </li>

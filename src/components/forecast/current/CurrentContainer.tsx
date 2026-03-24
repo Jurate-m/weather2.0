@@ -1,6 +1,8 @@
 import { fetchCurrentWeather, nearestPlace } from "@/lib/data";
 import Current from "./Current";
 
+import { HomeForecastSkeleton } from "@/components/skeletons";
+
 import { forecastData } from "@/lib/data";
 
 export default async function CurrentContainer({
@@ -21,5 +23,18 @@ export default async function CurrentContainer({
   //   forecast = await fetchCurrentWeather(locationID);
   // }
 
-  return <Current data={forecastData} />;
+  const promiseDelay = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("Lorem");
+    }, 1500);
+  });
+
+  await promiseDelay;
+
+  return (
+    <>
+      {/* <HomeForecastSkeleton /> */}
+      <Current data={forecastData} />
+    </>
+  );
 }
