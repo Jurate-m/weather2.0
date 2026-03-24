@@ -19,6 +19,14 @@ export interface PermissionDeniedType {
   message: string;
 }
 
+export interface ForeacstData {
+  lat: string;
+  lon: string;
+  elevation: number;
+  timezone: string;
+  units: string;
+}
+
 export interface HourlyEntry {
   date: string;
   weather: string;
@@ -39,12 +47,7 @@ export interface HourlyEntry {
   visibility: number;
 }
 
-export interface HourlyData {
-  lat: string;
-  lon: string;
-  elevation: number;
-  timezone: string;
-  units: string;
+export interface HourlyData extends ForeacstData {
   hourly: {
     data: HourlyEntry[];
   };
@@ -78,13 +81,8 @@ export interface DailyEntry {
   visibility: number;
 }
 
-export interface DailyData {
-  lat: string;
-  lon: string;
-  elevation: number;
-  timezone: string;
-  units: string;
-  hourly: {
+export interface DailyData extends ForeacstData {
+  daily: {
     data: DailyEntry[];
   };
 }
