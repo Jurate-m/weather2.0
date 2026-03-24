@@ -1,10 +1,19 @@
 import { cookies } from "next/headers";
 import { isValidQuery } from "@/utils/functions";
 import ClientCoords from "../ClientCoords";
-import Current from "./Current";
+import CurrentContainer from "./current/CurrentContainer";
 import { notFound } from "next/navigation";
 import Daily from "./Daily";
 import Hourly from "./Hourly";
+
+const ForecastContainer = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <section>
+      <h1 className='text-4xl font-bold pb-6'>Vilnius</h1>
+      {children}
+    </section>
+  );
+};
 
 export default async function Wrapper({
   searchParams,
@@ -31,26 +40,22 @@ export default async function Wrapper({
 
   if (params === "daily")
     return (
-      <section>
+      <ForecastContainer>
         <Daily />
-      </section>
+      </ForecastContainer>
     );
 
   if (params === "hourly")
     return (
-      <section>
+      <ForecastContainer>
         <Hourly />
-      </section>
+      </ForecastContainer>
     );
 
   if (!params)
     return (
-      <section>
-        <Current
-          validLocation={validLocation}
-          location={location}
-          coords={coordsCookie}
-        />
-      </section>
+      <ForecastContainer>
+        <CurrentContainer location={location} coords={coordsCookie} />
+      </ForecastContainer>
     );
 }
