@@ -23,12 +23,10 @@ export interface ForeacstData {
   lat: string;
   lon: string;
   elevation: number;
-  timezone: string;
   units: string;
 }
 
-export interface HourlyEntry {
-  date: string;
+interface ForecastEntry {
   weather: string;
   icon: number;
   summary: string;
@@ -42,43 +40,33 @@ export interface HourlyEntry {
   precipitation: { total: number; type: string };
   probability: { precipitation: number; storm: number; freeze: number };
   ozone: number;
-  uv_index: number | null;
   humidity: number;
   visibility: number;
+}
+
+export interface HourlyEntry extends ForecastEntry {
+  date: string;
+  uv_index: number | null;
+}
+
+export interface DailyEntry extends ForecastEntry {
+  day: string;
+  predictability: number;
+  temperature_min: number;
+  temperature_max: number;
+  feels_like_min: number;
+  feels_like_max: number;
+  wind_chill_min: number;
+  wind_chill_max: number;
+  dew_point_min: number;
+  dew_point_max: number;
 }
 
 export interface HourlyData extends ForeacstData {
+  timezone: string;
   hourly: {
     data: HourlyEntry[];
   };
-}
-
-export interface DailyEntry {
-  day: string;
-  weather: string;
-  icon: number;
-  summary: string;
-  predictability: number;
-  temperature: number;
-  temperature_min: number;
-  temperature_max: number;
-  feels_like: number;
-  feels_like_min: number;
-  feels_like_max: number;
-  wind_chill: number;
-  wind_chill_min: number;
-  wind_chill_max: number;
-  dew_point: number;
-  dew_point_min: number;
-  dew_point_max: number;
-  wind: { speed: number; gusts: number; dir: string; angle: number };
-  cloud_cover: number;
-  pressure: number;
-  precipitation: { total: number; type: string };
-  probability: { precipitation: number; storm: number; freeze: number };
-  ozone: number;
-  humidity: number;
-  visibility: number;
 }
 
 export interface DailyData extends ForeacstData {
