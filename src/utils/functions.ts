@@ -1,4 +1,4 @@
-import { HourlyEntry } from "./interfaces";
+import { HourlyEntry, DailyEntry } from "./interfaces";
 
 export function isValidQuery(value: string) {
   return /^[\p{L}0-9 ,\-]{1,50}$/u.test(value);
@@ -38,40 +38,66 @@ UNITS.set("ca", {
   humidity: "\u0025",
 });
 
-export function formatData(units = "metric", data: HourlyEntry) {
-  // const date = data.day || data.date;
+const roundWithUnits = (value: number, units: string, unit: string) =>
+  `${Math.round(value)}${UNITS.get(units)[unit]}`;
 
-  // const icon = data.icon_num || (typeof data.icon !== "string" ? data.icon : 0);
+export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
+  const date = "date" in data ? data.date : data.day;
+  const icon = data.icon;
+  const summary = data.summary;
+  const temperature =
+    "temperature_min" in data && "temperature_max" in data
+      ? `${roundWithUnits(data.temperature_max, units, "temperature")} / ${roundWithUnits(data.temperature_min, units, "temperature")}`
+      : `${roundWithUnits(data.temperature, units, "temperature")}`;
+  const feels_like =
+    "feels_like_min" in data && "feels_like_max" in data
+      ? `${roundWithUnits(data.feels_like_max, units, "temperature")} / ${roundWithUnits(data.feels_like_min, units, "temperature")}`
+      : `${roundWithUnits(data.feels_like, units, "temperature")}`;
+  const wind = `${roundWithUnits(data.wind.speed, units, "wind_speed")} ${data.wind.dir}`;
+  const pressure = roundWithUnits(data.pressure, units, "pressure");
+  const humidity = roundWithUnits(data.humidity, units, "humidity");
+
+  const probability = Object.entries(data.probability)
+    .filter(([key, value]) => value)
+    .map(([key, value]) => {
+      return {
+        [`Probability of ${key}`]: roundWithUnits(value, units, "humidity"),
+      };
+    });
+
   return {
-    // date: date ?? "",
-    date: data.date,
-    // icon,
-    icon: data.icon,
-    summary: data.summary,
-    temperature: `${Math.round(data.temperature)}${UNITS.get(units)["temperature"]}`,
-    "Feels Like": `${Math.round(data.feels_like)}${UNITS.get(units)["temperature"]}`,
-    Wind: `${Math.round(data.wind.speed)}${UNITS.get(units)["wind_speed"]} ${data.wind.dir}`,
-    Pressure: `${Math.round(data.pressure)}${UNITS.get(units)["pressure"]}`,
-    Humidity: `${Math.round(data.humidity)}${UNITS.get(units)["humidity"]}`,
+    date: date,
+    icon,
+    summary,
+    temperature,
+    "Feels Like": feels_like,
+    Wind: wind,
+    Pressure: pressure,
+    Humidity: humidity,
+    ...Object.assign({}, ...probability),
+    ...("uv_index" in data
+      ? { "UV Index": data.uv_index ? data.uv_index : 0 }
+      : {}),
   };
 }
 
-const weekDays = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
+const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export function getWeekday(date: string) {
   return weekDays[new Date(date).getDay()];
 }
 
-// export function formatArrayOfData(units = "metric", array: ForecastEntry[]) {
-//   return array.map((item) => {
-//     return formatData(units, item);
-//   });
-// }
+function testTime(date: string): boolean {
+  return /T\d{2}:\d{2}/.test(date);
+}
+
+export function formatDate(date: string) {
+  const dateObj = new Date(date);
+  const weekDay = weekDays[dateObj.getDay()];
+  const time = dateObj.getHours().toString().padStart(2, "0");
+
+  const daily = `${weekDay}, ${dateObj.getDate()}/${dateObj.getMonth().toString().padStart(2, "0")}`;
+  const hourly = `${weekDay}, ${time}:00`;
+
+  return testTime(date) ? hourly : daily;
+}
