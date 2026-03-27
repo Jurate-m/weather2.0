@@ -1,27 +1,12 @@
 import { cookies } from "next/headers";
-import { nearestPlace } from "@/lib/data";
+import { notFound } from "next/navigation";
 
+import { nearestPlace } from "@/lib/data";
 import { isValidQuery } from "@/utils/functions";
+
 import ClientCoords from "../ClientCoords";
 import CurrentContainer from "./current/CurrentContainer";
-import { notFound } from "next/navigation";
-import Daily from "./Daily";
-import Hourly from "./Hourly";
-
-const ForecastContainer = ({
-  children,
-  name,
-}: {
-  children: React.ReactNode;
-  name: string | undefined;
-}) => {
-  return (
-    <section>
-      <h1 className='text-4xl font-bold pb-6'>{name}</h1>
-      {children}
-    </section>
-  );
-};
+import DynamiContainer from "./dynamic/DynamiContainer";
 
 export default async function Wrapper({
   searchParams,
@@ -54,10 +39,10 @@ export default async function Wrapper({
         <section>
           <ClientCoords />
         </section>
+        // * ^ triggers permissions or returns 'denied' message
       );
-    // * ^ triggers permissions or returns 'denied' message
 
-    // * if cookies location exists - retrieve closest location with cookies value (need some sort of safe guard for value)
+    // * if cookies exists - retrieve closest location with cookies value (need some sort of safe guard for value)
     if (coordsCookie) {
       const { place_id, name } = await nearestPlace(coordsCookie);
 
@@ -84,26 +69,11 @@ export default async function Wrapper({
     locationId = location;
   }
 
-  if (params === "daily")
-    return (
-      <ForecastContainer name={locationName}>
-        <Daily />
-      </ForecastContainer>
-    );
-
-  if (params === "hourly")
-    return (
-      <ForecastContainer name={locationName}>
-        <Hourly />
-      </ForecastContainer>
-    );
-
-  if (!params)
-    return (
-      <>
-        <ForecastContainer name={locationName}>
-          <CurrentContainer location={locationId} />
-        </ForecastContainer>
-      </>
-    );
+  return (
+    <section>
+      <h1 className='text-4xl font-bold pb-6'>{locationName}</h1>
+      {!params && <CurrentContainer location={locationId} />}
+      {params && <DynamiContainer params={params} locationID={locationId} />}
+    </section>
+  );
 }

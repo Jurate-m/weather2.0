@@ -19,8 +19,14 @@ export interface PermissionDeniedType {
   message: string;
 }
 
-export interface HourlyEntry {
-  date: string;
+export interface ForeacstData {
+  lat: string;
+  lon: string;
+  elevation: number;
+  units: string;
+}
+
+interface ForecastEntry {
   weather: string;
   icon: number;
   summary: string;
@@ -34,18 +40,54 @@ export interface HourlyEntry {
   precipitation: { total: number; type: string };
   probability: { precipitation: number; storm: number; freeze: number };
   ozone: number;
-  uv_index: number | null;
   humidity: number;
   visibility: number;
 }
 
-export interface HourlyData {
-  lat: string;
-  lon: string;
-  elevation: number;
+export interface HourlyEntry extends ForecastEntry {
+  date: string;
+  uv_index: number | null;
+}
+
+export interface DailyEntry extends ForecastEntry {
+  day: string;
+  predictability: number;
+  temperature_min: number;
+  temperature_max: number;
+  feels_like_min: number;
+  feels_like_max: number;
+  wind_chill_min: number;
+  wind_chill_max: number;
+  dew_point_min: number;
+  dew_point_max: number;
+}
+
+export interface HourlyData extends ForeacstData {
   timezone: string;
-  units: string;
   hourly: {
     data: HourlyEntry[];
   };
+}
+
+export interface DailyData extends ForeacstData {
+  daily: {
+    data: DailyEntry[];
+  };
+}
+
+export type ForecastValue =
+  | string
+  | number
+  | null
+  | Record<string, string | number>;
+
+export interface FormattedObj {
+  date: string;
+  icon: number;
+  summary: string;
+  temperature: string;
+  Wind: string;
+  Pressure: string;
+  Humidity: string;
+  [key: string]: string | number;
 }

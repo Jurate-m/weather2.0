@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { routes } from "@/routes";
 import Header from "@/components/Header";
 import Wrapper from "@/components/forecast/Wrapper";
+import { DynamicSkeleton } from "@/components/skeletons";
 
 export async function generateStaticParams() {
   return routes.map((route) => ({
@@ -24,7 +25,7 @@ export default async function Page({
         <Header searchParams={searchParams} />
       </Suspense>
       <main>
-        <Suspense fallback={<div>Loading weather (to be skeleton)...</div>}>
+        <Suspense fallback={<DynamicSkeleton />}>
           <Wrapper searchParams={searchParams} params={slug} />
         </Suspense>
       </main>
