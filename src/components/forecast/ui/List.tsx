@@ -1,10 +1,11 @@
 import ListItem from "./ListItem";
+import { ForecastValue } from "@/utils/interfaces";
 
 export default function List({
   data,
   className,
 }: {
-  data: any;
+  data: Record<string, ForecastValue> | Record<string, string | number> | null;
   className?: string;
 }) {
   return (

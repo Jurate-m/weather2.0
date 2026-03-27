@@ -1,6 +1,7 @@
 import List from "./List";
+import { ForecastValue } from "@/utils/interfaces";
 
-export default function ListItem({ data }) {
+export default function ListItem({ data }: { data: [string, ForecastValue] }) {
   return (
     <li className='grid gap-2 grid-cols-3 border p-2 xs:p-4 rounded-xl'>
       {data.map((item, index) => {

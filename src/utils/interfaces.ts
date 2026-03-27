@@ -74,3 +74,9 @@ export interface DailyData extends ForeacstData {
     data: DailyEntry[];
   };
 }
+
+export type ForecastValue =
+  | string
+  | number
+  | null
+  | Record<string, string | number>;
