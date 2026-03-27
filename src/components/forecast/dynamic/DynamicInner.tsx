@@ -27,8 +27,10 @@ export default function Dropdown({
           <ListItemCta
             key={index}
             buttonChildren={
-              <div className='grid grid-cols-3 gap-4 items-center p-4'>
-                <p>{formatDate(date)}</p>
+              <div className='grid grid-cols-4 xs:grid-cols-3 gap-4 items-center py-2 px-4 xs:py-4'>
+                <p className='col-span-2 xs:col-span-1 text-left xs:text-center'>
+                  {formatDate(date)}
+                </p>
                 <Icon id={icon} className='h-10' />
                 <p>{temperature}</p>
               </div>

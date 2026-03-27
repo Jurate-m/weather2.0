@@ -25,7 +25,7 @@ export default function ListItemCta({
         className='block w-full relative'
       >
         {buttonChildren}
-        <span className='block absolute top-[50%] right-4 -translate-y-[50%]'>
+        <span className='block absolute top-[50%] right-0 xs:right-4 -translate-y-[50%]'>
           <Image
             src={Arrow}
             alt={`${active ? "collapse" : "expand"}`}
@@ -33,7 +33,7 @@ export default function ListItemCta({
           />
         </span>
       </button>
-      <div className={`p-4 ${active ? "block" : "hidden"}`}>{content}</div>
+      <div className={`xs:p-4 ${active ? "block" : "hidden"}`}>{content}</div>
     </li>
   );
 }

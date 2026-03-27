@@ -2,7 +2,7 @@ import List from "./List";
 
 export default function ListItem({ data }) {
   return (
-    <li className='grid gap-2 grid-cols-3 border p-4 rounded-xl'>
+    <li className='grid gap-2 grid-cols-3 border p-2 xs:p-4 rounded-xl'>
       {data.map((item, index) => {
         if (typeof item === "object") {
           return <List data={item} className='col-span-full' />;
