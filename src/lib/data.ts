@@ -37,6 +37,10 @@ export async function fetchHourlyWeather(place_id: string) {
   return await fetchData(`hourly?place_id=${place_id}`);
 }
 
+export async function fetchDailyWeather(place_id: string) {
+  return await fetchData(`daily?place_id=${place_id}`);
+}
+
 export const forecastData = {
   lat: "54.68916N",
   lon: "25.2798E",
