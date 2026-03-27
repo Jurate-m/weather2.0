@@ -89,3 +89,20 @@ export function HomeForecastSkeleton() {
     </>
   );
 }
+
+export function DynamicSkeleton() {
+  return (
+    <WrapperSkeleton>
+      <div className='grid gap-6'>
+        {Array.from({ length: 5 }).map((_, index) => {
+          return (
+            <span
+              key={index}
+              className='block rounded-xl h-18 w-full bg-gray-200 motion-safe:animate-pulse'
+            ></span>
+          );
+        })}
+      </div>
+    </WrapperSkeleton>
+  );
+}
