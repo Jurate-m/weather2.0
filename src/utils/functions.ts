@@ -1,4 +1,4 @@
-import { HourlyEntry, DailyEntry } from "./interfaces";
+import { HourlyEntry, DailyEntry, FormattedObj } from "./interfaces";
 
 export function isValidQuery(value: string) {
   return /^[\p{L}0-9 ,\-]{1,50}$/u.test(value);
@@ -43,7 +43,7 @@ const roundWithUnits = (value: number, units: string, unit: string) =>
 
 export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
   const date = "date" in data ? data.date : data.day;
-  const icon = data.icon;
+  const icon = Number(data.icon);
   const summary = data.summary;
   const temperature =
     "temperature_min" in data && "temperature_max" in data
@@ -78,7 +78,7 @@ export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
     ...("uv_index" in data
       ? { "UV Index": data.uv_index ? data.uv_index : 0 }
       : {}),
-  };
+  } as FormattedObj;
 }
 
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

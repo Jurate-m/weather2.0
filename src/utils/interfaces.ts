@@ -80,3 +80,14 @@ export type ForecastValue =
   | number
   | null
   | Record<string, string | number>;
+
+export interface FormattedObj {
+  date: string;
+  icon: number;
+  summary: string;
+  temperature: string;
+  Wind: string;
+  Pressure: string;
+  Humidity: string;
+  [key: string]: string | number;
+}
