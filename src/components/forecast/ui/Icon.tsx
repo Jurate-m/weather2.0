@@ -8,7 +8,7 @@ export default function Icon({
   return (
     <div {...className}>
       <svg className='w-full max-w-full h-full'>
-        <use href={`/assets/weather-sprite.svg#icon-${id}`} />
+        <use href={`/assets/sprite.svg#icon-${id}`} />
       </svg>
     </div>
   );
