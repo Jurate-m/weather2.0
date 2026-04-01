@@ -91,13 +91,20 @@ function testTime(date: string): boolean {
   return /T\d{2}:\d{2}/.test(date);
 }
 
+function padDate(date: number) {
+  return String(date).padStart(2, "0");
+}
+
 export function formatDate(date: string) {
   const dateObj = new Date(date);
-  const weekDay = weekDays[dateObj.getDay()];
-  const time = dateObj.getHours().toString().padStart(2, "0");
 
-  const daily = `${weekDay}, ${dateObj.getDate()}/${dateObj.getMonth().toString().padStart(2, "0")}`;
-  const hourly = `${weekDay}, ${time}:00`;
+  const weekDay = weekDays[dateObj.getDay()];
+  const time = `${padDate(dateObj.getHours())}:00`;
+  const day = padDate(dateObj.getDate());
+  const month = dateObj.getMonth();
+
+  const daily = `${weekDay}, ${day}/${month}`;
+  const hourly = `${weekDay}, ${time}`;
 
   return testTime(date) ? hourly : daily;
 }
