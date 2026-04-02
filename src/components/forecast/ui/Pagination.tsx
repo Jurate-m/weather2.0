@@ -22,14 +22,14 @@ export default function Pagination({
   };
 
   return (
-    <div className='flex items-center justify-center gap-6 pt-6'>
+    <div className='flex gap-6 pt-6 px-4'>
       {page > 1 && (
-        <Link href={buildHref(page - 1)} className='font-bold'>
+        <Link href={buildHref(page - 1)} className='font-bold mr-auto'>
           {pagination[0]}
         </Link>
       )}
       {page < totalPages && (
-        <Link href={buildHref(page + 1)} className='font-bold'>
+        <Link href={buildHref(page + 1)} className='font-bold ml-auto'>
           {pagination[1]}
         </Link>
       )}
