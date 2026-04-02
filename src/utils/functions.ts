@@ -42,7 +42,7 @@ const roundWithUnits = (value: number, units: string, unit: string) =>
   `${Math.round(value)}${UNITS.get(units)[unit]}`;
 
 export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
-  const date = "date" in data ? data.date : data.day;
+  const date = "date" in data ? new Date(data.date) : new Date(data.day);
   const icon = Number(data.icon);
   const summary = data.summary;
   const temperature =
@@ -66,7 +66,7 @@ export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
     });
 
   return {
-    date: date,
+    date,
     icon,
     summary,
     temperature,
@@ -81,10 +81,22 @@ export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
   } as FormattedObj;
 }
 
-const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+export const weekDays = [
+  ["Sun", "Sunday"],
+  ["Mon", "Monday"],
+  ["Tue", "Tuesday"],
+  ["Wed", "Wednesday"],
+  ["Thu", "Thursday"],
+  ["Fri", "Friday"],
+  ["Sat", "Saturday"],
+];
 
-export function getWeekday(date: string) {
-  return weekDays[new Date(date).getDay()];
+export function getDay(date: Date) {
+  return new Date(date).getDay();
+}
+
+export function getWeekday(date: Date) {
+  return weekDays[getDay(date)];
 }
 
 function testTime(date: string): boolean {
@@ -95,16 +107,16 @@ function padDate(date: number) {
   return String(date).padStart(2, "0");
 }
 
-export function formatDate(date: string) {
+export function formatDate(date: Date) {
   const dateObj = new Date(date);
 
-  const weekDay = weekDays[dateObj.getDay()];
+  const weekDay = getWeekday(dateObj)[0];
   const time = `${padDate(dateObj.getHours())}:00`;
   const day = padDate(dateObj.getDate());
-  const month = dateObj.getMonth();
+  const month = padDate(dateObj.getMonth());
 
   const daily = `${weekDay}, ${day}/${month}`;
   const hourly = `${weekDay}, ${time}`;
 
-  return testTime(date) ? hourly : daily;
+  return testTime(String(date)) ? hourly : daily;
 }
