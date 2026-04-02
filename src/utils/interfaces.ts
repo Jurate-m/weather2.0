@@ -45,12 +45,12 @@ interface ForecastEntry {
 }
 
 export interface HourlyEntry extends ForecastEntry {
-  date: string;
+  date: Date;
   uv_index: number | null;
 }
 
 export interface DailyEntry extends ForecastEntry {
-  day: string;
+  day: Date;
   predictability: number;
   temperature_min: number;
   temperature_max: number;
@@ -82,12 +82,11 @@ export type ForecastValue =
   | Record<string, string | number>;
 
 export interface FormattedObj {
-  date: string;
+  date: Date;
   icon: number;
   summary: string;
   temperature: string;
   Wind: string;
   Pressure: string;
   Humidity: string;
-  [key: string]: string | number;
 }

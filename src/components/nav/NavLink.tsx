@@ -10,6 +10,7 @@ export default function NavLink({ name, url }: { name: string; url: string }) {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const params = new URLSearchParams(window.location.search);
+    params.delete("page");
     router.push(`${url}?${params.toString()}`);
   };
 

@@ -15,6 +15,7 @@ export default async function Wrapper({
   searchParams: Promise<{
     location?: string | undefined;
     name?: string | undefined;
+    page?: string | undefined;
   }>;
   params?: string;
 }) {
@@ -25,7 +26,8 @@ export default async function Wrapper({
   let locationId = null;
 
   // * await search params
-  const { location, name } = await searchParams;
+  const { location, name, page } = await searchParams;
+  const currentPage = Math.max(1, Number(page) || 1);
 
   // * if no location search param
   if (!location) {
@@ -70,10 +72,20 @@ export default async function Wrapper({
   }
 
   return (
-    <section>
-      <h1 className='text-4xl font-bold pb-6'>{locationName}</h1>
+    <section className='grid md:grid-cols-[minmax(max-content,_1fr)_minmax(332px,_2fr)] relative'>
+      <div className='md:h-25 sticky top-5'>
+        <h1 className='text-4xl font-bold pb-6 md:px-4 max-w-full md:text-center'>
+          {locationName}
+        </h1>
+      </div>
       {!params && <CurrentContainer location={locationId} />}
-      {params && <DynamiContainer params={params} locationID={locationId} />}
+      {params && (
+        <DynamiContainer
+          params={params}
+          locationID={locationId}
+          page={currentPage}
+        />
+      )}
     </section>
   );
 }

@@ -44,7 +44,7 @@ export function HeaderSkeleton() {
 
 export function WrapperSkeleton({ children }: { children: React.ReactNode }) {
   return (
-    <section>
+    <section className='grid grid-cols-2'>
       <span className='block rounded-full h-10 w-60 font-bold mb-6 bg-gray-200 motion-safe:animate-pulse'></span>
       {children}
     </section>

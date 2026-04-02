@@ -42,7 +42,7 @@ const roundWithUnits = (value: number, units: string, unit: string) =>
   `${Math.round(value)}${UNITS.get(units)[unit]}`;
 
 export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
-  const date = "date" in data ? data.date : data.day;
+  const date = "date" in data ? new Date(data.date) : new Date(data.day);
   const icon = Number(data.icon);
   const summary = data.summary;
   const temperature =
@@ -66,7 +66,7 @@ export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
     });
 
   return {
-    date: date,
+    date,
     icon,
     summary,
     temperature,
@@ -81,23 +81,42 @@ export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
   } as FormattedObj;
 }
 
-const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+export const weekDays = [
+  ["Sun", "Sunday"],
+  ["Mon", "Monday"],
+  ["Tue", "Tuesday"],
+  ["Wed", "Wednesday"],
+  ["Thu", "Thursday"],
+  ["Fri", "Friday"],
+  ["Sat", "Saturday"],
+];
 
-export function getWeekday(date: string) {
-  return weekDays[new Date(date).getDay()];
+export function getDay(date: Date) {
+  return new Date(date).getDay();
+}
+
+export function getWeekday(date: Date) {
+  return weekDays[getDay(date)];
 }
 
 function testTime(date: string): boolean {
   return /T\d{2}:\d{2}/.test(date);
 }
 
-export function formatDate(date: string) {
+function padDate(date: number) {
+  return String(date).padStart(2, "0");
+}
+
+export function formatDate(date: Date) {
   const dateObj = new Date(date);
-  const weekDay = weekDays[dateObj.getDay()];
-  const time = dateObj.getHours().toString().padStart(2, "0");
 
-  const daily = `${weekDay}, ${dateObj.getDate()}/${dateObj.getMonth().toString().padStart(2, "0")}`;
-  const hourly = `${weekDay}, ${time}:00`;
+  const weekDay = getWeekday(dateObj)[0];
+  const time = `${padDate(dateObj.getHours())}:00`;
+  const day = padDate(dateObj.getDate());
+  const month = padDate(dateObj.getMonth());
 
-  return testTime(date) ? hourly : daily;
+  const daily = `${weekDay}, ${day}/${month}`;
+  const hourly = `${weekDay}, ${time}`;
+
+  return testTime(String(date)) ? hourly : daily;
 }

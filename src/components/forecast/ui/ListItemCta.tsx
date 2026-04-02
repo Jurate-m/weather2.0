@@ -22,10 +22,10 @@ export default function ListItemCta({
       <button
         type='button'
         onClick={handleClick}
-        className='block w-full relative'
+        className='block w-full relative py-4 pl-4 pr-12'
       >
         {buttonChildren}
-        <span className='block absolute top-[50%] right-0 xs:right-4 -translate-y-[50%]'>
+        <span className='block absolute top-[50%] right-4 -translate-y-[50%]'>
           <Image
             src={Arrow}
             alt={`${active ? "collapse" : "expand"}`}

@@ -19,7 +19,7 @@ export default function Current({ data }: { data: HourlyData | null }) {
   };
 
   return (
-    <>
+    <div>
       <MainDisplay data={data.hourly.data} units={units} index={index} />
 
       <TabsContainer
@@ -28,6 +28,6 @@ export default function Current({ data }: { data: HourlyData | null }) {
         onSelect={handleClick}
         index={index}
       />
-    </>
+    </div>
   );
 }
