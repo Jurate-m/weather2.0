@@ -29,7 +29,7 @@ export function HeaderSkeleton() {
 export function WrapperSkeleton({ children }: { children: React.ReactNode }) {
   return (
     <section className='grid md:grid-cols-[minmax(max-content,_1fr)_minmax(332px,_2fr)] relative'>
-      <span className='block rounded-xl h-10 w-40 font-bold mb-6 bg-gray-200 motion-safe:animate-pulse mx-auto'></span>
+      <span className='block rounded-xl h-10 w-40 mb-6 bg-gray-200 motion-safe:animate-pulse md:mx-auto'></span>
       {children}
     </section>
   );
