@@ -9,9 +9,7 @@ export default function List({
   className?: string;
 }) {
   return (
-    <ul
-      className={`grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4 p-4 ${className}`}
-    >
+    <ul className={className}>
       {data &&
         Object.entries(data).map((item, index) => {
           return <ListItem key={index} data={item} />;
