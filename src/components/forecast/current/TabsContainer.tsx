@@ -20,7 +20,7 @@ export default function TabsContainer({
         const { date, temperature, icon } = formattedData;
 
         return (
-          <li key={date} className=''>
+          <li key={String(date)} className=''>
             <button
               onClick={() => {
                 onSelect(id);

@@ -24,10 +24,7 @@ async function getData(param: string, page: number) {
   let prevPagination = "";
   let nextPagination = "";
 
-  const forecast = (param === "daily" ? dailyForecastData : forecastData) as
-    | DailyData
-    | HourlyData;
-
+  const forecast = param === "daily" ? dailyForecastData : forecastData;
   if (!forecast) return;
 
   const units = forecast.units;
@@ -118,12 +115,7 @@ export default async function DynamiContainer({
 
   return (
     <div>
-      <DynamicInner
-        data={data}
-        units={units}
-        page={currPage}
-        totalPages={totalPages}
-      />
+      <DynamicInner data={data} units={units} page={currPage} />
       <Pagination page={page} totalPages={totalPages} pagination={pagination} />
     </div>
   );
