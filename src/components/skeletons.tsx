@@ -13,25 +13,11 @@ export function ResultsSkeleton({ message }: { message?: string }) {
 
 export function HeaderSkeleton() {
   return (
-    <div className='h-41 max-w-4xl m-auto px-5 py-4 flex flex-col'>
-      <div className='block h-14 border-b border-gray-200 w-full'>
-        <ul className='ml-auto flex justify-end -mx-1 py-2'>
-          <li className='px-1'>
-            <span className='block px-4 py-2'>
-              <span className='block h-6 w-11.25 bg-gray-200 motion-safe:animate-pulse'></span>
-            </span>
-          </li>
-          <li className='px-1'>
-            <span className='block px-4 py-2'>
-              <span className='block h-6 w-11.25 bg-gray-200 motion-safe:animate-pulse'></span>
-            </span>
-          </li>
-          <li className='px-1'>
-            <span className='block px-4 py-2'>
-              <span className='block h-6 w-11.25 bg-gray-200 motion-safe:animate-pulse'></span>
-            </span>
-          </li>
-        </ul>
+    <div className='max-w-4xl m-auto px-5 py-4 flex flex-col'>
+      <div className='block w-full'>
+        <span className='block py-4'>
+          <span className='ml-auto block h-10 w-70 py-4 bg-gray-200 motion-safe:animate-pulse'></span>
+        </span>
       </div>
       <div className='py-4 max-w-sm w-full ml-auto relative'>
         <div className='h-10.5 bg-gray-200 motion-safe:animate-pulse'></div>
