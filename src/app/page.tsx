@@ -20,7 +20,7 @@ export default async function Home({
       <main>
         <Suspense
           fallback={
-            <WrapperSkeleton>
+            <WrapperSkeleton className='max-w-5xl'>
               <HomeForecastSkeleton />
             </WrapperSkeleton>
           }

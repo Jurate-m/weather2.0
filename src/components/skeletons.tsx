@@ -13,25 +13,31 @@ export function ResultsSkeleton({ message }: { message?: string }) {
 
 export function HeaderSkeleton() {
   return (
-    <div className='max-w-4xl m-auto px-5 py-4 flex flex-col'>
+    <div className='max-w-5xl m-auto px-5 py-4 flex flex-col'>
       <div className='block w-full'>
         <span className='block py-4'>
           <span className='ml-auto block h-10 w-70 py-4 bg-gray-200 motion-safe:animate-pulse'></span>
         </span>
       </div>
       <div className='py-4 max-w-sm w-full ml-auto relative'>
-        <div className='h-10.5 bg-gray-200 motion-safe:animate-pulse'></div>
+        <div className='h-[56px] bg-gray-200 motion-safe:animate-pulse'></div>
       </div>
     </div>
   );
 }
 
-export function WrapperSkeleton({ children }: { children: React.ReactNode }) {
+export function WrapperSkeleton({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <section className='grid md:grid-cols-[minmax(max-content,_1fr)_minmax(332px,_2fr)] relative'>
-      <span className='block rounded-xl h-10 w-40 mb-6 bg-gray-200 motion-safe:animate-pulse md:mx-auto'></span>
+    <span className={`block mx-auto ${className}`}>
+      <span className='block h-10 w-40 mb-6 bg-gray-200 motion-safe:animate-pulse'></span>
       {children}
-    </section>
+    </span>
   );
 }
 
@@ -40,10 +46,10 @@ export function HomeForecastSkeleton() {
     <>
       <div>
         <span className='block pb-6'>
-          <span className='block h-[400px] w-[660px] max-w-full rounded-xl bg-gray-200 motion-safe:animate-pulse'></span>
+          <span className='block h-[400px] w-full bg-gray-200 motion-safe:animate-pulse'></span>
         </span>
         <span className='grid grid-cols-3 xs:grid-cols-[repeat(auto-fit,minmax(100px,1fr))] py-4 gap-x-1'>
-          <span className='block w-full h-[110px] rounded-xl bg-gray-200 motion-safe:animate-pulse'></span>
+          <span className='block w-full h-[136px] bg-gray-200 motion-safe:animate-pulse'></span>
         </span>
       </div>
     </>
@@ -52,13 +58,13 @@ export function HomeForecastSkeleton() {
 
 export function DynamicSkeleton() {
   return (
-    <WrapperSkeleton>
+    <WrapperSkeleton className='narrow'>
       <div className='grid gap-6'>
         {Array.from({ length: 5 }).map((_, index) => {
           return (
             <span
               key={index}
-              className='block rounded-xl h-18 w-full bg-gray-200 motion-safe:animate-pulse'
+              className='block h-18 w-full bg-gray-200 motion-safe:animate-pulse'
             ></span>
           );
         })}

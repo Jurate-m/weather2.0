@@ -45,12 +45,13 @@ section {
   @apply max-w-5xl m-auto px-5;
 }
 
-section {
+section,
+.narrow {
   @apply py-4;
 }
 
-section.narrow {
-  @apply max-w-3xl;
+.narrow {
+  @apply max-w-3xl px-5;
 }
 
 button,
