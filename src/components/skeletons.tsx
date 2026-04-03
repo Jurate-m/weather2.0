@@ -49,7 +49,14 @@ export function HomeForecastSkeleton() {
           <span className='block h-[400px] w-full bg-gray-200 motion-safe:animate-pulse'></span>
         </span>
         <span className='grid grid-cols-3 xs:grid-cols-[repeat(auto-fit,minmax(100px,1fr))] py-4 gap-x-1'>
-          <span className='block w-full h-[136px] bg-gray-200 motion-safe:animate-pulse'></span>
+          {Array.from({ length: 6 }).map((_, index) => {
+            return (
+              <span
+                key={index}
+                className='block w-full h-[136px] bg-gray-200 motion-safe:animate-pulse'
+              ></span>
+            );
+          })}
         </span>
       </div>
     </>
@@ -64,7 +71,7 @@ export function DynamicSkeleton() {
           return (
             <span
               key={index}
-              className='block h-18 w-full bg-gray-200 motion-safe:animate-pulse'
+              className='block h-10 xs:h-18 w-full bg-gray-200 motion-safe:animate-pulse'
             ></span>
           );
         })}
