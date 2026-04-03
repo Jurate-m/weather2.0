@@ -1,4 +1,4 @@
-import Nav from "./nav/Nav";
+import Nav from "./Nav";
 import SearchOuter from "./search/SearchOuter";
 import SearchWrapper from "./search/SearchWrapper";
 

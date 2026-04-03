@@ -1,7 +1,7 @@
 import { formatData, getWeekday } from "@/utils/functions";
-import { HourlyData, HourlyEntry } from "@/utils/interfaces";
-import Icon from "@/components/forecast/ui/Icon";
-import List from "../ui/List";
+import { HourlyEntry } from "@/utils/interfaces";
+import Icon from "@/components/ui/Icon";
+import List from "../../ui/List";
 
 export default function MainDisplay({
   data,

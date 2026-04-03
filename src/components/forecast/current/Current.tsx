@@ -4,6 +4,7 @@ import { useState } from "react";
 import { HourlyData } from "@/utils/interfaces";
 import MainDisplay from "./MainDisplay";
 import TabsContainer from "./TabsContainer";
+import LinkComponent from "@/components/ui/LinkComponent";
 
 export default function Current({ data }: { data: HourlyData | null }) {
   const [index, setIndex] = useState(0);
@@ -21,13 +22,13 @@ export default function Current({ data }: { data: HourlyData | null }) {
   return (
     <div>
       <MainDisplay data={data.hourly.data} units={units} index={index} />
-
       <TabsContainer
         data={slicedData}
         units={units}
         onSelect={handleClick}
         index={index}
       />
+      <LinkComponent name='Hourly' url='/hourly' />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { formatData } from "@/utils/functions";
 import { HourlyData, HourlyEntry } from "@/utils/interfaces";
-import Icon from "@/components/forecast/ui/Icon";
+import Icon from "@/components/ui/Icon";
 
 export default function TabsContainer({
   data,

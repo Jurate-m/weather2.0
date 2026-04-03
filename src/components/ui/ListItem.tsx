@@ -3,7 +3,7 @@ import { ForecastValue } from "@/utils/interfaces";
 
 export default function ListItem({ data }: { data: [string, ForecastValue] }) {
   return (
-    <li className='grid gap-2 grid-cols-[max-content_max-content] justify-between border-b last:border-b-0 xs:nth-last-[-n+2]:border-0 p-2 xs:p-4  '>
+    <li className='flex justify-between border-b last:border-b-0 xs:nth-last-[-n+2]:border-0 p-2 xs:p-4  '>
       {data.map((item, index) => {
         if (typeof item === "object") {
           return (

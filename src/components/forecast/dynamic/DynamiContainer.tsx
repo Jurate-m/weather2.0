@@ -14,7 +14,7 @@ import {
 import { weekDays, getDay } from "@/utils/functions";
 
 import DynamicInner from "./DynamicInner";
-import Pagination from "../ui/Pagination";
+import Pagination from "../../ui/Pagination";
 
 async function getData(param: string, page: number) {
   "use cache";
