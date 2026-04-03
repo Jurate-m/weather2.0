@@ -72,12 +72,8 @@ export default async function Wrapper({
   }
 
   return (
-    <section className='grid md:grid-cols-[minmax(max-content,_1fr)_minmax(332px,_2fr)] relative'>
-      <div className='md:h-25 sticky top-5'>
-        <h1 className='text-4xl font-bold pb-6 md:px-4 max-w-full md:text-center'>
-          {locationName}
-        </h1>
-      </div>
+    <section className={`relative ${params ? "narrow" : ""}`}>
+      <h1 className='text-4xl font-bold pb-6 max-w-full'>{locationName}</h1>
       {!params && <CurrentContainer location={locationId} />}
       {params && (
         <DynamiContainer

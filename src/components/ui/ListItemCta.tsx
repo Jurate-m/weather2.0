@@ -7,9 +7,11 @@ import Arrow from "@/assets/arrow_down.svg";
 export default function ListItemCta({
   buttonChildren,
   content,
+  btnClass,
 }: {
   buttonChildren: React.ReactNode;
   content: React.ReactNode;
+  btnClass?: string;
 }) {
   const [active, setActive] = useState(false);
 
@@ -18,14 +20,14 @@ export default function ListItemCta({
   };
 
   return (
-    <li className='rounded-xl bg-gray-950/2'>
+    <div className='border'>
       <button
         type='button'
         onClick={handleClick}
-        className='block w-full relative py-4 pl-4 pr-12'
+        className={`block relative w-full pr-12 ${btnClass}`}
       >
         {buttonChildren}
-        <span className='block absolute top-[50%] right-4 -translate-y-[50%]'>
+        <span className='block absolute top-[50%] right-2 xs:right-4 -translate-y-[50%]'>
           <Image
             src={Arrow}
             alt={`${active ? "collapse" : "expand"}`}
@@ -33,7 +35,9 @@ export default function ListItemCta({
           />
         </span>
       </button>
-      <div className={`xs:p-4 ${active ? "block" : "hidden"}`}>{content}</div>
-    </li>
+      <div className={`xs:p-4 ${active ? "block" : "hidden"} border-t`}>
+        {content}
+      </div>
+    </div>
   );
 }

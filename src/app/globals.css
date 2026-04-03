@@ -13,7 +13,7 @@
 
 @theme {
   --font-montserrat: var(--font-montserrat), sans-serif;
-  --breakpoint-xs: 30rem;
+  --breakpoint-xs: 35rem;
 }
 
 @theme inline {
@@ -47,6 +47,10 @@ section {
 
 section {
   @apply py-4;
+}
+
+section.narrow {
+  @apply max-w-3xl;
 }
 
 button,

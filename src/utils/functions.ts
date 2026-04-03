@@ -42,7 +42,7 @@ const roundWithUnits = (value: number, units: string, unit: string) =>
   `${Math.round(value)}${UNITS.get(units)[unit]}`;
 
 export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
-  const date = "date" in data ? new Date(data.date) : new Date(data.day);
+  const date = "date" in data ? data.date : data.day;
   const icon = Number(data.icon);
   const summary = data.summary;
   const temperature =
@@ -91,11 +91,11 @@ export const weekDays = [
   ["Sat", "Saturday"],
 ];
 
-export function getDay(date: Date) {
+export function getDay(date: string) {
   return new Date(date).getDay();
 }
 
-export function getWeekday(date: Date) {
+export function getWeekday(date: string) {
   return weekDays[getDay(date)];
 }
 
@@ -107,10 +107,14 @@ function padDate(date: number) {
   return String(date).padStart(2, "0");
 }
 
-export function formatDate(date: Date) {
+export function padHours(date: string) {
+  return `${padDate(new Date(date).getHours())}:00`;
+}
+
+export function formatDate(date: string) {
   const dateObj = new Date(date);
 
-  const weekDay = getWeekday(dateObj)[0];
+  const weekDay = getWeekday(String(dateObj))[0];
   const time = `${padDate(dateObj.getHours())}:00`;
   const day = padDate(dateObj.getDate());
   const month = padDate(dateObj.getMonth());

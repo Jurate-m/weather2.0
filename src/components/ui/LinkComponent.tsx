@@ -3,7 +3,15 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
-export default function NavLink({ name, url }: { name: string; url: string }) {
+export default function LinkComponent({
+  name,
+  url,
+  className,
+}: {
+  name: string;
+  url: string;
+  className?: string;
+}) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -15,14 +23,12 @@ export default function NavLink({ name, url }: { name: string; url: string }) {
   };
 
   return (
-    <li className='px-1'>
-      <Link
-        href={url}
-        onClick={handleClick}
-        className={`block p-4 font-bold  ${pathname === url ? "bg-black text-white" : "text-gray-700"}`}
-      >
-        {name}
-      </Link>
-    </li>
+    <Link
+      href={url}
+      onClick={handleClick}
+      className={`block p-4 font-bold  ${pathname === url ? "bg-black text-white" : "text-gray-700"} ${className}`}
+    >
+      {name}
+    </Link>
   );
 }

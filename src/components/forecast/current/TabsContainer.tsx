@@ -1,6 +1,6 @@
-import { formatData } from "@/utils/functions";
+import { formatData, padHours } from "@/utils/functions";
 import { HourlyData, HourlyEntry } from "@/utils/interfaces";
-import Icon from "@/components/forecast/ui/Icon";
+import Icon from "@/components/ui/Icon";
 
 export default function TabsContainer({
   data,
@@ -27,7 +27,7 @@ export default function TabsContainer({
               }}
               className={`${id === index ? "bg-gray-950/2" : ""} w-full p-4 grid grid-flow-row gap-2`}
             >
-              <p>{`${new Date(date).getHours().toString().padStart(2, "0")}:${new Date(date).getMinutes().toString().padStart(2, "0")}`}</p>
+              <time dateTime={date}>{`${padHours(date)}`}</time>
               <Icon id={icon} className='h-10' />
               <p className='font-bold'>{temperature}</p>
             </button>

@@ -94,7 +94,7 @@ export default function SearchBar() {
         value={q}
         onChange={handleChange}
         placeholder='Search for location forecasts'
-        className='block w-full py-2 pl-11 pr-4 focus:outline-2 outline-gray-900 bg-white'
+        className='block w-full py-4 pl-10 pr-4 focus:outline-2 outline-gray-900 bg-white'
       />
       {q && (
         <button

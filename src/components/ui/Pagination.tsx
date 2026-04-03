@@ -22,7 +22,7 @@ export default function Pagination({
   };
 
   return (
-    <div className='flex gap-6 pt-6 px-4'>
+    <div className='flex gap-6 py-6 px-4'>
       {page > 1 && (
         <Link href={buildHref(page - 1)} className='font-bold mr-auto'>
           {pagination[0]}
