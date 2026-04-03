@@ -7,7 +7,7 @@ export default function Icon({
 }) {
   return (
     <div {...className}>
-      <svg className='w-20 max-w-full h-full'>
+      <svg className='w-full max-w-full h-full'>
         <use href={`/assets/sprite.svg#icon-${id}`} />
       </svg>
     </div>

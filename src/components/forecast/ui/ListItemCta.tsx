@@ -18,7 +18,7 @@ export default function ListItemCta({
   };
 
   return (
-    <li className='bg-white rounded-xl'>
+    <li className='rounded-xl bg-gray-950/2'>
       <button
         type='button'
         onClick={handleClick}
