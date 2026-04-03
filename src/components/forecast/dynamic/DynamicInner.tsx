@@ -29,15 +29,16 @@ export default function Dropdown({
           <ListItemCta
             key={`${page}-${index}`}
             buttonChildren={
-              <div className='grid grid-cols-[1fr_max-content_max-content] gap-4 items-center '>
+              <div className='grid grid-cols-[1fr_max-content_max-content_max-content] gap-4 items-center '>
                 <p className='text-left font-medium'>{formatDate(date)}</p>
-                <Icon id={icon} className='h-10' />
+                <Icon id={icon} className='w-20 h-10' />
                 <p className='font-medium'>{temperature}</p>
               </div>
             }
             content={
               <>
-                <p className='px-4'>{summary}</p>
+                <p className='px-6 font-medium'>{summary}</p>
+
                 <List
                   data={rest}
                   className='grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-x-6 p-4'
