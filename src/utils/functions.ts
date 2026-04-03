@@ -42,7 +42,7 @@ const roundWithUnits = (value: number, units: string, unit: string) =>
   `${Math.round(value)}${UNITS.get(units)[unit]}`;
 
 export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
-  const date = "date" in data ? new Date(data.date) : new Date(data.day);
+  const date = "date" in data ? data.date : data.day;
   const icon = Number(data.icon);
   const summary = data.summary;
   const temperature =

@@ -31,7 +31,9 @@ export default function Dropdown({
               btnClass='py-2 pl-6 xs:py-4'
               buttonChildren={
                 <div className='grid grid-cols-[max-content_max-content] justify-between xs:grid-cols-[1fr_max-content_max-content_max-content] gap-4 items-center '>
-                  <p className='text-left font-medium'>{formatDate(date)}</p>
+                  <time dateTime={date} className='text-left font-medium'>
+                    {formatDate(date)}
+                  </time>
                   <Icon id={icon} className='w-15 h-10 hidden xs:block' />
                   <p className='font-medium'>{temperature}</p>
                 </div>
