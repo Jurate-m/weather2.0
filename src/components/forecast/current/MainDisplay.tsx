@@ -1,4 +1,4 @@
-import { formatData, getWeekday } from "@/utils/functions";
+import { formatData, getWeekday, padHours } from "@/utils/functions";
 import { HourlyEntry } from "@/utils/interfaces";
 import Icon from "@/components/ui/Icon";
 import List from "../../ui/List";
@@ -22,7 +22,9 @@ export default function MainDisplay({
       <div className='grid grid-cols-2 gap-4 pb-8'>
         <div className='flex flex-col'>
           <p className='text-lg font-bold pb-2'>
-            {`${getWeekday(date)[0]}, ${new Date(date).getHours().toString().padStart(2, "0")}:${new Date(date).getMinutes().toString().padStart(2, "0")}`}
+            {`${getWeekday(date)[0]}, ${padHours(date)}
+            
+            `}
           </p>
           <p className='text-md pb-17'>{summary}</p>
           <p className='font-montserrat font-bold text-4xl mt-auto'>
