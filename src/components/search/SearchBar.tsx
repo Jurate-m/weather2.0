@@ -78,6 +78,7 @@ export default function SearchBar() {
 
   return (
     <form
+      role='search'
       onSubmit={(e) => e.preventDefault()}
       className='relative border border-stone-300'
     >
@@ -87,6 +88,7 @@ export default function SearchBar() {
         width={20}
         height={20}
         className='absolute block left-4 top-[50%] translate-y-[-50%] object-contain h-auto'
+        aria-hidden='true'
       />
       <input
         type='text'

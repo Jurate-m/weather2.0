@@ -1,8 +1,26 @@
+import type { Metadata } from "next";
+
 import { Suspense } from "react";
 import { routes } from "@/routes";
 import Header from "@/components/Header";
 import Wrapper from "@/components/forecast/Wrapper";
 import { DynamicSkeleton, HeaderSkeleton } from "@/components/skeletons";
+import { PageProps } from "@/utils/interfaces";
+import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const route = routes.find((r) => r.slug === slug);
+
+  if (!route) return notFound();
+
+  return {
+    title: route.name,
+    description: route.meta,
+  };
+}
 
 export async function generateStaticParams() {
   return routes.map((route) => ({
@@ -10,14 +28,12 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function Page({
-  searchParams,
-  params,
-}: {
-  searchParams: Promise<{ q?: string; location?: string }>;
-  params: Promise<{ slug: string }>;
-}) {
+export default async function Page({ searchParams, params }: PageProps) {
   const { slug } = await params;
+
+  const route = routes.find((r) => r.slug === slug);
+
+  if (!route) return notFound();
 
   return (
     <>

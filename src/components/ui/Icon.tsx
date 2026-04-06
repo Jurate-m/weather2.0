@@ -1,14 +1,16 @@
 export default function Icon({
-  id,
-  ...className
+  iconId,
+  title,
+  ...props
 }: {
-  id: number;
-  className?: string;
-}) {
+  iconId: number;
+  title?: React.ReactNode;
+} & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div {...className}>
+    <div {...props}>
       <svg className='w-full max-w-full h-full'>
-        <use href={`/assets/sprite.svg#icon-${id}`} />
+        {title && <title>{title}</title>}
+        <use href={`/assets/sprite.svg#icon-${iconId}`} />
       </svg>
     </div>
   );

@@ -31,7 +31,7 @@ export default function MainDisplay({
             {temperature}
           </p>
         </div>
-        <Icon id={icon} />
+        <Icon iconId={icon} aria-hidden='true' />
       </div>
       <List data={forecastItems} className='xs:grid grid-cols-2 gap-x-6' />
     </div>

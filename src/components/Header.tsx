@@ -10,7 +10,7 @@ export default async function Header({
   const { q } = await searchParams;
 
   return (
-    <header className='py-4 flex flex-col'>
+    <header className='relative py-4 flex flex-col z-10'>
       <Nav />
       <SearchWrapper>
         <SearchOuter q={q} />
