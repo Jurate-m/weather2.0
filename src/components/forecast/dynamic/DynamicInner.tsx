@@ -34,7 +34,11 @@ export default function Dropdown({
                   <time dateTime={date} className='text-left font-medium'>
                     {formatDate(date)}
                   </time>
-                  <Icon id={icon} className='w-15 h-10 hidden xs:block' />
+                  <Icon
+                    iconId={icon}
+                    className='w-15 h-10 hidden xs:block'
+                    aria-hidden='true'
+                  />
                   <p className='font-medium'>{temperature}</p>
                 </div>
               }
@@ -42,7 +46,11 @@ export default function Dropdown({
                 <>
                   <div className='flex items-center py-2 px-6 xs:px-8 justify-between'>
                     <p className='font-medium pr-4 xs:pr-0'>{summary}</p>
-                    <Icon id={icon} className='w-15 h-10 block xs:hidden' />
+                    <Icon
+                      iconId={icon}
+                      className='w-15 h-10 block xs:hidden'
+                      aria-hidden='true'
+                    />
                   </div>
 
                   <List
