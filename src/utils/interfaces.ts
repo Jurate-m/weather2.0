@@ -90,3 +90,8 @@ export interface FormattedObj {
   Pressure: string;
   Humidity: string;
 }
+
+export type PageProps = {
+  searchParams: Promise<{ q?: string; location?: string }>;
+  params: Promise<{ slug: string }>;
+};
