@@ -22,13 +22,19 @@ export default function Current({ data }: { data: HourlyData | null }) {
   return (
     <div>
       <MainDisplay data={data.hourly.data} units={units} index={index} />
-      <TabsContainer
-        data={slicedData}
-        units={units}
-        onSelect={handleClick}
-        index={index}
-      />
-      <LinkComponent name='Hourly' url='/hourly' />
+      <div className='flex flex-col flex-col-reverse'>
+        <TabsContainer
+          data={slicedData}
+          units={units}
+          onSelect={handleClick}
+          index={index}
+        />
+        <LinkComponent
+          name='Hourly Forecast'
+          url='/hourly'
+          className='inline-block ml-auto font-bold border border-amber-400 py-2 px-4 mb-10 hover:text-black hover:bg-amber-400'
+        />
+      </div>
     </div>
   );
 }

@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { useSearchParams, usePathname } from "next/navigation";
+import Image from "next/image";
+import Button from "./Button";
+import Arrow from "@/assets/arrow_down.svg";
 
 export default function Pagination({
   page,
@@ -24,14 +27,22 @@ export default function Pagination({
   return (
     <div className='flex gap-6 py-6 px-4'>
       {page > 1 && (
-        <Link href={buildHref(page - 1)} className='font-bold mr-auto'>
-          {pagination[0]}
-        </Link>
+        <Button
+          href={buildHref(page - 1)}
+          title={pagination[0]}
+          className='mr-auto flex! flex-row-reverse pl-2 bg-transparent!'
+        >
+          <Image src={Arrow} alt='' className='rotate-90' aria-hidden='true' />
+        </Button>
       )}
       {page < totalPages && (
-        <Link href={buildHref(page + 1)} className='font-bold ml-auto'>
-          {pagination[1]}
-        </Link>
+        <Button
+          href={buildHref(page + 1)}
+          title={pagination[1]}
+          className='ml-auto flex! pr-2 bg-transparent!'
+        >
+          <Image src={Arrow} alt='' className='-rotate-90' aria-hidden='true' />
+        </Button>
       )}
     </div>
   );
