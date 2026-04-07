@@ -40,18 +40,20 @@ h6 {
   font-family: var(--font-montserrat), sans-serif;
 }
 
-header,
-section {
-  @apply max-w-5xl m-auto px-5;
-}
+@layer base {
+  header,
+  section {
+    @apply max-w-5xl m-auto px-5;
+  }
 
-section,
-.narrow {
-  @apply py-4;
-}
+  section,
+  .narrow {
+    @apply py-4;
+  }
 
-.narrow {
-  @apply max-w-3xl px-5;
+  .narrow {
+    @apply max-w-3xl px-5;
+  }
 }
 
 button,

@@ -9,7 +9,12 @@ export default function Nav() {
         {routes.map(({ name, path }, index) => {
           return (
             <li className='px-1'>
-              <LinkComponent key={name + index} name={name} url={path} />
+              <LinkComponent
+                key={name + index}
+                name={name}
+                url={path}
+                activeLinkStyle='bg-black text-white'
+              />
             </li>
           );
         })}

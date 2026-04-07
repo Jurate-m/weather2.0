@@ -6,10 +6,12 @@ import { useRouter, usePathname } from "next/navigation";
 export default function LinkComponent({
   name,
   url,
+  activeLinkStyle,
   className,
 }: {
   name: string;
   url: string;
+  activeLinkStyle?: string;
   className?: string;
 }) {
   const router = useRouter();
@@ -26,7 +28,7 @@ export default function LinkComponent({
     <Link
       href={url}
       onClick={handleClick}
-      className={`block p-4 font-bold  ${pathname === url ? "bg-black text-white" : "text-gray-700"} ${className}`}
+      className={`block p-4 font-bold  ${pathname === url ? activeLinkStyle : ""} ${className}`}
     >
       {name}
     </Link>
