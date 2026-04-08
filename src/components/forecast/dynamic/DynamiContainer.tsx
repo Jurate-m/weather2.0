@@ -1,22 +1,11 @@
-import {
-  DailyData,
-  HourlyData,
-  HourlyEntry,
-  DailyEntry,
-} from "@/utils/interfaces";
-import {
-  fetchDailyWeather,
-  fetchHourlyWeather,
-  dailyForecastData,
-  forecastData,
-} from "@/lib/data";
-
+import { fetchDailyWeather, fetchHourlyWeather } from "@/lib/data";
+import { HourlyEntry } from "@/utils/interfaces";
 import { weekDays, getDay } from "@/utils/functions";
 
 import DynamicInner from "./DynamicInner";
 import Pagination from "../../ui/Pagination";
 
-async function getData(param: string, page: number) {
+async function getData(locationID: string, param: string, page: number) {
   "use cache";
 
   let firstPageForecasts = [];
@@ -24,7 +13,11 @@ async function getData(param: string, page: number) {
   let prevPagination = "";
   let nextPagination = "";
 
-  const forecast = param === "daily" ? dailyForecastData : forecastData;
+  const forecast =
+    param === "daily"
+      ? await fetchDailyWeather(locationID)
+      : await fetchHourlyWeather(locationID);
+
   if (!forecast) return;
 
   const units = forecast.units;
@@ -105,7 +98,7 @@ export default async function DynamiContainer({
 }) {
   "use cache";
 
-  const forecast = await getData(params, page);
+  const forecast = await getData(locationID, params, page);
 
   if (!forecast) return; //error
 
