@@ -7,6 +7,7 @@ import { isValidQuery } from "@/utils/functions";
 import ClientCoords from "../ClientCoords";
 import CurrentContainer from "./current/CurrentContainer";
 import DynamiContainer from "./dynamic/DynamiContainer";
+import { Suspense } from "react";
 
 export default async function Wrapper({
   searchParams,
@@ -76,11 +77,13 @@ export default async function Wrapper({
       <h1 className='text-4xl font-bold pb-6 max-w-full'>{locationName}</h1>
       {!params && <CurrentContainer location={locationId} />}
       {params && (
-        <DynamiContainer
-          params={params}
-          locationID={locationId}
-          page={currentPage}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <DynamiContainer
+            params={params}
+            locationID={locationId}
+            page={currentPage}
+          />
+        </Suspense>
       )}
     </section>
   );
