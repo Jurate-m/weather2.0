@@ -14,8 +14,11 @@ async function fetchData(endpoint?: string) {
   const results = await fetch(url, options);
 
   if (!results.ok)
+    // throw new Error(
+    //   "There was a problem retrieving forecast. Please try again",
+    // );
     throw new Error(
-      "There was a problem retrieving forecast. Please try again",
+      `API error: ${results.status} ${results.statusText} — ${url}`,
     );
 
   return await results.json();
