@@ -18,7 +18,7 @@ export default function NotFound() {
       </header>
       <section className='py-20 text-center'>
         <h1
-          className='flex justify-center items-center text-8xl pb-5 font-bold bg-black [-webkit-text-fill-color:white] [background-clip:text] 
+          className='flex justify-center items-center text-8xl pb-5 font-bold bg-black [-webkit-text-fill-color:white] bg-clip-text 
     [-webkit-text-stroke-width:2px] text-transparent'
         >
           {[...ERROR_CODE].map((letter) =>
