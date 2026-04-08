@@ -1,11 +1,18 @@
 async function fetchData(endpoint?: string) {
-  const url = `${process.env.RAPID_URL}${endpoint ? endpoint : ""}`;
+  // const url = `${process.env.RAPID_URL}${endpoint ? endpoint : ""}`;
+  const url = `https://ai-weather-by-meteosource.p.rapidapi.com/${endpoint ? endpoint : ""}`;
 
   const options: RequestInit = {
     cache: "force-cache",
+    // headers: {
+    //   "x-rapidapi-key": `${process.env.RAPID_KEY}`,
+    //   "x-rapidapi-host": `${process.env.RAPID_HOST}`,
+    // },
+    // @ts-ignore
     headers: {
-      "x-rapidapi-key": `${process.env.RAPID_KEY}`,
-      "x-rapidapi-host": `${process.env.RAPID_HOST}`,
+      "x-rapidapi-key": process.env.RAPID_KEY,
+      "x-rapidapi-host": process.env.RAPID_HOST,
+      "Content-Type": "application/json",
     },
   };
 
