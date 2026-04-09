@@ -1,4 +1,5 @@
 async function fetchData(endpoint?: string) {
+  console.log("RAPID_KEY:", process.env.RAPID_KEY ?? "❌ UNDEFINED");
   // const url = `${process.env.RAPID_URL}${endpoint ? endpoint : ""}`;
   const url = `https://ai-weather-by-meteosource.p.rapidapi.com/${endpoint ? endpoint : ""}`;
 
