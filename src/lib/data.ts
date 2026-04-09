@@ -3,20 +3,16 @@ async function fetchData(endpoint?: string) {
 
   const options: RequestInit = {
     cache: "force-cache",
+    // @ts-ignore
     headers: {
-      "x-rapidapi-key": `${process.env.RAPID_KEY}`,
-      "x-rapidapi-host": `${process.env.RAPID_HOST}`,
+      "x-rapidapi-key": process.env.RAPID_KEY,
+      "x-rapidapi-host": process.env.RAPID_HOST,
     },
   };
 
   const results = await fetch(url, options);
-  const body = await results.text();
-
-  console.log("BODY: " + body);
-  console.log(results);
 
   if (!results.ok) {
-    console.log("API ERROR BODY:", results.status, body);
     throw new Error(
       `API error: ${results.status} ${results.statusText} — ${url}`,
     );
