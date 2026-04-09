@@ -13,7 +13,6 @@ async function fetchData(endpoint?: string) {
     headers: {
       "x-rapidapi-key": process.env.RAPID_KEY,
       "x-rapidapi-host": process.env.RAPID_HOST,
-      "Content-Type": "application/json",
     },
   };
 
