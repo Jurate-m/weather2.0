@@ -4,7 +4,7 @@ async function fetchData(endpoint?: string) {
   const url = `https://ai-weather-by-meteosource.p.rapidapi.com/${endpoint ? endpoint : ""}`;
 
   const options: RequestInit = {
-    cache: "force-cache",
+    // cache: "force-cache",
     // headers: {
     //   "x-rapidapi-key": `${process.env.RAPID_KEY}`,
     //   "x-rapidapi-host": `${process.env.RAPID_HOST}`,
@@ -33,7 +33,7 @@ async function fetchData(endpoint?: string) {
 }
 
 export async function nearestPlace(coords: string) {
-  "use cache";
+  // "use cache";
   return await fetchData(`nearest_place?${coords}`);
 }
 
