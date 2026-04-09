@@ -12,6 +12,9 @@ async function fetchData(endpoint?: string) {
   const results = await fetch(url, options);
   const body = await results.text();
 
+  console.log("BODY: " + body);
+  console.log(results);
+
   if (!results.ok) {
     console.log("API ERROR BODY:", results.status, body);
     throw new Error(
