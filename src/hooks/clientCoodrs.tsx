@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { PermissionDeniedType } from "@/utils/interfaces";
 import { saveClientCoordsCookie, deleteClientCoordsCookie } from "@/actions";
 

@@ -73,13 +73,13 @@ async function getData(locationID: string, param: string, page: number) {
 
     prevPagination = firstPage
       ? ""
-      : weekDays[getDay(forecastData1[0].date) - 1][1];
+      : weekDays[(getDay(forecastData1[0].date) - 1 + 7) % 7][1];
 
     nextPagination = firstPage
-      ? weekDays[getDay(firstPageForecasts[0].date) + 1][1]
+      ? weekDays[(getDay(firstPageForecasts[0].date) + 1) % 7][1]
       : lastPage
         ? ""
-        : weekDays[getDay(forecastData1[0].date) + 1][1];
+        : weekDays[(getDay(forecastData1[0].date) + 1) % 7][1];
   }
 
   const pagination = [prevPagination, nextPagination];
