@@ -4,10 +4,8 @@ import { notFound } from "next/navigation";
 import { nearestPlace } from "@/lib/data";
 import { isValidQuery } from "@/utils/functions";
 
-import ClientCoords from "../ClientCoords";
 import CurrentContainer from "./current/CurrentContainer";
 import DynamiContainer from "./dynamic/DynamiContainer";
-import { Suspense } from "react";
 
 export default async function Wrapper({
   searchParams,
@@ -37,13 +35,7 @@ export default async function Wrapper({
     const coordsCookie = cookie.get("c_coords")?.value;
 
     // * if no cookie present
-    if (!coordsCookie)
-      return (
-        <section>
-          <ClientCoords />
-        </section>
-        // * ^ triggers permissions or returns 'denied' message
-      );
+    if (!coordsCookie) return;
 
     // * if cookies exists - retrieve closest location with cookies value (need some sort of safe guard for value)
     if (coordsCookie) {
@@ -75,15 +67,14 @@ export default async function Wrapper({
   return (
     <section className={`relative ${params ? "narrow" : ""}`}>
       <h1 className='text-4xl font-bold pb-6 max-w-full'>{locationName}</h1>
+
       {!params && <CurrentContainer location={locationId} />}
       {params && (
-        <Suspense fallback={<div>Loading...</div>}>
-          <DynamiContainer
-            params={params}
-            locationID={locationId}
-            page={currentPage}
-          />
-        </Suspense>
+        <DynamiContainer
+          params={params}
+          locationID={locationId}
+          page={currentPage}
+        />
       )}
     </section>
   );

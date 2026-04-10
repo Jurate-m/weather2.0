@@ -1,11 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { PermissionDeniedType } from "@/utils/interfaces";
 import { saveClientCoordsCookie, deleteClientCoordsCookie } from "@/actions";
 
 export function useCoords() {
-  const [denied, setDenied] = useState<PermissionDeniedType>();
+  const [denied, setDenied] = useState<PermissionDeniedType>({
+    status: false,
+    message: "",
+  });
   const [reqLocation, setReqLocation] = useState("");
 
   const success = (position: GeolocationPosition) => {
@@ -13,15 +17,15 @@ export function useCoords() {
     saveClientCoordsCookie(latitude, longitude);
   };
 
-  const error = (error: GeolocationPositionError) => {
+  const error = async (error: GeolocationPositionError) => {
     setDenied({
-      status: error.code,
-      message: error.message,
+      status: true,
+      message: `${error.code} ${error.message}`,
     });
-    deleteClientCoordsCookie();
+    await deleteClientCoordsCookie();
   };
 
-  const handlePersmissions = (state: PermissionState) => {
+  const handlePersmissions = async (state: PermissionState) => {
     setReqLocation(state);
 
     if (state === "granted") {
@@ -37,23 +41,31 @@ export function useCoords() {
         message: "Denied location",
       });
 
-      deleteClientCoordsCookie();
+      await deleteClientCoordsCookie();
     }
   };
 
   useEffect(() => {
     if (!navigator.permissions) return;
 
-    navigator.permissions
-      .query({ name: "geolocation" })
-      .then((permissionStatus) => {
-        handlePersmissions(permissionStatus.state);
+    let permissionStatus: PermissionStatus;
 
-        // Safari: The onchange event handler is supported, but the event never fires.
-        permissionStatus.onchange = () => {
-          handlePersmissions(permissionStatus.state);
-        };
-      });
+    navigator.permissions.query({ name: "geolocation" }).then((status) => {
+      permissionStatus = status;
+      handlePersmissions(permissionStatus.state);
+
+      // Safari: The onchange event handler is supported, but the event never fires.
+      permissionStatus.addEventListener("change", () =>
+        handlePersmissions(permissionStatus.state),
+      );
+    });
+    return () => {
+      if (permissionStatus) {
+        permissionStatus.removeEventListener("change", () =>
+          handlePersmissions(permissionStatus.state),
+        );
+      }
+    };
   }, []);
 
   useEffect(() => {
