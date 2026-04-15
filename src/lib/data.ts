@@ -10,15 +10,15 @@ async function fetchData(endpoint?: string) {
     },
   };
 
-  const results = await fetch(url, options);
+  const response = await fetch(url, options);
 
-  if (!results.ok) {
+  if (!response.ok) {
     throw new Error(
-      `API error: ${results.status} ${results.statusText} — ${url}`,
+      `API error: ${response.status} ${response.statusText} — ${url}`,
     );
   }
 
-  return await results.json();
+  return await response.json();
 }
 
 export async function nearestPlace(coords: string) {
