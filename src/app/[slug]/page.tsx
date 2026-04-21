@@ -39,7 +39,7 @@ export default async function Page({ searchParams, params }: PageProps) {
   return (
     <>
       <Suspense fallback={<HeaderSkeleton />}>
-        <Header searchParams={searchParams} />
+        <Header searchParams={searchParams} slug={slug} />
       </Suspense>
       <main>
         <Suspense fallback={<DynamicSkeleton />}>

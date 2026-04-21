@@ -6,12 +6,22 @@ import { SearchContext } from "./SearchWrapper";
 import Image from "next/image";
 import Icon from "@/assets/search.svg";
 
+import { validateQuery } from "@/lib/validate";
+
+const ERROR_MESSAGE = {
+  too_short: "Query must contain at least 2 characters",
+  too_long: "Your query is too long",
+  invalid_chars: "Your query contains invalid characters",
+};
+
 export default function SearchBar() {
   const router = useRouter();
   const path = usePathname();
   const searchParams = useSearchParams();
   const timer = useRef<NodeJS.Timeout>(null);
   const [q, setQ] = useState("");
+  const [input, setInput] = useState("");
+  const [inputError, setInputError] = useState("");
   const params = new URLSearchParams(searchParams);
   const location = params.get("location");
 
@@ -19,36 +29,52 @@ export default function SearchBar() {
 
   const handleClear = () => {
     setQ("");
+    setInput("");
+    setInputError("");
     setActiveSearch(false);
-    params.delete("q");
-    router.replace(`${path}?${params.toString()}`);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value.toString().trim();
-    setQ(query);
-    setActiveSearch(!!query);
+    const userInput = e.target.value;
+
+    setInput(userInput);
+
+    const { valid, error, sanitized } = validateQuery(userInput);
+
+    if (error) {
+      setQ("");
+      setInputError(ERROR_MESSAGE[error as keyof typeof ERROR_MESSAGE]);
+      setActiveSearch(false);
+      return;
+    }
+
+    if (valid && sanitized) {
+      setQ(sanitized);
+    }
+
+    if (!error) {
+      setActiveSearch(!!input);
+      setInputError("");
+    }
   };
 
   useEffect(() => {
-    // if q state changes
-    timer.current = setTimeout(() => {
-      // set Timeout
-      if (!q) return;
-      // if no q value is present - exit
-      if (q) params.set("q", encodeURIComponent(q));
-      // if q param exists - set a param prop
-      router.replace(`${path}?${params.toString()}`);
-      // triger client navigation
-    }, 1000);
+    setActiveSearch(!!q);
 
-    if (!q) {
-      // if no q value
+    if (!q && params.get("q")) {
       params.delete("q");
-      // delete q param
       router.replace(`${path}?${params.toString()}`);
-      // client navigation
     }
+
+    if (!q) return;
+
+    // set Timeout
+    timer.current = setTimeout(() => {
+      // if q param exists - set a param prop
+      if (q) params.set("q", encodeURIComponent(q));
+      // triger client navigation
+      router.replace(`${path}?${params.toString()}`);
+    }, 1000);
 
     // cleanup
     return () => {
@@ -58,54 +84,48 @@ export default function SearchBar() {
   }, [q]);
 
   useEffect(() => {
-    // on mount && location variable change
-    setQ("");
-    // clear q value so it doesn't pass
-    if (searchParams.has("q")) {
-      // if q value doesn't exist, but searchParam is present
-      params.delete("q");
-      // delete q param
-      router.replace(`${path}?${params.toString()}`);
-      // triger client navigation (with preserved searchParams - so it doesn;)
-    }
+    if (q) setQ("");
 
-    // cleanup
-    return () => {
-      setActiveSearch(false);
-      // set activeSearch ctx state as false
-    };
+    if (input) setInput("");
   }, [location]);
 
   return (
-    <form
-      role='search'
-      onSubmit={(e) => e.preventDefault()}
-      className='relative border border-stone-300'
-    >
-      <Image
-        src={Icon}
-        alt='Search'
-        width={20}
-        height={20}
-        className='absolute block left-4 top-[50%] translate-y-[-50%] object-contain h-auto'
-        aria-hidden='true'
-      />
-      <input
-        type='text'
-        name='userQ'
-        value={q}
-        onChange={handleChange}
-        placeholder='Search for location forecasts'
-        className='block w-full py-4 pl-10 pr-4 focus:outline-2 outline-gray-900 bg-white'
-      />
-      {q && (
-        <button
-          type='button'
-          onClick={handleClear}
-          className='absolute block right-4 top-[50%] translate-y-[-50%] btn--clear'
-          aria-label='Clear search'
-        ></button>
+    <>
+      <form
+        role='search'
+        onSubmit={(e) => e.preventDefault()}
+        className={` relative border border-stone-300 ${inputError ? "border-red-700!" : ""}`}
+      >
+        <Image
+          src={Icon}
+          alt='Search'
+          width={20}
+          height={20}
+          className='absolute block left-4 top-[50%] translate-y-[-50%] object-contain h-auto'
+          aria-hidden='true'
+        />
+        <input
+          type='text'
+          name='userQ'
+          value={input}
+          onChange={handleChange}
+          placeholder='Search for location forecasts'
+          className={`${inputError ? " outline-red-700" : ""} block w-full py-4 pl-10 pr-4 focus:outline-2 outline-gray-900 bg-white `}
+        />
+        {input && (
+          <button
+            type='button'
+            onClick={handleClear}
+            className='absolute block right-4 top-[50%] translate-y-[-50%] btn--clear'
+            aria-label='Clear search'
+          ></button>
+        )}
+      </form>
+      {inputError && (
+        <p className='absolute py-2 text-red-700 bg-white/20 backdrop-blur-xs'>
+          {inputError}
+        </p>
       )}
-    </form>
+    </>
   );
 }

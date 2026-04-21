@@ -1,4 +1,4 @@
-type validateQuery = {
+type validateQueryType = {
   valid: boolean;
   error?: string;
   sanitized?: string;
@@ -8,7 +8,7 @@ export const Q_MIN_LENGTH = 2;
 export const Q_MAX_LENGTH = 25;
 export const Q_REGEX = /^[\p{L}\p{N}\s\-,.']+$/u;
 
-export function validateQuery(query: string): validateQuery {
+export function validateQuery(query: string): validateQueryType {
   const q = query.trim();
 
   if (!q)

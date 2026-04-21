@@ -20,13 +20,17 @@ export default function LinkComponent({
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const params = new URLSearchParams(window.location.search);
-    params.delete("page");
+    const pageParam = params.get("page");
+
+    if (pageParam) params.delete("page");
+
     router.push(`${url}?${params.toString()}`);
   };
 
   return (
     <Link
       href={url}
+      prefetch={false}
       onClick={handleClick}
       className={`block p-4 font-bold  ${pathname === url ? activeLinkStyle : ""} ${className}`}
     >

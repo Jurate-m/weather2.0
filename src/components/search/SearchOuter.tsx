@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
 import { SearchResultsType } from "@/utils/interfaces";
 import { isValidQuery } from "@/utils/functions";
@@ -16,12 +14,5 @@ export default async function SearchOuter({ q }: { q: string | undefined }) {
     results = await findPlaces(q);
   }
 
-  return (
-    <>
-      <Suspense>
-        <SearchBar />
-      </Suspense>
-      <SearchResults results={results} />
-    </>
-  );
+  return <SearchResults results={results} />;
 }

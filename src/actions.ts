@@ -1,13 +1,13 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { validateCoords } from "@/lib/validate";
+import { isValidCoords } from "@/lib/validate";
 
 export async function saveClientCoordsCookie(lat: number, lon: number) {
   const latitude = lat;
   const longitude = lon;
 
-  const validCoords = validateCoords(latitude, longitude);
+  const validCoords = isValidCoords(latitude, longitude);
 
   if (!validCoords) return;
 
