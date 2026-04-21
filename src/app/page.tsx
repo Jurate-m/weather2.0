@@ -6,7 +6,7 @@ import {
   WrapperSkeleton,
   HomeForecastSkeleton,
 } from "@/components/skeletons";
-import ClientCoords from "@/components/ClientCoords";
+import ClientCoords from "@/components/geolocation/ClientCoords";
 
 export default async function Home({
   searchParams,

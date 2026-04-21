@@ -9,39 +9,36 @@ const redis = new Redis({
 
 const ratelimit = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(30, "1 m"),
-  timeout: 1000,
+  limiter: Ratelimit.slidingWindow(40, "1 m"),
   analytics: true,
   prefix: "weather_app",
 });
 
 export default async function proxy(req: NextRequest) {
-  const q = req.nextUrl.searchParams.get("q")?.trim().toLowerCase() ?? "";
-
-  const location =
-    req.nextUrl.searchParams.get("location")?.trim().toLowerCase() ?? "";
+  const q = req.nextUrl.searchParams.get("q");
+  const location = req.nextUrl.searchParams.get("location");
 
   const query = q || location;
-
-  // * IF neither location or query present - do nothing
-  if (!query) return NextResponse.next();
 
   const ip =
     req.headers.get("x-real-ip") ?? //* Vercel added header
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? //* default header from request
     "unknown";
 
-  const { success } = await ratelimit.limit(ip);
+  if (query) {
+    const { success } = await ratelimit.limit(ip);
 
-  if (!success) {
-    return NextResponse.rewrite(new URL("/something-went-wrong", req.url), {
-      request: {
-        headers: new Headers({
-          ...Object.fromEntries(req.headers),
-          "x-rate-limit-reason": "ip", //* custom header
-        }),
-      },
-    });
+    if (!success) {
+      return NextResponse.rewrite(new URL("/something-went-wrong", req.url), {
+        request: {
+          headers: new Headers({
+            ...Object.fromEntries(req.headers),
+            //* custom headers
+            "x-rate-limit-reason": "ip",
+          }),
+        },
+      });
+    }
   }
 
   return NextResponse.next();

@@ -7,7 +7,7 @@ import Wrapper from "@/components/forecast/Wrapper";
 import { DynamicSkeleton, HeaderSkeleton } from "@/components/skeletons";
 import { PageProps } from "@/utils/interfaces";
 import { notFound } from "next/navigation";
-import ClientCoords from "@/components/ClientCoords";
+import ClientCoords from "@/components/geolocation/ClientCoords";
 
 export async function generateMetadata({
   params,

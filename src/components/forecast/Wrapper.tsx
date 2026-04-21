@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 import { nearestPlace } from "@/lib/data";
+import { isValidCoords } from "@/lib/validate";
 import { isValidQuery } from "@/utils/functions";
 
 import CurrentContainer from "./current/CurrentContainer";
@@ -26,20 +27,25 @@ export default async function Wrapper({
 
   // * await search params
   const { location, name, page } = await searchParams;
+
   const currentPage = Math.max(1, Number(page) || 1);
 
   // * if no location search param
   if (!location) {
     // * try to get a cookie value
     const cookie = await cookies();
-    const coordsCookie = cookie.get("c_coords")?.value;
+    const latCookie = cookie.get("lat")?.value;
+    const lonCookie = cookie.get("lon")?.value;
+
+    const validCoords = isValidCoords(latCookie, lonCookie);
 
     // * if no cookie present
-    if (!coordsCookie) return;
+    if (!validCoords) return;
 
     // * if cookies exists - retrieve closest location with cookies value (need some sort of safe guard for value)
-    if (coordsCookie) {
-      const { place_id, name } = await nearestPlace(coordsCookie);
+    if (validCoords) {
+      const coordsEndpoint = `lat=${latCookie}&lon=${lonCookie}`;
+      const { place_id, name } = await nearestPlace(coordsEndpoint);
 
       // * if place_id and name is undefined / null -> return error message
       if (!place_id) return;

@@ -3,15 +3,18 @@
 import { useCoords } from "@/hooks/clientCoodrs";
 import { use } from "react";
 
-export default function ClientCoords({
+export default function ClientCoordsInner({
   locationQuery,
+  validCookies,
 }: {
   locationQuery?: Promise<{ location?: string }>;
+  validCookies: boolean;
 }) {
-  const [denied] = useCoords();
+  const [denied] = useCoords(validCookies);
+
   const query = locationQuery ? use(locationQuery) : undefined;
 
-  if (denied?.status && !query?.location) {
+  if (denied && !query?.location) {
     return (
       <section>
         <h1>
