@@ -3,10 +3,16 @@ import { notFound } from "next/navigation";
 
 import { nearestPlace } from "@/lib/data";
 import { isValidCoords } from "@/lib/validate";
-import { isValidQuery } from "@/utils/functions";
+import {
+  validateParam,
+  MIN_LENGTH,
+  LOCATION_REGEX,
+  MAX_LENGTH,
+} from "@/lib/validate";
 
 import CurrentContainer from "./current/CurrentContainer";
 import DynamiContainer from "./dynamic/DynamiContainer";
+import Error from "../ui/Error";
 
 export default async function Wrapper({
   searchParams,
@@ -24,6 +30,7 @@ export default async function Wrapper({
 
   let locationName = null;
   let locationId = null;
+  let locationError = null;
 
   // * await search params
   const { location, name, page } = await searchParams;
@@ -58,16 +65,29 @@ export default async function Wrapper({
 
   // * if location exists
   if (location && name) {
-    // * check if location is 'valid'
-    const validLocation =
-      location && location.length ? isValidQuery(location) : false;
+    const { sanitized, error } = validateParam(
+      location,
+      LOCATION_REGEX,
+      MIN_LENGTH,
+      MAX_LENGTH,
+    );
 
-    // * if invalid -> return error message
-    if (!validLocation) return;
+    locationError = error;
 
-    // * else -> assign values
+    if (error) {
+      return (
+        <Error>
+          <p className='text-2xl font-semibold pb-2'>
+            Location <span className='underline'>{location.toString()}</span>{" "}
+            does not exist.
+          </p>
+          <p className=''>Please use search form and try again.</p>
+        </Error>
+      );
+    }
+
     locationName = name;
-    locationId = location;
+    locationId = sanitized;
   }
 
   return (

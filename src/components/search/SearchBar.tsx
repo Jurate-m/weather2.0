@@ -6,13 +6,13 @@ import { SearchContext } from "./SearchWrapper";
 import Image from "next/image";
 import Icon from "@/assets/search.svg";
 
-import { validateQuery } from "@/lib/validate";
-
-const ERROR_MESSAGE = {
-  too_short: "Query must contain at least 2 characters",
-  too_long: "Your query is too long",
-  invalid_chars: "Your query contains invalid characters",
-};
+import {
+  validateParam,
+  MIN_LENGTH,
+  Q_MAX_LENGTH,
+  Q_REGEX,
+  ERROR_MESSAGE,
+} from "@/lib/validate";
 
 export default function SearchBar() {
   const router = useRouter();
@@ -39,7 +39,12 @@ export default function SearchBar() {
 
     setInput(userInput);
 
-    const { valid, error, sanitized } = validateQuery(userInput);
+    const { valid, error, sanitized } = validateParam(
+      userInput,
+      Q_REGEX,
+      MIN_LENGTH,
+      Q_MAX_LENGTH,
+    );
 
     if (error) {
       setQ("");

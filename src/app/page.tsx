@@ -11,7 +11,11 @@ import ClientCoords from "@/components/geolocation/ClientCoords";
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; location?: string; name?: string }>;
+  searchParams: Promise<{
+    q?: string;
+    location?: string;
+    name?: string;
+  }>;
 }) {
   return (
     <>

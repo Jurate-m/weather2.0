@@ -34,7 +34,7 @@ export default function SearchResults({
     <ul
       role='listbox'
       aria-label='Search results'
-      className={`py-4 ${display ? "" : "hidden"} border border-t-0 border-stone-300 px-4 absolute top-[75px] w-full bg-white`}
+      className={`py-4 ${display ? "" : "hidden"} border border-t-0 border-stone-300 px-4 absolute top-18.75 w-full bg-white`}
     >
       {results &&
         results.map((result) => {
