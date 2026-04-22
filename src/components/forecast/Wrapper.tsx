@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
-import { nearestPlace } from "@/lib/data";
+import { nearestPlace, findPlaces } from "@/lib/data";
+import { SearchResultsType } from "@/utils/interfaces";
 import { isValidCoords } from "@/lib/validate";
 import {
   validateParam,
@@ -20,7 +21,6 @@ export default async function Wrapper({
 }: {
   searchParams: Promise<{
     location?: string | undefined;
-    name?: string | undefined;
     page?: string | undefined;
   }>;
   params?: string;
@@ -30,10 +30,9 @@ export default async function Wrapper({
 
   let locationName = null;
   let locationId = null;
-  let locationError = null;
 
   // * await search params
-  const { location, name, page } = await searchParams;
+  const { location, page } = await searchParams;
 
   const currentPage = Math.max(1, Number(page) || 1);
 
@@ -64,15 +63,13 @@ export default async function Wrapper({
   }
 
   // * if location exists
-  if (location && name) {
+  if (location) {
     const { sanitized, error } = validateParam(
       location,
       LOCATION_REGEX,
       MIN_LENGTH,
       MAX_LENGTH,
     );
-
-    locationError = error;
 
     if (error) {
       return (
@@ -86,8 +83,26 @@ export default async function Wrapper({
       );
     }
 
-    locationName = name;
+    //@ts-ignore
+    const places = await findPlaces(sanitized);
+    const match = places?.find(
+      (p: SearchResultsType) => p.place_id === sanitized,
+    );
+
+    if (!match) {
+      return (
+        <Error>
+          <p className='text-2xl font-semibold pb-2'>
+            Location <span className='underline'>{location.toString()}</span>{" "}
+            does not exist.
+          </p>
+          <p className=''>Please use search form and try again.</p>
+        </Error>
+      );
+    }
+
     locationId = sanitized;
+    locationName = match.name;
   }
 
   return (
