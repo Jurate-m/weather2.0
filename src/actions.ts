@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 import { isValidCoords } from "@/lib/validate";
 
 export async function saveClientCoordsCookie(lat: number, lon: number) {
-  const latitude = lat;
-  const longitude = lon;
+  const latitude = Math.round(lat * 10) / 10;
+  const longitude = Math.round(lon * 10) / 10;
 
   const validCoords = isValidCoords(latitude, longitude);
 
