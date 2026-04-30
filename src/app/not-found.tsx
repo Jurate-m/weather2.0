@@ -36,7 +36,7 @@ export default function NotFound() {
             ),
           )}
         </h1>
-        <h2 className='text-5xl font-semibold pb-4'>Page not found</h2>
+        <h2 className='text-5xl font-semibold pb-4'>Not found</h2>
         <p className='pb-6'>The page You are looking for does not exist.</p>
         <Button href='/' title='Return Home' />
       </section>

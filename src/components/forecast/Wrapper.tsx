@@ -1,13 +1,19 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
-import { nearestPlace } from "@/lib/data";
-import { isValidQuery } from "@/utils/functions";
+import { nearestPlace, findPlaces } from "@/lib/data";
+import { SearchResultsType } from "@/utils/interfaces";
+import { isValidCoords } from "@/lib/validate";
+import {
+  validateParam,
+  MIN_LENGTH,
+  LOCATION_REGEX,
+  MAX_LENGTH,
+} from "@/lib/validate";
 
-import ClientCoords from "../ClientCoords";
 import CurrentContainer from "./current/CurrentContainer";
 import DynamiContainer from "./dynamic/DynamiContainer";
-import { Suspense } from "react";
+import Error from "../ui/Error";
 
 export default async function Wrapper({
   searchParams,
@@ -15,7 +21,6 @@ export default async function Wrapper({
 }: {
   searchParams: Promise<{
     location?: string | undefined;
-    name?: string | undefined;
     page?: string | undefined;
   }>;
   params?: string;
@@ -27,27 +32,26 @@ export default async function Wrapper({
   let locationId = null;
 
   // * await search params
-  const { location, name, page } = await searchParams;
+  const { location, page } = await searchParams;
+
   const currentPage = Math.max(1, Number(page) || 1);
 
   // * if no location search param
   if (!location) {
     // * try to get a cookie value
     const cookie = await cookies();
-    const coordsCookie = cookie.get("c_coords")?.value;
+    const latCookie = cookie.get("lat")?.value;
+    const lonCookie = cookie.get("lon")?.value;
+
+    const validCoords = isValidCoords(latCookie, lonCookie);
 
     // * if no cookie present
-    if (!coordsCookie)
-      return (
-        <section>
-          <ClientCoords />
-        </section>
-        // * ^ triggers permissions or returns 'denied' message
-      );
+    if (!validCoords) return;
 
     // * if cookies exists - retrieve closest location with cookies value (need some sort of safe guard for value)
-    if (coordsCookie) {
-      const { place_id, name } = await nearestPlace(coordsCookie);
+    if (validCoords) {
+      const coordsEndpoint = `lat=${latCookie}&lon=${lonCookie}`;
+      const { place_id, name } = await nearestPlace(coordsEndpoint);
 
       // * if place_id and name is undefined / null -> return error message
       if (!place_id) return;
@@ -59,31 +63,59 @@ export default async function Wrapper({
   }
 
   // * if location exists
-  if (location && name) {
-    // * check if location is 'valid'
-    const validLocation =
-      location && location.length ? isValidQuery(location) : false;
+  if (location) {
+    const { sanitized, error } = validateParam(
+      location,
+      LOCATION_REGEX,
+      MIN_LENGTH,
+      MAX_LENGTH,
+    );
 
-    // * if invalid -> return error message
-    if (!validLocation) return;
+    if (error) {
+      return (
+        <Error>
+          <p className='text-2xl font-semibold pb-2'>
+            Location <span className='underline'>{location.toString()}</span>{" "}
+            does not exist.
+          </p>
+          <p className=''>Please use search form and try again.</p>
+        </Error>
+      );
+    }
 
-    // * else -> assign values
-    locationName = name;
-    locationId = location;
+    //@ts-ignore
+    const places = await findPlaces(sanitized);
+    const match = places?.find(
+      (p: SearchResultsType) => p.place_id === sanitized,
+    );
+
+    if (!match) {
+      return (
+        <Error>
+          <p className='text-2xl font-semibold pb-2'>
+            Location <span className='underline'>{location.toString()}</span>{" "}
+            does not exist.
+          </p>
+          <p className=''>Please use search form and try again.</p>
+        </Error>
+      );
+    }
+
+    locationId = sanitized;
+    locationName = match.name;
   }
 
   return (
     <section className={`relative ${params ? "narrow" : ""}`}>
       <h1 className='text-4xl font-bold pb-6 max-w-full'>{locationName}</h1>
+
       {!params && <CurrentContainer location={locationId} />}
       {params && (
-        <Suspense fallback={<div>Loading...</div>}>
-          <DynamiContainer
-            params={params}
-            locationID={locationId}
-            page={currentPage}
-          />
-        </Suspense>
+        <DynamiContainer
+          params={params}
+          locationID={locationId}
+          page={currentPage}
+        />
       )}
     </section>
   );

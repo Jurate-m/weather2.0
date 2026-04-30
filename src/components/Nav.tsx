@@ -8,7 +8,7 @@ export default function Nav() {
       <ul className='ml-auto flex justify-end -mx-1'>
         {routes.map(({ name, path }, index) => {
           return (
-            <li className='px-1'>
+            <li key={name + path + index} className='px-1'>
               <LinkComponent
                 key={name + index}
                 name={name}

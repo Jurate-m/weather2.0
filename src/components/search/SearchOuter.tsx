@@ -1,8 +1,5 @@
-import { Suspense } from "react";
-import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
 import { SearchResultsType } from "@/utils/interfaces";
-import { isValidQuery } from "@/utils/functions";
 import { findPlaces } from "@/lib/data";
 
 export default async function SearchOuter({ q }: { q: string | undefined }) {
@@ -10,18 +7,9 @@ export default async function SearchOuter({ q }: { q: string | undefined }) {
 
   let results: SearchResultsType[] | null = null;
 
-  const validQ = q ? isValidQuery(q) : false;
-
-  if (validQ && q) {
+  if (q) {
     results = await findPlaces(q);
   }
 
-  return (
-    <>
-      <Suspense>
-        <SearchBar />
-      </Suspense>
-      <SearchResults results={results} />
-    </>
-  );
+  return <SearchResults results={results} />;
 }

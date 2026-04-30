@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-
 import { Suspense } from "react";
+
 import { routes } from "@/routes";
 import Header from "@/components/Header";
 import Wrapper from "@/components/forecast/Wrapper";
 import { DynamicSkeleton, HeaderSkeleton } from "@/components/skeletons";
 import { PageProps } from "@/utils/interfaces";
 import { notFound } from "next/navigation";
+import ClientCoords from "@/components/geolocation/ClientCoords";
 
 export async function generateMetadata({
   params,
@@ -38,11 +39,14 @@ export default async function Page({ searchParams, params }: PageProps) {
   return (
     <>
       <Suspense fallback={<HeaderSkeleton />}>
-        <Header searchParams={searchParams} />
+        <Header searchParams={searchParams} slug={slug} />
       </Suspense>
       <main>
         <Suspense fallback={<DynamicSkeleton />}>
           <Wrapper searchParams={searchParams} params={slug} />
+        </Suspense>
+        <Suspense>
+          <ClientCoords locationQuery={searchParams} />
         </Suspense>
       </main>
     </>
