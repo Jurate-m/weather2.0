@@ -16,8 +16,31 @@ export default function UserConsent({ cookies }: { cookies: boolean }) {
   if (!denied && !accept && !decline) {
     return (
       <section>
-        <button onClick={handleAccept}>Accept</button>
-        <button onClick={handleReject}>Reject</button>
+        <h1 className='text-2xl pb-2 font-semibold'>
+          Use your location for local weather?
+        </h1>
+        <p className='pb-4'>
+          We store your approximate location (±11 km) in a temporary cookie to
+          show local weather. It is not shared with third parties.
+        </p>
+        <ul className='flex -mx-2'>
+          <li className='px-2'>
+            <button
+              onClick={handleReject}
+              className='block py-2 px-4 rounded-lg bg-red-700 hover:bg-red-600 focus:bg-red-600 text-white font-semibold'
+            >
+              No thanks
+            </button>
+          </li>
+          <li className='px-2'>
+            <button
+              onClick={handleAccept}
+              className='block py-2 px-4 rounded-lg bg-emerald-700 hover:bg-green-700 focus:bg-green-700 text-white font-semibold'
+            >
+              Allow
+            </button>
+          </li>
+        </ul>
       </section>
     );
   }
