@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
+import ClientLocation from "@/components/geolocation/ClientLocation";
+import UserConsentWrapper from "@/components/geolocation/UserConsentWrapper";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,6 +35,11 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${inter.variable} ${montserrat.variable} antialiased`}>
         {children}
+        <UserConsentWrapper>
+          <Suspense>
+            <ClientLocation />
+          </Suspense>
+        </UserConsentWrapper>
       </body>
     </html>
   );

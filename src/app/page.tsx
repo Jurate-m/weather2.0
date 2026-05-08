@@ -6,7 +6,6 @@ import {
   WrapperSkeleton,
   HomeForecastSkeleton,
 } from "@/components/skeletons";
-import ClientCoords from "@/components/geolocation/ClientCoords";
 
 export default async function Home({
   searchParams,
@@ -31,9 +30,6 @@ export default async function Home({
           }
         >
           <Wrapper searchParams={searchParams} />
-        </Suspense>
-        <Suspense>
-          <ClientCoords locationQuery={searchParams} />
         </Suspense>
       </main>
     </>
