@@ -13,6 +13,8 @@ export default function UserConsent({ cookies }: { cookies: boolean }) {
   const params = useSearchParams();
   const location = params.get("location");
 
+  if (location || cookies) return;
+
   if (!denied && !accept && !decline) {
     return (
       <section>
@@ -45,7 +47,7 @@ export default function UserConsent({ cookies }: { cookies: boolean }) {
     );
   }
 
-  if ((denied || decline) && !location) {
+  if (denied || decline) {
     return (
       <section>
         <h1>
