@@ -124,3 +124,8 @@ export function formatDate(date: string) {
 
   return testTime(String(date)) ? hourly : daily;
 }
+
+export function secondsUntilNextHour() {
+  const now = new Date();
+  return (60 - now.getMinutes()) * 60 - now.getMilliseconds();
+}
