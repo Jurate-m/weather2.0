@@ -5,21 +5,37 @@ import { useContext } from "react";
 import { useCoords } from "@/hooks/clientCoodrs";
 import { UserConsentCtx } from "@/components/geolocation/UserConsentWrapper";
 
+export const LOCATION_ERR_MSG = [
+  "Feel free to use the search form to search for desired location forecast.",
+  "If you would like to see forecasts for your area, you can enable location permissions in your browser settings and refresh the page.",
+];
+
 export default function UserConsent({ cookies }: { cookies: boolean }) {
   const { accept, decline, handleAccept, handleReject } =
     useContext(UserConsentCtx);
-  const [denied] = useCoords(cookies);
+  const [denied, message] = useCoords(cookies);
 
   const params = useSearchParams();
   const location = params.get("location");
 
   if (location || cookies) return;
 
+  if (denied || decline) {
+    return (
+      <section>
+        <h1 className='text-2xl pb-2 font-semibold'>
+          Unfortunatelly we couldn't retrieve your location.{" "}
+        </h1>
+        {message ? message : LOCATION_ERR_MSG[0]}
+      </section>
+    );
+  }
+
   if (!denied && !accept && !decline) {
     return (
       <section>
         <h1 className='text-2xl pb-2 font-semibold'>
-          Use your location for local weather?
+          Allow to use your location for local weather?
         </h1>
         <p className='pb-4'>
           We store your approximate location (±11 km) in a temporary cookie to
@@ -43,17 +59,6 @@ export default function UserConsent({ cookies }: { cookies: boolean }) {
             </button>
           </li>
         </ul>
-      </section>
-    );
-  }
-
-  if (denied || decline) {
-    return (
-      <section>
-        <h1>
-          Unfortunatelly we couldn't retrieve your location. <br />
-          Feel free to use Search and get forecasts that way.
-        </h1>
       </section>
     );
   }

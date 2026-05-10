@@ -28,7 +28,6 @@ export default function UserConsentWrapper({
   const [token, setToken] = useState<null | string>(null);
 
   const handleAccept = () => {
-    console.log(accept);
     setAccept(true);
     setDecline(false);
     sessionStorage.setItem("geo-consent", "1");

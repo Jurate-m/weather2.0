@@ -3,9 +3,11 @@
 import { useState, useEffect, useContext } from "react";
 import { saveClientCoordsCookie, deleteClientCoordsCookie } from "@/actions";
 import { UserConsentCtx } from "@/components/geolocation/UserConsentWrapper";
+import { LOCATION_ERR_MSG } from "@/components/geolocation/UserConsent";
 
 export function useCoords(cookiesSet: boolean) {
   const [denied, setDenied] = useState<boolean>(false);
+  const [message, setMessage] = useState("");
   const { token, handleAccept, handleReject } = useContext(UserConsentCtx);
 
   const success = async (position: GeolocationPosition) => {
@@ -15,8 +17,11 @@ export function useCoords(cookiesSet: boolean) {
     handleAccept();
   };
 
-  const error = async () => {
+  const error = async (err?: GeolocationPositionError) => {
     if (cookiesSet) await deleteClientCoordsCookie();
+    if (err && err.code === 1) {
+      setMessage(LOCATION_ERR_MSG[err.code]);
+    }
     setDenied(true);
     handleReject();
   };
@@ -61,5 +66,5 @@ export function useCoords(cookiesSet: boolean) {
     };
   }, [token]);
 
-  return [denied];
+  return [denied, message];
 }
