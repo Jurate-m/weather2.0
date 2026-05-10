@@ -5,7 +5,6 @@ async function fetchData(endpoint?: string) {
   const url = `${process.env.RAPID_URL}${endpoint ? endpoint : ""}`;
 
   const options: RequestInit = {
-    cache: "force-cache",
     // @ts-ignore
     headers: {
       "x-rapidapi-key": process.env.RAPID_KEY,

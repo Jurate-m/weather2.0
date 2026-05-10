@@ -127,5 +127,6 @@ export function formatDate(date: string) {
 
 export function secondsUntilNextHour() {
   const now = new Date();
-  return (60 - now.getMinutes()) * 60 - now.getMilliseconds();
+
+  return (60 - now.getMinutes()) * 60 - now.getSeconds();
 }
