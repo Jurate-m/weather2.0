@@ -23,6 +23,13 @@ const nextConfig: NextConfig = {
     ];
   },
   cacheComponents: true,
+  cacheLife: {
+    places: {
+      stale: 3600, // 1 hour
+      revalidate: 86400,
+      expire: 86400,
+    },
+  },
 };
 
 export default nextConfig;

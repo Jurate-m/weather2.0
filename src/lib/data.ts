@@ -1,8 +1,10 @@
+import { cacheLife } from "next/cache";
+import { secondsUntilNextHour } from "@/utils/functions";
+
 async function fetchData(endpoint?: string) {
   const url = `${process.env.RAPID_URL}${endpoint ? endpoint : ""}`;
 
   const options: RequestInit = {
-    cache: "force-cache",
     // @ts-ignore
     headers: {
       "x-rapidapi-key": process.env.RAPID_KEY,
@@ -23,25 +25,39 @@ async function fetchData(endpoint?: string) {
 
 export async function nearestPlace(coords: string) {
   "use cache";
+  cacheLife("places");
   return await fetchData(`nearest_place?${coords}`);
 }
 
 export async function findPlaces(searchQuery: string) {
   "use cache";
+  cacheLife("places");
   return await fetchData(`find_places_prefix?text=${searchQuery}`);
 }
 
 export async function fetchCurrentWeather(place_id: string) {
   "use cache";
+  cacheLife({
+    revalidate: secondsUntilNextHour(),
+    expire: secondsUntilNextHour(),
+  });
   return await fetchData(`current?place_id=${place_id}`);
 }
 
 export async function fetchHourlyWeather(place_id: string) {
   "use cache";
+  cacheLife({
+    revalidate: secondsUntilNextHour(),
+    expire: secondsUntilNextHour(),
+  });
   return await fetchData(`hourly?place_id=${place_id}`);
 }
 
 export async function fetchDailyWeather(place_id: string) {
   "use cache";
+  cacheLife({
+    revalidate: secondsUntilNextHour(),
+    expire: secondsUntilNextHour(),
+  });
   return await fetchData(`daily?place_id=${place_id}`);
 }
