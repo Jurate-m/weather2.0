@@ -32,7 +32,7 @@ export async function nearestPlace(coords: string) {
 export async function findPlaces(searchQuery: string) {
   "use cache";
   cacheLife("places");
-  return await fetchData(`find_places_prefix?text=${searchQuery}`);
+  return await fetchData(`find_places?text=${searchQuery}`);
 }
 
 export async function fetchCurrentWeather(place_id: string) {
