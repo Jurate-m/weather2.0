@@ -38,8 +38,8 @@ export default function UserConsent({ cookies }: { cookies: boolean }) {
           Allow to use your location for local weather?
         </h1>
         <p className='pb-4'>
-          We store your approximate location (±11 km) in a temporary cookie to
-          show local weather. It is not shared with third parties.
+          We store your approximate location in a temporary cookie to show local
+          weather. It is not shared with third parties.
         </p>
         <ul className='flex -mx-2'>
           <li className='px-2'>
