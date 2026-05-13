@@ -1,30 +1,16 @@
 "use client";
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { saveClientCoordsCookie, deleteClientCoordsCookie } from "@/actions";
 import { UserConsentCtx } from "@/components/geolocation/UserConsentWrapper";
-import { LOCATION_ERR_MSG } from "@/components/geolocation/UserConsent";
 
 export function useCoords(cookiesSet: boolean) {
-  const [denied, setDenied] = useState<boolean>(false);
-  const [message, setMessage] = useState("");
-  const { token, handleAccept, handleReject } = useContext(UserConsentCtx);
-
-  const success = async (position: GeolocationPosition) => {
-    const { latitude, longitude } = position.coords;
-    if (!cookiesSet) await saveClientCoordsCookie(latitude, longitude);
-    setDenied(false);
-    handleAccept();
-  };
-
-  const error = async (err?: GeolocationPositionError) => {
-    if (cookiesSet) await deleteClientCoordsCookie();
-    if (err && err.code === 1) {
-      setMessage(LOCATION_ERR_MSG[err.code]);
-    }
-    setDenied(true);
-    handleReject();
-  };
+  const [denied, setDenied] = useState<null | boolean>(null);
+  const [code, setCode] = useState<null | string>(null);
+  const { token } = useContext(UserConsentCtx);
+  const permissionRef = useRef<PermissionStatus | null>(null);
+  const savedRef = useRef(false);
+  const deletedRef = useRef(false);
 
   const options = {
     enableHighAccuracy: true,
@@ -32,39 +18,51 @@ export function useCoords(cookiesSet: boolean) {
     maximumAge: 0,
   };
 
+  const success = async (pos: GeolocationPosition) => {
+    const { latitude, longitude } = pos.coords;
+    if (!cookiesSet && !savedRef.current) {
+      savedRef.current = true;
+      await saveClientCoordsCookie(latitude, longitude);
+    }
+    setDenied(false);
+  };
+
+  const error = async (err?: GeolocationPositionError) => {
+    if (cookiesSet && !deletedRef.current) {
+      deletedRef.current = true;
+      await deleteClientCoordsCookie();
+    }
+    if (err) {
+      setCode(`${err.code}`);
+      setDenied(true);
+    }
+  };
+
   const getPosition = () => {
     navigator.geolocation.getCurrentPosition(success, error, options);
   };
 
   useEffect(() => {
-    if (!navigator.geolocation && !navigator.permissions)
+    if (!navigator.geolocation && !navigator.permissions) {
+      setCode("404");
       return setDenied(true);
+    }
 
-    let permissionStatus: PermissionStatus;
+    navigator.permissions.query({ name: "geolocation" }).then((status) => {
+      permissionRef.current = status;
 
-    navigator.permissions
-      .query({
-        name: "geolocation",
-      })
-      .then((status) => {
-        permissionStatus = status;
+      if (token === "1") {
+        getPosition();
+      }
 
-        if (token && token === "0") {
-          return error();
-        }
-
-        if (token === "1") {
-          getPosition();
-        }
-
-        permissionStatus.addEventListener("change", getPosition);
-      });
+      permissionRef.current.addEventListener("change", getPosition);
+    });
 
     return () => {
-      if (permissionStatus)
-        permissionStatus.removeEventListener("change", getPosition);
+      permissionRef.current?.removeEventListener("change", getPosition);
+      permissionRef.current = null;
     };
   }, [token]);
 
-  return [denied, message];
+  return [denied, code];
 }

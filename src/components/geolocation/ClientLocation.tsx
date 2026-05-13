@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { isValidCoords } from "@/lib/validate";
-import UserConsent from "./UserConsent";
-import { Suspense } from "react";
+import DynamicWrapepr from "./DynamicWrapepr";
 
 export default async function ClientLocation() {
   const cookie = await cookies();
@@ -13,9 +12,5 @@ export default async function ClientLocation() {
 
   if (cookiesPresent) validCookies = isValidCoords(latCookie, lonCookie);
 
-  return (
-    <Suspense>
-      <UserConsent cookies={validCookies} />
-    </Suspense>
-  );
+  return <DynamicWrapepr validCookies={validCookies} />;
 }
