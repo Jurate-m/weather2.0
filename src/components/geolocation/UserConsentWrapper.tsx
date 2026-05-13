@@ -5,7 +5,7 @@ import { createContext, useState, useEffect } from "react";
 type UserConsentType = {
   accept: boolean;
   decline: boolean;
-  token: null | string;
+  token: string | null;
   handleAccept: () => void;
   handleReject: () => void;
 };
@@ -31,17 +31,20 @@ export default function UserConsentWrapper({
     setAccept(true);
     setDecline(false);
     sessionStorage.setItem("geo-consent", "1");
+    setToken("1");
   };
 
   const handleReject = () => {
     setDecline(true);
     setAccept(false);
     sessionStorage.setItem("geo-consent", "0");
+    setToken("0");
   };
 
   useEffect(() => {
-    setToken(sessionStorage.getItem("geo-consent"));
-  }, [accept]);
+    const storageToken = sessionStorage.getItem("geo-consent");
+    if (storageToken) setToken(storageToken);
+  }, []);
 
   return (
     <UserConsentCtx
