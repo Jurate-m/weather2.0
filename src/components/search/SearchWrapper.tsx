@@ -15,12 +15,12 @@ export default function SearchWrapper({
   children: React.ReactNode;
 }) {
   const [display, setDisplay] = useState(false);
+
   const [activeSearch, setActiveSearch] = useState(false);
   const searchWrapper = useRef(null);
 
   const handleClick = (e: MouseEvent) => {
     if (!searchWrapper.current) return;
-
     //@ts-ignore
     searchWrapper.current.contains(e.target)
       ? setDisplay(true)
@@ -28,9 +28,10 @@ export default function SearchWrapper({
   };
 
   useEffect(() => {
-    document.addEventListener("click", handleClick);
+    document.addEventListener("mousedown", handleClick);
+
     return () => {
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener("mousedown", handleClick);
     };
   }, []);
 

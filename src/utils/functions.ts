@@ -1,9 +1,5 @@
 import { HourlyEntry, DailyEntry, FormattedObj } from "./interfaces";
 
-// export function isValidQuery(value: string) {
-//   return /^[\p{L}0-9 ,\-]{1,50}$/u.test(value);
-// }
-
 const UNITS = new Map();
 
 UNITS.set("metric", {
