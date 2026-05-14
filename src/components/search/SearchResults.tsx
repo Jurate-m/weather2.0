@@ -17,10 +17,10 @@ export default function SearchResults({
 
   const { display, activeSearch, setActiveSearch } = useContext(SearchContext);
 
-  if (results && !results.length)
+  if (results && !results.length && display)
     return <ResultsSkeleton message='No results were found' />;
 
-  if (activeSearch && !results) return <ResultsSkeleton />;
+  if (activeSearch && !results && display) return <ResultsSkeleton />;
 
   const handleClick = (id: string) => {
     if (!id) return;

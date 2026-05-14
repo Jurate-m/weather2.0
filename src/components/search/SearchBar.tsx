@@ -58,7 +58,7 @@ export default function SearchBar() {
     }
 
     if (!error) {
-      setActiveSearch(!!input);
+      setActiveSearch(!!userInput);
       setInputError("");
     }
   };
@@ -110,12 +110,12 @@ export default function SearchBar() {
           aria-hidden='true'
         />
         <input
-          type='text'
+          type='search'
           name='userQ'
           value={input}
           onChange={handleChange}
           placeholder='Search for location forecasts'
-          className={`${inputError ? " outline-red-700" : ""} block w-full py-4 pl-10 pr-4 focus:outline-2 outline-gray-900 bg-white `}
+          className={`${inputError ? " outline-red-700" : ""} block w-full py-4 pl-10 pr-4 focus:outline-2 outline-gray-900 bg-white [&::-webkit-search-cancel-button]:hidden`}
         />
         {input && (
           <button
