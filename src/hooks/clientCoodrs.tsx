@@ -13,7 +13,7 @@ export function useCoords(cookiesSet: boolean) {
   const deletedRef = useRef(false);
 
   const options = {
-    enableHighAccuracy: false,
+    enableHighAccuracy: true,
     timeout: 10000,
     maximumAge: 0,
   };
