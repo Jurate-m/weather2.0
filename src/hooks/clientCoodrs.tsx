@@ -14,7 +14,7 @@ export function useCoords(cookiesSet: boolean) {
 
   const options = {
     enableHighAccuracy: false,
-    timeout: 15000,
+    timeout: 10000,
     maximumAge: 0,
   };
 
