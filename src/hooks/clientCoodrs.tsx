@@ -13,8 +13,8 @@ export function useCoords(cookiesSet: boolean) {
   const deletedRef = useRef(false);
 
   const options = {
-    enableHighAccuracy: true,
-    timeout: 15000,
+    // enableHighAccuracy: true,
+    timeout: 10000, // 'The default value is Infinity, meaning that getCurrentPosition() won't return until the position is available.'
     maximumAge: 0,
   };
 
@@ -32,6 +32,7 @@ export function useCoords(cookiesSet: boolean) {
       deletedRef.current = true;
       await deleteClientCoordsCookie();
     }
+
     if (err) {
       setCode(`${err.code}`);
       setDenied(true);

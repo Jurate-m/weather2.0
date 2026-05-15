@@ -9,6 +9,7 @@ import Icon from "@/components/ui/Icon";
 export const LOCATION_ERR_MSG = {
   "404":
     "Feel free to use the search form to search for desired location forecast",
+  "3": "It took to long to reach your location. Please check if permission is granted and location services are turned on.",
   "1": "If you would like to see forecasts for your area, you can enable location permissions in your browser settings and refresh the page.",
   "0": "If you would like to see forecasts for your area, you can grant permission to use your location for local forecast.",
 };
@@ -65,11 +66,13 @@ const DenyConsentMessage = ({
       </h1>
       <div className='flex'>
         <div>
+          {messageCode === "1" && <p>{LOCATION_ERR_MSG["1"]} </p>}
+          {messageCode === "3" && <p>{LOCATION_ERR_MSG["3"]} </p>}
           <p>
             Feel free to use the search form to search for desired location
             forecast.
           </p>
-          {messageCode === "1" && <p>{LOCATION_ERR_MSG["1"]} </p>}
+
           {!messageCode && (
             <>
               <p className='pb-4'>{LOCATION_ERR_MSG["0"]}</p>
