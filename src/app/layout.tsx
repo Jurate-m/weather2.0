@@ -2,7 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import SearchProvider from "@/components/search/search-provider";
 
 const inter = Inter({
