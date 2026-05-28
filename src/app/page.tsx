@@ -1,11 +1,6 @@
 import { Suspense } from "react";
-import Header from "@/components/Header";
 import Wrapper from "@/components/forecast/Wrapper";
-import {
-  HeaderSkeleton,
-  WrapperSkeleton,
-  HomeForecastSkeleton,
-} from "@/components/skeletons";
+import { WrapperSkeleton, HomeForecastSkeleton } from "@/components/skeletons";
 
 export default async function Home({
   searchParams,
@@ -17,21 +12,16 @@ export default async function Home({
   }>;
 }) {
   return (
-    <>
-      <Suspense fallback={<HeaderSkeleton />}>
-        <Header searchParams={searchParams} />
+    <main>
+      <Suspense
+        fallback={
+          <WrapperSkeleton className='max-w-5xl px-5'>
+            <HomeForecastSkeleton />
+          </WrapperSkeleton>
+        }
+      >
+        <Wrapper searchParams={searchParams} />
       </Suspense>
-      <main>
-        <Suspense
-          fallback={
-            <WrapperSkeleton className='max-w-5xl px-5'>
-              <HomeForecastSkeleton />
-            </WrapperSkeleton>
-          }
-        >
-          <Wrapper searchParams={searchParams} />
-        </Suspense>
-      </main>
-    </>
+    </main>
   );
 }

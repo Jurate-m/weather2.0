@@ -17,12 +17,12 @@ export const ERROR_MESSAGE = {
 };
 
 export function validateParam(
-  query: string,
+  query: string | undefined,
   REGEX: RegExp,
   min_length: number,
   max_length: number,
 ): validateQueryType {
-  const q = query.trim();
+  const q = query?.trim();
 
   if (!q)
     return {

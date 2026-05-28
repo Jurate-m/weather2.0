@@ -1,9 +1,9 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
-import "./globals.css";
-import { Suspense } from "react";
-import ClientLocation from "@/components/geolocation/ClientLocation";
-import UserConsentWrapper from "@/components/geolocation/UserConsentWrapper";
+import Header from "@/components/header";
+import SearchProvider from "@/components/search/search-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,18 +28,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang='en'>
-      <body className={`${inter.variable} ${montserrat.variable} antialiased`}>
+      <body
+        className={`${inter.variable} ${montserrat.variable} antialiased md:py-4`}
+      >
+        <SearchProvider>
+          <Header />
+        </SearchProvider>
         {children}
-        <UserConsentWrapper>
-          <Suspense>
-            <ClientLocation />
-          </Suspense>
-        </UserConsentWrapper>
       </body>
     </html>
   );

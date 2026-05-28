@@ -4,7 +4,7 @@ import Icon from "../../ui/Icon";
 
 import { formatData, formatDate } from "@/utils/functions";
 
-import List from "../../ui/List";
+import List from "../../ui/List-old";
 import ListItemCta from "../../ui/ListItemCta";
 
 export default function Dropdown({

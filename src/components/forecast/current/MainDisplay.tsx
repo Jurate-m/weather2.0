@@ -1,7 +1,7 @@
 import { formatData, getWeekday, padHours } from "@/utils/functions";
 import { HourlyEntry } from "@/utils/interfaces";
 import Icon from "@/components/ui/Icon";
-import List from "../../ui/List";
+import List from "../../ui/List-old";
 
 export default function MainDisplay({
   data,
