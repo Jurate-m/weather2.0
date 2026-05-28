@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { routes } from "@/routes";
-import Header from "@/components/Header";
 import Wrapper from "@/components/forecast/Wrapper";
-import { DynamicSkeleton, HeaderSkeleton } from "@/components/skeletons";
+import { DynamicSkeleton } from "@/components/skeletons";
 import { PageProps } from "@/utils/interfaces";
 import { notFound } from "next/navigation";
 
@@ -36,15 +35,10 @@ export default async function Page({ searchParams, params }: PageProps) {
   if (!route) return notFound();
 
   return (
-    <>
-      <Suspense fallback={<HeaderSkeleton />}>
-        <Header searchParams={searchParams} slug={slug} />
+    <main>
+      <Suspense fallback={<DynamicSkeleton />}>
+        <Wrapper searchParams={searchParams} params={slug} />
       </Suspense>
-      <main>
-        <Suspense fallback={<DynamicSkeleton />}>
-          <Wrapper searchParams={searchParams} params={slug} />
-        </Suspense>
-      </main>
-    </>
+    </main>
   );
 }

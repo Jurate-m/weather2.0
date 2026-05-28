@@ -96,7 +96,7 @@ export default async function DynamiContainer({
   locationID: string;
   page: number;
 }) {
-  "use cache";
+  // "use cache";
 
   const forecast = await getData(locationID, params, page);
 

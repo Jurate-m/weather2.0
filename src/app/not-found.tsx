@@ -1,6 +1,5 @@
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/Button-old";
 import type { Metadata } from "next";
-import Nav from "@/components/Nav";
 import Icon from "@/components/ui/Icon";
 
 export const metadata: Metadata = {
@@ -13,9 +12,6 @@ const ERROR_CODE = String(404);
 export default function NotFound() {
   return (
     <>
-      <header className='py-4 flex flex-col'>
-        <Nav />
-      </header>
       <section className='py-20 text-center'>
         <h1
           className='flex justify-center items-center text-8xl pb-5 font-bold bg-black [-webkit-text-fill-color:white] bg-clip-text 

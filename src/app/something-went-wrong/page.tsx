@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { Suspense } from "react";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/Button-old";
 
 const ERROR_MESSAGE = {
   ip: "You have made too many requests. Please wait a moment before searching again.",

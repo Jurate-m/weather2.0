@@ -1,39 +1,35 @@
 import { Suspense } from "react";
-import {
-  validateParam,
-  MIN_LENGTH,
-  Q_MAX_LENGTH,
-  Q_REGEX,
-} from "@/lib/validate";
+import Icon from "./ui/Icon";
 import Nav from "./Nav";
-import SearchOuter from "./search/SearchOuter";
-import SearchBar from "./search/SearchBar";
-import SearchWrapper from "./search/SearchWrapper";
+import SearchForm from "./search/search-form";
+import SearchResults from "./search/search-results";
+import SearchButton from "@/components/search/search-button";
+import SearchModal from "@/components/search/search-modal";
 
-export default async function Header({
-  searchParams,
-  slug,
-}: {
-  searchParams: Promise<{ q?: string }>;
-  slug?: string;
-}) {
-  const { q } = await searchParams;
-
-  const validateQ = q
-    ? validateParam(q.toString(), Q_REGEX, MIN_LENGTH, Q_MAX_LENGTH)
-    : "";
-
-  const validQ = validateQ && validateQ.sanitized ? validateQ.sanitized : "";
-
+export default function Header() {
   return (
-    <header className='relative py-4 flex flex-col z-10'>
-      <Nav />
-      <SearchWrapper>
-        <Suspense>
-          <SearchBar key={slug ? slug : "home"} />
-        </Suspense>
-        <SearchOuter q={validQ} />
-      </SearchWrapper>
+    <header className='max-w-5xl mx-auto md:px-5 relative'>
+      <div className='py-2.5 px-5 flex justify-between gap-4 md:rounded-full bg-primary shadow-md shadow-shdw/10'>
+        <div className='flex gap-4 items-center'>
+          <Icon iconId={2} className='h-10 w-10' />
+          <Suspense>
+            <Nav />
+          </Suspense>
+        </div>
+        <div>
+          <SearchButton />
+          <SearchModal>
+            <div className='relative'>
+              <Suspense>
+                <SearchForm />
+              </Suspense>
+              <Suspense>
+                <SearchResults />
+              </Suspense>
+            </div>
+          </SearchModal>
+        </div>
+      </div>
     </header>
   );
 }

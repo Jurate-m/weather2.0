@@ -1,23 +1,13 @@
-import Link from "next/link";
+interface BtnProps {
+  label?: string | React.ReactNode;
+  onClick: (e?: any) => void;
+  [propName: string]: any;
+}
 
-export default function Button({
-  href,
-  title,
-  className,
-  children,
-}: {
-  href: string;
-  title: string;
-  className?: string;
-  children?: React.ReactNode;
-}) {
+export default function Button({ label, onClick, ...props }: BtnProps) {
   return (
-    <Link
-      href={href}
-      className={`${className} inline-block font-bold py-2 px-4 bg-yellow-400 hover:bg-amber-400`}
-    >
-      {title}
-      {children}
-    </Link>
+    <button type='button' onClick={onClick} {...props}>
+      {label}
+    </button>
   );
 }

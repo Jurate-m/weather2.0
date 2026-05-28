@@ -1,4 +1,4 @@
-import List from "./List";
+import List from "./List-old";
 import { ForecastValue } from "@/utils/interfaces";
 
 export default function ListItem({ data }: { data: [string, ForecastValue] }) {

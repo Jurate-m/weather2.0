@@ -14,6 +14,12 @@
 @theme {
   --font-montserrat: var(--font-montserrat), sans-serif;
   --breakpoint-xs: 35rem;
+  --color-primary: #fffbf2;
+  --color-secondary: #f4ecdb;
+  --color-font-1: #5a4d3d;
+  --color-font-2: #2b231a;
+  --color-shdw: #50370f;
+  --color-error: #6e0707;
 }
 
 @theme inline {
@@ -23,12 +29,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* --color-primary: #261f17;
+    --color-secondary: #221c15;
+    --color-font-1: #d2c4a9;
+    --color-font-2: #f7eedd; 
+    --color-shadow: #50370f; */
   }
 }
 
 body {
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
+  font-weight: 500;
 }
 
 h1,
@@ -38,22 +50,6 @@ h4,
 h5,
 h6 {
   font-family: var(--font-montserrat), sans-serif;
-}
-
-@layer base {
-  header,
-  section {
-    @apply max-w-5xl m-auto px-5;
-  }
-
-  section,
-  .narrow {
-    @apply py-4;
-  }
-
-  .narrow {
-    @apply max-w-3xl px-5;
-  }
 }
 
 button,
@@ -88,4 +84,30 @@ a {
 
 input[type="search"]::-moz-search-cancel-button {
   display: none;
+}
+
+.mobile-nav button {
+  @apply block w-6 h-6 relative;
+}
+
+.mobile-nav button::before,
+.mobile-nav button::after {
+  content: "";
+  @apply absolute w-full h-0.75 rounded-full bg-font-2 left-[50%] -translate-x-[50%] transition-all duration-150 ease-in-out;
+}
+
+.mobile-nav button::before {
+  @apply -translate-y-1;
+}
+
+.mobile-nav button::after {
+  @apply translate-y-1;
+}
+
+.mobile-nav button.active::before {
+  @apply rotate-[45deg] -translate-y-0;
+}
+
+.mobile-nav button.active::after {
+  @apply -rotate-[45deg] translate-y-0;
 }

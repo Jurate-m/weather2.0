@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSearchParams, usePathname } from "next/navigation";
 import Image from "next/image";
-import Button from "./Button";
+import Button from "./Button-old";
 import Arrow from "@/assets/arrow_down.svg";
 
 export default function Pagination({

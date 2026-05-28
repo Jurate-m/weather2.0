@@ -11,6 +11,7 @@ export interface SearchContextType {
 
 export interface SearchResultsType {
   name: string;
+  country: string;
   place_id: string;
 }
 
