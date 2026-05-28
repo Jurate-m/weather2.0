@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Icon from "./ui/Icon";
-import Nav from "./nav";
+import Nav from "./Nav";
 import SearchForm from "./search/search-form";
 import SearchResults from "./search/search-results";
 import SearchButton from "@/components/search/search-button";
