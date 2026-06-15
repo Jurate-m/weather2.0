@@ -1,4 +1,4 @@
-import { fetchHourlyWeather } from "@/lib/data";
+import { fetchHourlyWeather } from "@/_lib/data";
 import { HourlyData } from "@/utils/interfaces";
 import Current from "./Current";
 

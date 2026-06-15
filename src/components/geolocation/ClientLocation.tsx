@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { isValidCoords } from "@/lib/validate";
+import { isValidCoords } from "@/_lib/validate";
 import DynamicWrapepr from "./DynamicWrapepr";
 
 export default async function ClientLocation() {

@@ -1,7 +1,7 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Inter, Montserrat } from "next/font/google";
+import { Inter, Open_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import SearchProvider from "@/components/search/search-provider";
 
@@ -11,8 +11,8 @@ const inter = Inter({
   display: "swap",
 });
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const openSans = Open_Sans({
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${inter.variable} ${montserrat.variable} antialiased md:py-4`}
+        className={`${inter.variable} ${openSans.variable} antialiased md:py-4`}
       >
         <SearchProvider>
           <Header />

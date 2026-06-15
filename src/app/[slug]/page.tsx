@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { routes } from "@/routes";
-import Wrapper from "@/components/forecast/Wrapper";
+import Wrapper from "@/components/forecast/Wrapper-old";
 import { DynamicSkeleton } from "@/components/skeletons";
 import { PageProps } from "@/utils/interfaces";
 import { notFound } from "next/navigation";
