@@ -2,8 +2,9 @@ import Button from "./Button";
 
 type CtaListProps = {
   data: { id: string; title: string; subtitle?: string }[] | null;
-  ctaDisabled: (args?: any) => boolean;
+  ctaDisabled?: (args?: any) => boolean;
   onClick: (args?: any) => void;
+  buttonClass?: string;
   [propName: string]: any;
 };
 
@@ -11,13 +12,14 @@ export default function CtaList({
   data,
   ctaDisabled,
   onClick,
+  buttonClass,
   ...props
 }: CtaListProps) {
   return (
     <ul role='listbox' aria-label='Search results' {...props}>
       {data &&
         data.map((item) => {
-          const disabled = ctaDisabled();
+          const disabled = ctaDisabled ? ctaDisabled() : false;
 
           const title = (
             <>
