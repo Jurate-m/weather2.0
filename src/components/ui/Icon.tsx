@@ -1,16 +1,23 @@
 export default function Icon({
   iconId,
   title,
+  aspectRatio,
   ...props
 }: {
-  iconId: number;
+  iconId: number | string;
   title?: React.ReactNode;
+  aspectRatio?: string;
 } & React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div {...props}>
-      <svg className='w-full max-w-full h-full'>
+      <svg
+        className={[
+          "block w-full max-h-full ",
+          aspectRatio ?? "aspect-square",
+        ].join(" ")}
+      >
         {title && <title>{title}</title>}
-        <use href={`/assets/sprite.svg#icon-${iconId}`} />
+        <use href={`/assets/sprite.svg#${iconId}`} />
       </svg>
     </div>
   );
