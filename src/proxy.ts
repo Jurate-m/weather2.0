@@ -7,7 +7,7 @@ import {
   MIN_LENGTH,
   Q_MAX_LENGTH,
   Q_REGEX,
-} from "@/lib/validate";
+} from "@/_lib/validate";
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,

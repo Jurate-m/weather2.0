@@ -4,8 +4,8 @@ import {
   MIN_LENGTH,
   Q_MAX_LENGTH,
   Q_REGEX,
-} from "@/lib/validate";
-import { findPlaces } from "@/lib/data";
+} from "@/_lib/validate";
+import { findPlaces } from "@/_lib/data";
 
 export async function GET(req: NextRequest) {
   const raw = req.nextUrl.searchParams.get("q") ?? undefined;

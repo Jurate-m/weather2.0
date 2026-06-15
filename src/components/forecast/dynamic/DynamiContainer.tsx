@@ -1,4 +1,4 @@
-import { fetchDailyWeather, fetchHourlyWeather } from "@/lib/data";
+import { fetchDailyWeather, fetchHourlyWeather } from "@/_lib/data";
 import { HourlyEntry } from "@/utils/interfaces";
 import { weekDays, getDay } from "@/utils/functions";
 

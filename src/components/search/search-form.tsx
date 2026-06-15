@@ -12,7 +12,7 @@ import {
   Q_MAX_LENGTH,
   Q_REGEX,
   ERROR_MESSAGE,
-} from "@/lib/validate";
+} from "@/_lib/validate";
 
 export default function SearchForm() {
   const formRef = useRef<FormHandle>(null);

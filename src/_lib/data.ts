@@ -61,3 +61,9 @@ export async function fetchDailyWeather(place_id: string) {
   });
   return await fetchData(`daily?place_id=${place_id}`);
 }
+
+export async function fetchAstro(place_id: string) {
+  "use cache";
+
+  return await fetchData(`astro?place_id=${place_id}`);
+}
