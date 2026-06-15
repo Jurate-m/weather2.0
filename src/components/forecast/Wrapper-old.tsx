@@ -1,15 +1,15 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
-import { nearestPlace, findPlaces } from "@/lib/data";
+import { nearestPlace, findPlaces } from "@/_lib/data";
 import { SearchResultsType } from "@/utils/interfaces";
-import { isValidCoords } from "@/lib/validate";
+import { isValidCoords } from "@/_lib/validate";
 import {
   validateParam,
   MIN_LENGTH,
   LOCATION_REGEX,
   MAX_LENGTH,
-} from "@/lib/validate";
+} from "@/_lib/validate";
 
 import CurrentContainer from "./current/CurrentContainer";
 import DynamiContainer from "./dynamic/DynamiContainer";
