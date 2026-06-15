@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --background: #ffffff;
+  --foreground: #171717; */
 }
 
 *,
@@ -12,35 +12,84 @@
 }
 
 @theme {
-  --font-montserrat: var(--font-montserrat), sans-serif;
+  --font-inter: var(--font-inter), sans-serif;
+  --font-sans: var(--font-sans), sans-serif;
+
   --breakpoint-xs: 35rem;
   --color-primary: #fffbf2;
   --color-secondary: #f4ecdb;
+  --color-accent: #e89a2b;
   --color-font-1: #5a4d3d;
   --color-font-2: #2b231a;
   --color-shdw: #50370f;
   --color-error: #6e0707;
+  --breakpoint-xs: 430px;
+}
+
+@utility bg-card-1 {
+  background: linear-gradient(170deg, #ffe5b6 0%, #f9d28a 100%);
+}
+
+@utility bg-card-2 {
+  background: linear-gradient(
+    170deg,
+    color-mix(in oklch, #f9d28a 15%, var(--color-primary)) 0%,
+    var(--color-primary) 100%
+  );
+}
+
+@utility rainbow {
+  background: linear-gradient(
+    90deg,
+    #6cc070 0%,
+    #f3c84a 35%,
+    #ee8743 60%,
+    #d75555 80% 80%,
+    #a655c8 100%
+  );
+}
+
+@utility scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) var(--color-secondary);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* --color-background: var(--background);
+  --color-foreground: var(--foreground); */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* --color-primary: #261f17;
+/* @media (prefers-color-scheme: dark) { */
+/* :root { */
+/* --color-primary: #261f17;
     --color-secondary: #221c15;
     --color-font-1: #d2c4a9;
     --color-font-2: #f7eedd; 
     --color-shadow: #50370f; */
-  }
+/* } */
+/* } */
+
+html,
+body {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 500;
+  color: var(--color-font-2);
+  overflow-x: hidden;
 }
 
 body {
-  color: var(--foreground);
-  font-family: var(--font-inter), sans-serif;
-  font-weight: 500;
+  background:
+    radial-gradient(
+      1100px 600px at 80% -10%,
+      color-mix(in oklch, #f6c66d 28%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at -10% 110%,
+      color-mix(in oklch, #f4b48a 22%, transparent),
+      transparent 65%
+    );
+  min-height: 100vh;
 }
 
 h1,
@@ -49,7 +98,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-montserrat), sans-serif;
+  font-family: var(--font-sans), sans-serif;
 }
 
 button,
@@ -71,7 +120,6 @@ a {
   height: 100%;
   width: 2px;
   border-radius: 50%;
-  background-color: var(--foreground);
 }
 
 .btn--clear::before {
@@ -105,9 +153,9 @@ input[type="search"]::-moz-search-cancel-button {
 }
 
 .mobile-nav button.active::before {
-  @apply rotate-[45deg] -translate-y-0;
+  @apply rotate-45 translate-y-0;
 }
 
 .mobile-nav button.active::after {
-  @apply -rotate-[45deg] translate-y-0;
+  @apply -rotate-45 translate-y-0;
 }
