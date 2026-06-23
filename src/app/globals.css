@@ -12,10 +12,9 @@
 }
 
 @theme {
+  --breakpoint-xs: 430px;
   --font-inter: var(--font-inter), sans-serif;
   --font-sans: var(--font-sans), sans-serif;
-
-  --breakpoint-xs: 35rem;
   --color-primary: #fffbf2;
   --color-secondary: #f4ecdb;
   --color-accent: #e89a2b;
@@ -23,7 +22,7 @@
   --color-font-2: #2b231a;
   --color-shdw: #50370f;
   --color-error: #6e0707;
-  --breakpoint-xs: 430px;
+  --color-border: #ecdfc4;
 }
 
 @utility bg-card-1 {
@@ -61,12 +60,19 @@
 
 /* @media (prefers-color-scheme: dark) { */
 /* :root { */
-/* --color-primary: #261f17;
-    --color-secondary: #221c15;
-    --color-font-1: #d2c4a9;
-    --color-font-2: #f7eedd; 
-    --color-shadow: #50370f; */
-/* } */
+/* --font-inter: var(--font-inter), sans-serif;
+  --font-sans: var(--font-sans), sans-serif;
+
+  --breakpoint-xs: 35rem;
+  --color-primary: #fffbf2;
+  --color-secondary: #f4ecdb;
+  --color-accent: #e89a2b;
+  --color-font-1: #5a4d3d;
+  --color-font-2: #2b231a;
+  --color-shdw: #50370f;
+  --color-error: #6e0707;
+  --color-border: #ecdfc4;
+  --breakpoint-xs: 430px; */
 /* } */
 
 html,
@@ -158,4 +164,9 @@ input[type="search"]::-moz-search-cancel-button {
 
 .mobile-nav button.active::after {
   @apply -rotate-45 translate-y-0;
+}
+
+summary::marker,
+summary::-webkit-details-marker {
+  display: none;
 }

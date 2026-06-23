@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-
 import { routes } from "@/routes";
-import Wrapper from "@/components/forecast/Wrapper-old";
-import { DynamicSkeleton } from "@/components/skeletons";
-import { PageProps } from "@/utils/interfaces";
 import { notFound } from "next/navigation";
+
+import ForecastLocation from "@/components/params/forecastLocation";
+
+export type PageProps = {
+  searchParams: Promise<{ location?: string; page?: number }>;
+  params: Promise<{ slug: string }>;
+};
 
 export async function generateMetadata({
   params,
@@ -35,9 +38,9 @@ export default async function Page({ searchParams, params }: PageProps) {
   if (!route) return notFound();
 
   return (
-    <main>
-      <Suspense fallback={<DynamicSkeleton />}>
-        <Wrapper searchParams={searchParams} params={slug} />
+    <main className='max-w-full w-5xl mx-auto px-4 py-4 '>
+      <Suspense>
+        <ForecastLocation searchParams={searchParams} param={slug} />
       </Suspense>
     </main>
   );

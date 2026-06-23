@@ -7,12 +7,9 @@ import Tabs from "./tabs";
 
 type LocationType = {
   location: {
-    place: {
-      name: string;
-      country: string;
-    };
-    id: null | string;
-    error: null | string;
+    place_id: string;
+    name: string;
+    country: string;
   };
 };
 
@@ -20,13 +17,12 @@ export default async function CurrentWrapper({ location }: LocationType) {
   let forecast = null;
   let error = null;
 
-  const { place, id } = location;
+  const { place_id, name, country } = location;
 
-  if (id) {
+  if (place_id) {
     try {
-      forecast = await fetchHourlyWeather(id);
+      forecast = await fetchHourlyWeather(place_id);
     } catch (err) {
-      console.log(err);
       error = (err as Error).message;
     }
   }
@@ -53,14 +49,14 @@ export default async function CurrentWrapper({ location }: LocationType) {
     <div className='max-w-full w-5xl mx-auto px-4 py-4 grid gap-4'>
       <div className='grid md:grid-cols-12 gap-4'>
         <CurrentDetails
-          location={place}
+          location={{ name, country }}
           units={units}
           data={current}
           className='md:col-span-7 shadow-md shadow-shdw/10'
         ></CurrentDetails>
         <div className='md:col-span-5 flex flex-col gap-4'>
           <UvIndex pos={uvIndex} />
-          {id && <Astro placeId={id} />}
+          {place_id && <Astro placeId={place_id} />}
         </div>
       </div>
       <Tabs data={hourly} units={units} />

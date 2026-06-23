@@ -1,5 +1,11 @@
 import Card from "../ui/card";
-import { getDay, getMonth, getWeekday, getUnits } from "@/utils/functions";
+import {
+  getDay,
+  getMonth,
+  weekDays,
+  getDayOfWeek,
+  getUnits,
+} from "@/utils/functions";
 import ForecastDetailsItem from "./foreacst-details-list";
 import Icon from "../ui/Icon";
 
@@ -78,7 +84,9 @@ export default async function CurrentDetails({
     },
   ];
 
-  const weekday = getWeekday(date)[1];
+  // const weekday = getWeekday(date)[1];
+  const weekday = weekDays[getDayOfWeek(date)][1];
+
   const month = getMonth(date)[1];
   const day = getDay(date);
 

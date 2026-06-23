@@ -1,59 +1,107 @@
+// import {
+//   validateParam,
+//   MIN_LENGTH,
+//   LOCATION_REGEX,
+//   MAX_LENGTH,
+//   ERROR_MESSAGE,
+// } from "@/_lib/validate";
+// import { findPlaces } from "@/_lib/data";
+
+// type LocationType = {
+//   place_id: null | string;
+//   name: null | string;
+//   country: null | string;
+//   error: null | string;
+// };
+
+// export const paramsLocation = async (param: string) => {
+//   const location = <LocationType>{
+//     place_id: null,
+//     name: null,
+//     country: null,
+//     error: null,
+//   };
+
+//   const { sanitized, error } = validateParam(
+//     param,
+//     LOCATION_REGEX,
+//     MIN_LENGTH,
+//     MAX_LENGTH,
+//   );
+
+//   if (error) {
+//     // @ts-ignore
+//     location.error = `Location query ${ERROR_MESSAGE[error]}`;
+//     return location;
+//   }
+
+//   // @ts-ignore
+//   const places = await findPlaces(sanitized);
+//   const match = places?.find((p: any) => p.place_id === sanitized);
+
+//   if (!match) {
+//     location.error = "Location doesn't exist. Try again.";
+//     return location;
+//   }
+
+//   location.place_id = match.place_id;
+//   location.name = match.name;
+//   location.country = match.coutry;
+
+//   return location;
+// };
 import {
-  validateParam,
+  sanitize,
+  validateString,
   MIN_LENGTH,
   LOCATION_REGEX,
   MAX_LENGTH,
-  ERROR_MESSAGE,
-} from "@/_lib/validate";
+} from "./validate";
+
 import { findPlaces } from "@/_lib/data";
 
-type locationType = {
-  place: {
-    name: null | string;
-    country: null | string;
-  };
-  id: null | string;
+type LocationType = {
+  place_id: null | string;
+  name: null | string;
+  country: null | string;
   error: null | string;
 };
 
 export const paramsLocation = async (param: string) => {
-  const location = <locationType>{
-    place: { name: null, country: null },
-    id: null,
+  const location = <LocationType>{
+    place_id: null,
+    name: null,
+    country: null,
     error: null,
   };
 
-  const { sanitized, error } = validateParam(
-    param,
+  const sanitized = sanitize(param);
+
+  if (!sanitized) {
+    location.error = "too_short";
+    return location;
+  }
+
+  const invalid = validateString(
+    sanitized,
     LOCATION_REGEX,
     MIN_LENGTH,
     MAX_LENGTH,
   );
 
-  if (error) {
-    //@ts-ignore
-    location.error = `Location query ${ERROR_MESSAGE[error]}`;
+  if (invalid.message) {
+    location.error = invalid.message;
     return location;
   }
 
-  //@ts-ignore
   const places = await findPlaces(sanitized);
   const match = places?.find((p: any) => p.place_id === sanitized);
 
-  if (!match) {
-    location.error = "Location doesn't exist. Try again.";
-    return location;
-  }
+  const { name, place_id, country } = match;
 
-  if (sanitized) {
-    location.id = sanitized;
-
-    location.place = {
-      ...location.place,
-      name: match.name,
-      country: match.country,
-    };
-  }
+  location.name = name;
+  location.place_id = place_id;
+  location.country = country;
 
   return location;
 };

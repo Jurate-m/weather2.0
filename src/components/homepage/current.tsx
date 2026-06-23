@@ -3,6 +3,7 @@ import { cookiesLocation } from "@/_lib/cookies-location";
 import { paramsLocation } from "@/_lib/params-location";
 import Error from "../ui/Error";
 import CurrentWrapper from "./current-wrapper";
+import { ERROR_MESSAGE } from "@/_lib/validate";
 
 export default async function Current({
   params,
@@ -12,26 +13,24 @@ export default async function Current({
   const { location } = await params;
   const cookie = await cookies();
 
-  let details = null;
+  const { place_id, name, country, error } = location
+    ? await paramsLocation(location)
+    : await cookiesLocation(cookie);
 
-  if (!location) {
-    details = await cookiesLocation(cookie);
-  }
-
-  if (location) {
-    details = await paramsLocation(location);
-  }
-
-  if (details?.error) {
+  if (error) {
     return (
       <Error>
-        <p className='text-2xl font-semibold pb-2'>{details.error}</p>
+        <p className='text-2xl font-semibold pb-2'>
+          {ERROR_MESSAGE[error as keyof typeof ERROR_MESSAGE]
+            ? `Your query ${ERROR_MESSAGE[error as keyof typeof ERROR_MESSAGE]}`
+            : error}
+        </p>
         <p className=''>Please use search form and try again.</p>
       </Error>
     );
   }
 
-  if (details && location) {
-    return <CurrentWrapper location={details} />;
+  if (place_id && location) {
+    return <CurrentWrapper location={{ place_id, name, country }} />;
   }
 }

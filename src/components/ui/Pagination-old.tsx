@@ -1,23 +1,20 @@
 "use client";
+
+import Link from "next/link";
 import { useSearchParams, usePathname } from "next/navigation";
 import Image from "next/image";
 import Button from "./Button-old";
 import Arrow from "@/assets/arrow_down.svg";
 
-type PaginationType = {
-  title: {
-    prev: string;
-    next: string;
-  };
-  page: number;
-  totalPages: number;
-};
-
 export default function Pagination({
-  title,
   page,
   totalPages,
-}: PaginationType) {
+  pagination,
+}: {
+  page: number;
+  totalPages: number;
+  pagination: string[];
+}) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
@@ -32,7 +29,7 @@ export default function Pagination({
       {page > 1 && (
         <Button
           href={buildHref(page - 1)}
-          title={title.prev}
+          title={pagination[0]}
           className='mr-auto flex! flex-row-reverse pl-2 bg-transparent!'
         >
           <Image src={Arrow} alt='' className='rotate-90' aria-hidden='true' />
@@ -41,7 +38,7 @@ export default function Pagination({
       {page < totalPages && (
         <Button
           href={buildHref(page + 1)}
-          title={title.next}
+          title={pagination[1]}
           className='ml-auto flex! pr-2 bg-transparent!'
         >
           <Image src={Arrow} alt='' className='-rotate-90' aria-hidden='true' />
