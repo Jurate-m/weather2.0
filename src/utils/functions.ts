@@ -40,56 +40,56 @@ UNITS.set("ca", {
 
 export const getUnits = (units: string, unit: string) => UNITS.get(units)[unit];
 
-export const roundWithUnits = (value: number, units: string, unit: string) =>
-  `${Math.round(value)}${UNITS.get(units)[unit]}`;
+// export const roundWithUnits = (value: number, units: string, unit: string) =>
+//   `${Math.round(value)}${UNITS.get(units)[unit]}`;
 
-export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
-  const date = "date" in data ? data.date : data.day;
-  const icon = Number(data.icon);
-  const summary = data.summary;
-  const temperature =
-    "temperature_min" in data && "temperature_max" in data
-      ? `${roundWithUnits(data.temperature_max, units, "temperature")} / ${roundWithUnits(data.temperature_min, units, "temperature")}`
-      : `${roundWithUnits(data.temperature, units, "temperature")}`;
-  const feels_like =
-    "feels_like_min" in data && "feels_like_max" in data
-      ? `${roundWithUnits(data.feels_like_max, units, "temperature")} / ${roundWithUnits(data.feels_like_min, units, "temperature")}`
-      : `${roundWithUnits(data.feels_like, units, "temperature")}`;
-  const wind = `${roundWithUnits(data.wind.speed, units, "wind_speed")} ${data.wind.dir}`;
-  const pressure = roundWithUnits(data.pressure, units, "pressure");
-  const humidity = roundWithUnits(data.humidity, units, "humidity");
-  const precipitation = roundWithUnits(
-    data.precipitation.total,
-    units,
-    "humidity",
-  );
-  const visibility = roundWithUnits(data.visibility, units, "visibility");
+// export function formatData(units = "metric", data: HourlyEntry | DailyEntry) {
+//   const date = "date" in data ? data.date : data.day;
+//   const icon = Number(data.icon);
+//   const summary = data.summary;
+//   const temperature =
+//     "temperature_min" in data && "temperature_max" in data
+//       ? `${roundWithUnits(data.temperature_max, units, "temperature")} / ${roundWithUnits(data.temperature_min, units, "temperature")}`
+//       : `${roundWithUnits(data.temperature, units, "temperature")}`;
+//   const feels_like =
+//     "feels_like_min" in data && "feels_like_max" in data
+//       ? `${roundWithUnits(data.feels_like_max, units, "temperature")} / ${roundWithUnits(data.feels_like_min, units, "temperature")}`
+//       : `${roundWithUnits(data.feels_like, units, "temperature")}`;
+//   const wind = `${roundWithUnits(data.wind.speed, units, "wind_speed")} ${data.wind.dir}`;
+//   const pressure = roundWithUnits(data.pressure, units, "pressure");
+//   const humidity = roundWithUnits(data.humidity, units, "humidity");
+//   const precipitation = roundWithUnits(
+//     data.precipitation.total,
+//     units,
+//     "humidity",
+//   );
+//   const visibility = roundWithUnits(data.visibility, units, "visibility");
 
-  const probability = Object.entries(data.probability)
-    .filter(([key, value]) => value)
-    .map(([key, value]) => {
-      return {
-        [`Probability of ${key}`]: roundWithUnits(value, units, "humidity"),
-      };
-    });
+//   const probability = Object.entries(data.probability)
+//     .filter(([key, value]) => value)
+//     .map(([key, value]) => {
+//       return {
+//         [`Probability of ${key}`]: roundWithUnits(value, units, "humidity"),
+//       };
+//     });
 
-  return {
-    date,
-    icon,
-    summary,
-    Temperature: temperature,
-    "Feels Like": feels_like,
-    Wind: wind,
-    Humidity: humidity,
-    Precipitation: precipitation,
-    Visibility: visibility,
-    Pressure: pressure,
-    ...Object.assign({}, ...probability),
-    ...("uv_index" in data
-      ? { "UV Index": data.uv_index ? data.uv_index : 0 }
-      : {}),
-  } as FormattedObj;
-}
+//   return {
+//     date,
+//     icon,
+//     summary,
+//     Temperature: temperature,
+//     "Feels Like": feels_like,
+//     Wind: wind,
+//     Humidity: humidity,
+//     Precipitation: precipitation,
+//     Visibility: visibility,
+//     Pressure: pressure,
+//     ...Object.assign({}, ...probability),
+//     ...("uv_index" in data
+//       ? { "UV Index": data.uv_index ? data.uv_index : 0 }
+//       : {}),
+//   } as FormattedObj;
+// }
 
 export const weekDays = [
   ["Sun", "Sunday"],
@@ -119,17 +119,21 @@ export function getMonth(date: string) {
   return month[new Date(date).getMonth()];
 }
 
-export function getDay(date: string) {
+export function getDayOfWeek(date: string | number) {
   return new Date(date).getDay();
 }
 
-export function getWeekday(date: string) {
-  return weekDays[getDay(date)];
+export function getDay(date: string) {
+  return new Date(date).getDate();
 }
 
-function testTime(date: string): boolean {
-  return /T\d{2}:\d{2}/.test(date);
+export function getWeekday(date: string | number) {
+  return weekDays[getDayOfWeek(date)];
 }
+
+// function testTime(date: string): boolean {
+//   return /T\d{2}:\d{2}/.test(date);
+// }
 
 function padDate(date: number) {
   return String(date).padStart(2, "0");
@@ -139,19 +143,19 @@ export function padHours(date: string) {
   return `${padDate(new Date(date).getHours())}:00`;
 }
 
-export function formatDate(date: string) {
-  const dateObj = new Date(date);
+// export function formatDate(date: string) {
+//   const dateObj = new Date(date);
 
-  const weekDay = getWeekday(String(dateObj))[0];
-  const time = `${padDate(dateObj.getHours())}:00`;
-  const day = padDate(dateObj.getDate());
-  const month = padDate(dateObj.getMonth());
+//   const weekDay = getWeekday(String(dateObj))[0];
+//   const time = `${padDate(dateObj.getHours())}:00`;
+//   const day = padDate(dateObj.getDate());
+//   const month = padDate(dateObj.getMonth());
 
-  const daily = `${weekDay}, ${day}/${month}`;
-  const hourly = `${weekDay}, ${time}`;
+//   const daily = `${weekDay}, ${day}/${month}`;
+//   const hourly = `${weekDay}, ${time}`;
 
-  return testTime(String(date)) ? hourly : daily;
-}
+//   return testTime(String(date)) ? hourly : daily;
+// }
 
 export function secondsUntilNextHour() {
   const now = new Date();
