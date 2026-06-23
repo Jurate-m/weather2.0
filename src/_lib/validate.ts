@@ -54,8 +54,9 @@ export function validateParam(
   return { valid: true, sanitized: q.toLowerCase() };
 }
 
-export function isValidCoords(lat: unknown, lon: unknown): boolean {
-  if (!lat || !lon) return false;
+// export function isValidCoords(lat: unknown, lon: unknown): boolean {
+export function validCoords(lat: unknown, lon: unknown): boolean {
+  // if (!lat || !lon) return false;
 
   const latitude = Number(lat);
   const longitude = Number(lon);
@@ -66,3 +67,38 @@ export function isValidCoords(lat: unknown, lon: unknown): boolean {
     latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180
   );
 }
+
+export const sanitize = (arg: any) => {
+  // const query = arg.toString();
+  return arg.toString().trim().toLowerCase() || "";
+};
+
+type ValidateType = {
+  query: string;
+  REGEX: RegExp;
+  min_length: number;
+  max_length: number;
+};
+
+export const validateString = (
+  query: string,
+  REGEX: RegExp,
+  min_length: number,
+  max_length: number,
+) => {
+  const error = {
+    message: "",
+  };
+
+  const q = query.trim();
+
+  if (!q) error.message = "empty";
+
+  if (!REGEX.test(q)) error.message = "invalid_chars";
+
+  if (q.length < min_length) error.message = "too_short";
+
+  if (q.length > max_length) error.message = "too_long";
+
+  return error;
+};

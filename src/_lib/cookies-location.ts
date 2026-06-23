@@ -1,29 +1,28 @@
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { isValidCoords } from "@/_lib/validate";
+import { validCoords } from "./validate";
 import { nearestPlace } from "@/_lib/data";
 
-type locationType = {
-  place: {
-    name: null | string;
-    country: null | string;
-  };
-  id: null | string;
+type LocationType = {
+  place_id: null | string;
+  name: null | string;
+  country: null | string;
   error: null | string;
 };
 
 export const cookiesLocation = async (cookie: ReadonlyRequestCookies) => {
-  const location = <locationType>{
-    place: { name: null, country: null },
-    id: null,
+  const location = <LocationType>{
+    place_id: null,
+    name: null,
+    country: null,
     error: null,
   };
 
   const latCookie = cookie.get("lat")?.value;
   const lonCookie = cookie.get("lon")?.value;
 
-  const validCoords = isValidCoords(latCookie, lonCookie);
+  const coords = validCoords(latCookie, lonCookie);
 
-  if (!validCoords) {
+  if (!coords) {
     location.error = "Coordinates are not valid.";
     return location;
   }
@@ -31,13 +30,9 @@ export const cookiesLocation = async (cookie: ReadonlyRequestCookies) => {
   const coordsEndpoint = `lat=${latCookie}&lon=${lonCookie}`;
   const { place_id, name, country } = await nearestPlace(coordsEndpoint);
 
-  // // * if place_id and name is undefined / null -> return error message
-  // if (!place_id) return;
+  location.place_id = place_id;
+  location.name = name;
+  location.country = country;
 
-  // * else -> assign values
-  location.place = { ...location.place, name, country };
-  location.id = place_id;
-
-  console.log(location);
   return location;
 };
