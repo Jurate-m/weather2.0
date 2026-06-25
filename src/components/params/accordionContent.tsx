@@ -63,9 +63,8 @@ export default function AccordionContent({
   ];
 
   return (
-    <ul className='flex flex-wrap bg-secondary py-4 px-4 border-t border-border gap-y-2 sm:gap-x-2 sm:justify-between'>
+    <ul className='flex flex-wrap bg-secondary py-4 px-4 border-t border-border-1 gap-y-2 sm:gap-x-2 sm:justify-between'>
       {details.map((item) => {
-        console.log(item);
         if (item) {
           const { title, val, units } = item;
           return (

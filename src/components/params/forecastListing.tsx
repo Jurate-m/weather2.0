@@ -58,7 +58,7 @@ export default async function ForecastListing({
                 content={
                   <AccordionContent data={item} units={units} param={param} />
                 }
-                className='border-b border-border last:border-b-0 [&>button]:hover:bg-secondary [&_img]:transition-transform [&_img]:duration-75 [&_img]:ease-in'
+                className='border-b border-border-1 last:border-b-0 [&>button]:hover:bg-secondary [&_img]:transition-transform [&_img]:duration-75 [&_img]:ease-in'
                 activeStyles='[&_img]:rotate-90'
               />
             );
