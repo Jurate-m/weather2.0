@@ -2,14 +2,16 @@ import { fetchDailyWeather, fetchHourlyWeather } from "@/_lib/data";
 import { getDay, weekDays, getDayOfWeek } from "@/utils/functions";
 
 export const getForecast = async (slug: string, id: string, page: number) => {
-  const forecast =
+  const forecastFetch =
     slug === "daily"
       ? await fetchDailyWeather(id)
       : await fetchHourlyWeather(id);
 
-  const units = forecast.units;
+  const units = forecastFetch.units;
 
-  const slugForecast = forecast[slug].data;
+  const slugForecast = forecastFetch[slug].data;
+
+  const entryDateKey = "day" in slugForecast[0] ? "day" : "date";
 
   const length = slugForecast.length;
 
@@ -50,16 +52,24 @@ export const getForecast = async (slug: string, id: string, page: number) => {
       : hourlyData;
 
   const dailyPagination = {
-    prev: "",
-    next: "",
+    prev: "Previous week",
+    next: "Next week",
   };
 
   const hourlyPagination = {
-    prev: weekDays[(getDayOfWeek(data[0].date) - 1 + 7) % 7][1],
-    next: weekDays[(getDayOfWeek(data[0].date) + 1) % 7][1],
+    prev: weekDays[(getDayOfWeek(data[0][entryDateKey]) - 1 + 7) % 7][1],
+    next: weekDays[(getDayOfWeek(data[0][entryDateKey]) + 1) % 7][1],
   };
 
   const pagination = slug === "daily" ? dailyPagination : hourlyPagination;
 
-  return { data, units, currentPage, totalPages, pagination, length };
+  return {
+    data,
+    entryDateKey,
+    units,
+    currentPage,
+    totalPages,
+    pagination,
+    length,
+  };
 };
