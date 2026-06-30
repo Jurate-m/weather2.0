@@ -18,8 +18,11 @@ export default function Nav() {
     e.preventDefault();
     const params = new URLSearchParams(window.location.search);
     const pageParam = params.get("page");
+    const query = params.get("q");
 
     if (pageParam) params.delete("page");
+
+    if (query) params.delete("q");
 
     router.push(`${url}?${params.toString()}`);
   };

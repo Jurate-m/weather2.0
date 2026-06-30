@@ -29,7 +29,9 @@ export default function SearchResults() {
   };
 
   useEffect(() => {
-    if (!q) return;
+    if (!q) {
+      return setResults(null);
+    }
 
     fetch(`/api/locations?q=${encodeURIComponent(q)}`, {
       signal: controller.signal,
