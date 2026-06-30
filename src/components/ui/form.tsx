@@ -14,6 +14,8 @@ interface FormProps {
   ref?: React.Ref<FormHandle>;
   icon: { src: string; alt: string };
   changeHandler: (val: string) => void;
+  focusHandler?: () => void;
+  blurHandler?: () => void;
   error: string;
   inputPlaceholder: string;
   clearHandler: () => void;
@@ -24,6 +26,8 @@ export default function Form({
   ref,
   icon,
   changeHandler,
+  focusHandler,
+  blurHandler,
   error,
   inputPlaceholder,
   clearHandler,
@@ -68,6 +72,8 @@ export default function Form({
         type='search'
         name='userQ'
         value={input}
+        onFocus={focusHandler}
+        onBlur={blurHandler}
         onChange={handleChange}
         placeholder={inputPlaceholder}
         className={`${error ? " outline-red-700 border-red-700" : ""} block w-full py-2 pl-12 pr-4 focus:outline-2 [&::-webkit-search-cancel-button]:hidden bg-secondary rounded-full`}

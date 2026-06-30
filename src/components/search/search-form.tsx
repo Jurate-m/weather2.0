@@ -5,6 +5,7 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 import Form, { FormHandle } from "../ui/form";
 import Icon from "@/assets/search-icon.svg";
+import { useSearch } from "./search-provider";
 
 import {
   validateParam,
@@ -26,6 +27,8 @@ export default function SearchForm() {
   const params = new URLSearchParams(searchParams);
   const location = params.get("location");
 
+  const { isOpen, open, close, error, setError } = useSearch();
+
   const handleChange = (val: string) => {
     const { valid, error, sanitized } = validateParam(
       val,
@@ -36,7 +39,7 @@ export default function SearchForm() {
 
     if (error) {
       setQ("");
-      setSearchError(ERROR_MESSAGE[error as keyof typeof ERROR_MESSAGE]);
+      setError(ERROR_MESSAGE[error as keyof typeof ERROR_MESSAGE]);
       return;
     }
 
@@ -45,12 +48,8 @@ export default function SearchForm() {
     }
 
     if (!error) {
-      setSearchError("");
+      setError("");
     }
-  };
-
-  const handleClear = () => {
-    setQ("");
   };
 
   useEffect(() => {
@@ -89,12 +88,14 @@ export default function SearchForm() {
         className={`relative ${searchError ? "border-error!" : ""} max-w-full`}
         icon={{ src: Icon, alt: "Search" }}
         changeHandler={handleChange}
-        error={searchError}
+        error={error ?? ""}
         inputPlaceholder='Search for location'
-        clearHandler={handleClear}
+        clearHandler={() => setQ("")}
+        blurHandler={() => close()}
+        focusHandler={() => open()}
       />
-      {searchError && (
-        <p className='absolute py-2 text-error text-sm'>{searchError}</p>
+      {error && isOpen && (
+        <p className='absolute py-2 text-error text-sm'>{error}</p>
       )}
     </>
   );
