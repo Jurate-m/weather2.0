@@ -6,6 +6,8 @@ type SearchCtxType = {
   isOpen: boolean;
   open: () => void;
   close: () => void;
+  error: null | string;
+  setError: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const SearchContext = createContext<SearchCtxType | null>(null);
@@ -16,12 +18,13 @@ export default function SearchProvider({
   children: React.ReactNode;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [error, setError] = useState("");
 
   const open = useCallback(() => setIsOpen(true), []);
   const close = useCallback(() => setIsOpen(false), []);
 
   return (
-    <SearchContext.Provider value={{ isOpen, open, close }}>
+    <SearchContext.Provider value={{ isOpen, open, close, error, setError }}>
       {children}
     </SearchContext.Provider>
   );
