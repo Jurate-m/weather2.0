@@ -5,6 +5,7 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 import Form, { FormHandle } from "../ui/form";
 import Icon from "@/assets/search-icon.svg";
+import { useSearch } from "./search-provider";
 
 import {
   validateParam,
@@ -16,7 +17,6 @@ import {
 
 export default function SearchForm() {
   const formRef = useRef<FormHandle>(null);
-  const [searchError, setSearchError] = useState("");
   const [q, setQ] = useState("");
 
   const router = useRouter();
@@ -26,7 +26,13 @@ export default function SearchForm() {
   const params = new URLSearchParams(searchParams);
   const location = params.get("location");
 
+  const { isOpen, open, error, setError, setLoading } = useSearch();
+
   const handleChange = (val: string) => {
+    if (val) setLoading(true);
+
+    if (!val) setLoading(false);
+
     const { valid, error, sanitized } = validateParam(
       val,
       Q_REGEX,
@@ -36,7 +42,7 @@ export default function SearchForm() {
 
     if (error) {
       setQ("");
-      setSearchError(ERROR_MESSAGE[error as keyof typeof ERROR_MESSAGE]);
+      setError(ERROR_MESSAGE[error as keyof typeof ERROR_MESSAGE]);
       return;
     }
 
@@ -45,12 +51,8 @@ export default function SearchForm() {
     }
 
     if (!error) {
-      setSearchError("");
+      setError("");
     }
-  };
-
-  const handleClear = () => {
-    setQ("");
   };
 
   useEffect(() => {
@@ -86,15 +88,16 @@ export default function SearchForm() {
       <Form
         ref={formRef}
         role='search'
-        className={`relative ${searchError ? "border-error!" : ""} max-w-full`}
+        className={`relative ${error ? "border-error!" : ""} max-w-full`}
         icon={{ src: Icon, alt: "Search" }}
         changeHandler={handleChange}
-        error={searchError}
+        error={error ?? ""}
         inputPlaceholder='Search for location'
-        clearHandler={handleClear}
+        clearHandler={() => setQ("")}
+        focusHandler={() => open()}
       />
-      {searchError && (
-        <p className='absolute py-2 text-error text-sm'>{searchError}</p>
+      {error && isOpen && (
+        <p className='absolute py-2 text-error text-sm'>{error}</p>
       )}
     </>
   );

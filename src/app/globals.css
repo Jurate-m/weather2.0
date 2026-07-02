@@ -9,6 +9,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  line-height: 1.5;
 }
 
 @theme {
@@ -22,7 +23,12 @@
   --color-font-2: #2b231a;
   --color-shdw: #50370f;
   --color-error: #6e0707;
-  --color-border: #ecdfc4;
+  --color-border-1: #ecdfc4;
+  --color-border-2: #5a4d3d10;
+}
+
+@utility border-primary {
+  @apply border border-font-1/10;
 }
 
 @utility bg-card-1 {
@@ -80,7 +86,7 @@ body {
   font-family: var(--font-inter), sans-serif;
   font-weight: 500;
   color: var(--color-font-2);
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 body {
