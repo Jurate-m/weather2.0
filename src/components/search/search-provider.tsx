@@ -1,6 +1,6 @@
 "use client";
 
-import {
+import React, {
   createContext,
   useContext,
   useState,
@@ -15,6 +15,8 @@ type SearchCtxType = {
   close: () => void;
   error: null | string;
   setError: React.Dispatch<React.SetStateAction<string>>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const SearchContext = createContext<SearchCtxType | null>(null);
@@ -26,6 +28,7 @@ export default function SearchProvider({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -51,7 +54,9 @@ export default function SearchProvider({
   }, []);
 
   return (
-    <SearchContext.Provider value={{ isOpen, open, close, error, setError }}>
+    <SearchContext.Provider
+      value={{ isOpen, open, close, error, setError, loading, setLoading }}
+    >
       <div ref={wrapperRef}>{children}</div>
     </SearchContext.Provider>
   );

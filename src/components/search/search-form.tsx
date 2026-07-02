@@ -26,9 +26,13 @@ export default function SearchForm() {
   const params = new URLSearchParams(searchParams);
   const location = params.get("location");
 
-  const { isOpen, open, error, setError } = useSearch();
+  const { isOpen, open, error, setError, setLoading } = useSearch();
 
   const handleChange = (val: string) => {
+    if (val) setLoading(true);
+
+    if (!val) setLoading(false);
+
     const { valid, error, sanitized } = validateParam(
       val,
       Q_REGEX,

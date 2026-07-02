@@ -20,7 +20,7 @@ export default function SearchModal({
     document.addEventListener("keydown", onKeyDown);
 
     return () => document.removeEventListener("keydown", onKeyDown);
-  });
+  }, []);
 
   return (
     <>

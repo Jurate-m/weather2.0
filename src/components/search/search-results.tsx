@@ -16,7 +16,7 @@ export default function SearchResults() {
   const q = params.get("q")?.trim() ?? "";
   const controller = new AbortController();
 
-  const { isOpen, error, setError } = useSearch();
+  const { isOpen, close, error, setError, loading } = useSearch();
 
   const disabledResult = (id: string) => params.get("location") === id;
 
@@ -24,6 +24,8 @@ export default function SearchResults() {
     if (!id) return;
 
     router.push(`${path}?location=${encodeURIComponent(id)}`);
+
+    close();
   };
 
   useEffect(() => {
@@ -55,15 +57,24 @@ export default function SearchResults() {
   }, [q]);
 
   if (isOpen) {
-    if (!error) {
-      return (
-        <CtaList
-          data={results}
-          ctaDisabled={disabledResult}
-          onClick={handleClick}
-          className='absolute z-10 top-[calc(100%+10px)] left-0 w-full bg-white border border-secondary md:rounded-xl [&_button]:py-2 [&_button]:hover:bg-primary'
-        />
-      );
-    }
+    return (
+      <>
+        {!error && (
+          <>
+            <CtaList
+              data={results}
+              ctaDisabled={disabledResult}
+              onClick={handleClick}
+              className='absolute z-10 top-[calc(100%+10px)] left-0 w-full bg-white border border-secondary md:rounded-xl [&_button]:py-2 [&_button]:hover:bg-primary'
+            />
+            {loading && !results && (
+              <span className='absolute z-10 top-[calc(100%+10px)] left-0 w-full bg-white border border-secondary md:rounded-xl px-4 py-2'>
+                Searching...
+              </span>
+            )}
+          </>
+        )}
+      </>
+    );
   }
 }
