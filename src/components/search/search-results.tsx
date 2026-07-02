@@ -16,7 +16,7 @@ export default function SearchResults() {
   const q = params.get("q")?.trim() ?? "";
   const controller = new AbortController();
 
-  const { isOpen, close, error, setError } = useSearch();
+  const { isOpen, error, setError } = useSearch();
 
   const disabledResult = (id: string) => params.get("location") === id;
 
@@ -24,8 +24,6 @@ export default function SearchResults() {
     if (!id) return;
 
     router.push(`${path}?location=${encodeURIComponent(id)}`);
-
-    close();
   };
 
   useEffect(() => {

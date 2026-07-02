@@ -17,7 +17,6 @@ import {
 
 export default function SearchForm() {
   const formRef = useRef<FormHandle>(null);
-  const [searchError, setSearchError] = useState("");
   const [q, setQ] = useState("");
 
   const router = useRouter();
@@ -27,7 +26,7 @@ export default function SearchForm() {
   const params = new URLSearchParams(searchParams);
   const location = params.get("location");
 
-  const { isOpen, open, close, error, setError } = useSearch();
+  const { isOpen, open, error, setError } = useSearch();
 
   const handleChange = (val: string) => {
     const { valid, error, sanitized } = validateParam(
@@ -85,13 +84,12 @@ export default function SearchForm() {
       <Form
         ref={formRef}
         role='search'
-        className={`relative ${searchError ? "border-error!" : ""} max-w-full`}
+        className={`relative ${error ? "border-error!" : ""} max-w-full`}
         icon={{ src: Icon, alt: "Search" }}
         changeHandler={handleChange}
         error={error ?? ""}
         inputPlaceholder='Search for location'
         clearHandler={() => setQ("")}
-        blurHandler={() => close()}
         focusHandler={() => open()}
       />
       {error && isOpen && (
