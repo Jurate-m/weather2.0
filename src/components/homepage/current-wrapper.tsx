@@ -46,7 +46,7 @@ export default async function CurrentWrapper({ location }: LocationType) {
   const hourly = forecast.hourly.data.slice(1, 6);
 
   return (
-    <div className='max-w-full w-5xl mx-auto px-4 py-4 grid gap-4'>
+    <div className='grid gap-4'>
       <div className='grid md:grid-cols-12 gap-4'>
         <CurrentDetails
           location={{ name, country }}
