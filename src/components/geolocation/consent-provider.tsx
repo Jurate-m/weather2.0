@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
 type UserConsentType = {
   accept: boolean;
@@ -18,7 +18,7 @@ export const UserConsentCtx = createContext<UserConsentType>({
   handleReject: () => {},
 });
 
-export default function UserConsentWrapper({
+export default function ConsentProvider({
   children,
 }: {
   children: React.ReactNode;
@@ -47,10 +47,17 @@ export default function UserConsentWrapper({
   }, []);
 
   return (
-    <UserConsentCtx
+    <UserConsentCtx.Provider
       value={{ accept, decline, token, handleAccept, handleReject }}
     >
       {children}
-    </UserConsentCtx>
+    </UserConsentCtx.Provider>
   );
+}
+
+export function useConsent() {
+  const ctx = useContext(UserConsentCtx);
+  if (!ctx)
+    throw new Error("useConsent must be used within UserConsentWrapper");
+  return ctx;
 }

@@ -1,16 +1,16 @@
 import { cookies } from "next/headers";
-import { isValidCoords } from "@/_lib/validate";
-import DynamicWrapepr from "./DynamicWrapepr";
+import { validCoords } from "@/_lib/validate";
+import UserConsent from "./UserConsent";
 
 export default async function ClientLocation() {
   const cookie = await cookies();
   const latCookie = cookie.get("lat")?.value;
   const lonCookie = cookie.get("lon")?.value;
 
-  let validCookies: boolean = false;
+  let validCookies = false;
   const cookiesPresent = !!(latCookie && lonCookie);
 
-  if (cookiesPresent) validCookies = isValidCoords(latCookie, lonCookie);
+  if (cookiesPresent) validCookies = validCoords(latCookie, lonCookie);
 
-  return <DynamicWrapepr validCookies={validCookies} />;
+  return <UserConsent cookies={validCookies} />;
 }

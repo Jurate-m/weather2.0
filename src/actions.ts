@@ -1,15 +1,15 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { isValidCoords } from "@/_lib/validate";
+import { validCoords } from "@/_lib/validate";
 
 export async function saveClientCoordsCookie(lat: number, lon: number) {
   const latitude = lat;
   const longitude = lon;
 
-  const validCoords = isValidCoords(latitude, longitude);
+  const valid = validCoords(latitude, longitude);
 
-  if (!validCoords) return;
+  if (!valid) return;
 
   const cookie = await cookies();
 

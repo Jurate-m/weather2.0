@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { saveClientCoordsCookie, deleteClientCoordsCookie } from "@/actions";
-import { UserConsentCtx } from "@/components/geolocation/UserConsentWrapper";
+import { useConsent } from "@/components/geolocation/consent-provider";
 
 export function useCoords(cookiesSet: boolean) {
   const [denied, setDenied] = useState<null | boolean>(null);
   const [code, setCode] = useState<null | string>(null);
-  const { token } = useContext(UserConsentCtx);
+  const { token } = useConsent();
   const permissionRef = useRef<PermissionStatus | null>(null);
   const savedRef = useRef(false);
   const deletedRef = useRef(false);
@@ -34,7 +34,7 @@ export function useCoords(cookiesSet: boolean) {
     }
 
     if (err) {
-      setCode(`${err.code}`);
+      setCode(`err_${err.code}`);
       setDenied(true);
     }
   };
@@ -45,7 +45,7 @@ export function useCoords(cookiesSet: boolean) {
 
   useEffect(() => {
     if (!navigator.geolocation && !navigator.permissions) {
-      setCode("404");
+      setCode("err_404");
       return setDenied(true);
     }
 
@@ -65,5 +65,5 @@ export function useCoords(cookiesSet: boolean) {
     };
   }, [token]);
 
-  return [denied, code];
+  return { denied, code };
 }
