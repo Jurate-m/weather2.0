@@ -12,7 +12,7 @@ export default function RequestConsent({
   denyHandler,
 }: RequestConsentType) {
   return (
-    <Card className='text-center shadow-md shadow-shdw/10 '>
+    <Card className='text-center shadow-md shadow-shdw'>
       <Icon iconId={3} className='w-50 mx-auto' aspectRatio='aspect-2/1' />
       <div className='sm:p-4 w-2xl mx-auto max-w-full'>
         <h1 className='text-2xl pb-4 font-bold'>

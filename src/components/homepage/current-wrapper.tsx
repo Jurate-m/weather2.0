@@ -52,7 +52,7 @@ export default async function CurrentWrapper({ location }: LocationType) {
           location={{ name, country }}
           units={units}
           data={current}
-          className='md:col-span-7 shadow-md shadow-shdw/10'
+          className='md:col-span-7 shadow-md shadow-shdw'
         ></CurrentDetails>
         <div className='md:col-span-5 flex flex-col gap-4'>
           <UvIndex pos={uvIndex} />

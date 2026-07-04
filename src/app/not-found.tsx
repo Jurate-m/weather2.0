@@ -41,7 +41,7 @@ export default function NotFound() {
         </p>
         <Link
           href='/'
-          className='py-2 px-5 text-font-2 font-semibold rounded-full border-2 border-accent hover:bg-accent transition-all duration-50 ease-in shadow-md shadow-shdw/10'
+          className='py-2 px-5 text-font-2 font-semibold rounded-full border-2 border-accent hover:bg-accent transition-all duration-50 ease-in shadow-md shadow-shdw'
         >
           Back to today's forecast
         </Link>

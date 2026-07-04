@@ -43,7 +43,7 @@ export default function Nav() {
             return (
               <li
                 key={name + path + index}
-                className={`${path === pathname ? "bg-white shadow-md shadow-shdw/10" : ""} text-font-1 px-4 py-1 rounded-full hover:text-font-2`}
+                className={`${path === pathname ? "bg-white shadow-md shadow-shdw" : ""} text-font-1 px-4 py-1 rounded-full hover:text-font-2`}
               >
                 <Link
                   href={path}

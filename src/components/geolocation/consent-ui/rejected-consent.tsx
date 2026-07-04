@@ -13,7 +13,7 @@ export default function RejectedConsent({
 }: RejectedConsentType) {
   console.log(message);
   return (
-    <Card className='text-center shadow-md shadow-shdw/10'>
+    <Card className='text-center shadow-md shadow-shdw'>
       <Icon
         iconId={message ? 8 : 6}
         className='w-50 mx-auto'

@@ -36,7 +36,7 @@ export default function Tabs({ data, units }: TabsType) {
   };
 
   return (
-    <Card className='bg-primary overflow-hidden shadow-md shadow-shdw/10'>
+    <Card className='bg-primary overflow-hidden shadow-md shadow-shdw'>
       <h2 className='font-semibold text-lg pb-4'>Next {data.length} hours</h2>
       <Carousel className='mb-4'>
         <ul className='flex py-1' role='tablist' aria-label='Hourly forecast'>
