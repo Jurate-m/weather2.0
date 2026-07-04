@@ -22,6 +22,8 @@ export default async function ForecastWrapper({
     ? await paramsLocation(location)
     : await cookiesLocation(cookie);
 
+  if (!place_id) return;
+
   if (error.code) {
     return (
       <Error>

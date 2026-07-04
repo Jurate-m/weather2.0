@@ -11,7 +11,7 @@ export default function Header() {
     <header className='max-w-full w-5xl mx-auto md:px-5 sticky top-0 md:static z-20'>
       <div className='py-2.5 px-5 flex justify-between gap-2 md:gap-4 bg-primary md:shadow-md shadow-shdw/10 border border-border-2 md:rounded-full '>
         <div className='flex gap-4 items-center'>
-          <Icon iconId={2} className='w-10' aspectRatio='aspect-square' />
+          <Icon iconId={2} className='w-10' />
           <Suspense>
             <Nav />
           </Suspense>

@@ -4,9 +4,6 @@ import type { Metadata } from "next";
 import { Inter, Open_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import SearchProvider from "@/components/search/search-provider";
-import ConsentProvider from "@/components/geolocation/consent-provider";
-import { Suspense } from "react";
-import ClientLocation from "@/components/geolocation/ClientLocation";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -43,11 +40,6 @@ export default function RootLayout({
           <Header />
         </SearchProvider>
         {children}
-        <ConsentProvider>
-          <Suspense>
-            <ClientLocation />
-          </Suspense>
-        </ConsentProvider>
       </body>
     </html>
   );
