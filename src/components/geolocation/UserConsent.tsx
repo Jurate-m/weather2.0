@@ -35,20 +35,24 @@ export default function UserConsent({ cookies }: { cookies: boolean }) {
 
   if (!loaded || location || cookies) return;
 
-  if (token === null) {
-    return (
-      <RequestConsent acceptHandler={handleAccept} denyHandler={handleReject} />
-    );
-  }
-
-  if (denied || token === "0") {
-    return (
-      <RejectedConsent
-        message={
-          code ? LOCATION_ERR_MSG[code as keyof typeof LOCATION_ERR_MSG] : null
-        }
-        acceptHandler={handleAccept}
-      />
-    );
-  }
+  return (
+    <main className='max-w-full w-5xl mx-auto px-5 pt-12'>
+      {token === null && (
+        <RequestConsent
+          acceptHandler={handleAccept}
+          denyHandler={handleReject}
+        />
+      )}
+      {(denied || token === "0") && (
+        <RejectedConsent
+          message={
+            code
+              ? LOCATION_ERR_MSG[code as keyof typeof LOCATION_ERR_MSG]
+              : null
+          }
+          acceptHandler={handleAccept}
+        />
+      )}
+    </main>
+  );
 }
