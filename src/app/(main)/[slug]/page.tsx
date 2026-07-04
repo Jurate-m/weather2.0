@@ -3,11 +3,11 @@ import { Suspense } from "react";
 import { routes } from "@/routes";
 import { notFound } from "next/navigation";
 
-import ForecastLocation from "@/components/params/forecastLocation";
+import ForecastWrapper from "@/components/ForecastWrapper";
 
 export type PageProps = {
   searchParams: Promise<{ location?: string; page?: number }>;
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: "hourly" | "daily" }>;
 };
 
 export async function generateMetadata({
@@ -16,7 +16,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const route = routes.find((r) => r.slug === slug);
 
-  if (!route) return notFound();
+  if (!route) notFound();
 
   return {
     title: route.name,
@@ -35,12 +35,12 @@ export default async function Page({ searchParams, params }: PageProps) {
 
   const route = routes.find((r) => r.slug === slug);
 
-  if (!route) return notFound();
+  if (!route) notFound();
 
   return (
     <main className='max-w-full w-5xl mx-auto px-4 py-4 '>
       <Suspense>
-        <ForecastLocation searchParams={searchParams} param={slug} />
+        <ForecastWrapper searchParams={searchParams} slug={slug} />
       </Suspense>
     </main>
   );

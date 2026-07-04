@@ -10,16 +10,11 @@ export const Q_REGEX = /^[\p{L}\p{N}\s\-,.']+$/u;
 export const LOCATION_REGEX = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 export const MAX_LENGTH = 100;
 
-// export const ERROR_MESSAGE = {
-//   too_short: `Query must contain at least ${MIN_LENGTH} characters`,
-//   too_long: `Query must be under ${Q_MAX_LENGTH} characters`,
-//   invalid_chars: "Your query contains invalid characters",
-// };
-
 export const ERROR_MESSAGE = {
-  too_short: `must contain at least ${MIN_LENGTH} characters`,
-  too_long: `must be under ${Q_MAX_LENGTH} characters`,
-  invalid_chars: "contains invalid characters",
+  too_short: `Your query must contain at least ${MIN_LENGTH} characters`,
+  too_long: `Your query must be under ${Q_MAX_LENGTH} characters`,
+  invalid_chars: "Your query contains invalid characters",
+  not_found: "No results were found based on your query",
 };
 
 export function validateParam(

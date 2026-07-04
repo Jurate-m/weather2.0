@@ -6,7 +6,10 @@ type LocationType = {
   place_id: null | string;
   name: null | string;
   country: null | string;
-  error: null | string;
+  error: {
+    query: null | string;
+    code: null | string;
+  };
 };
 
 export const cookiesLocation = async (cookie: ReadonlyRequestCookies) => {
@@ -14,7 +17,10 @@ export const cookiesLocation = async (cookie: ReadonlyRequestCookies) => {
     place_id: null,
     name: null,
     country: null,
-    error: null,
+    error: {
+      query: null,
+      code: null,
+    },
   };
 
   const latCookie = cookie.get("lat")?.value;
@@ -23,7 +29,7 @@ export const cookiesLocation = async (cookie: ReadonlyRequestCookies) => {
   const coords = validCoords(latCookie, lonCookie);
 
   if (!coords) {
-    location.error = "Coordinates are not valid.";
+    location.error.code = "Coordinates are not valid.";
     return location;
   }
 

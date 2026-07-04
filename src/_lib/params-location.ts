@@ -64,7 +64,10 @@ type LocationType = {
   place_id: null | string;
   name: null | string;
   country: null | string;
-  error: null | string;
+  error: {
+    query: null | string;
+    code: null | string;
+  };
 };
 
 export const paramsLocation = async (param: string) => {
@@ -72,13 +75,17 @@ export const paramsLocation = async (param: string) => {
     place_id: null,
     name: null,
     country: null,
-    error: null,
+    error: {
+      query: null,
+      code: null,
+    },
   };
 
   const sanitized = sanitize(param);
 
   if (!sanitized) {
-    location.error = "too_short";
+    location.error.code = "too_short";
+    location.error.query = param.toString();
     return location;
   }
 
@@ -90,12 +97,18 @@ export const paramsLocation = async (param: string) => {
   );
 
   if (invalid.message) {
-    location.error = invalid.message;
+    location.error.code = invalid.message;
     return location;
   }
 
   const places = await findPlaces(sanitized);
   const match = places?.find((p: any) => p.place_id === sanitized);
+
+  if (!match) {
+    location.error.code = "not_found";
+    location.error.query = sanitized;
+    return location;
+  }
 
   const { name, place_id, country } = match;
 

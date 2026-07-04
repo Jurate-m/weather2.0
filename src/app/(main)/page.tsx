@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import Current from "@/components/homepage/current";
+
+import ForecastWrapper from "@/components/ForecastWrapper";
 
 export default async function Home({
   searchParams,
@@ -7,9 +8,9 @@ export default async function Home({
   searchParams: Promise<{ location?: string }>;
 }) {
   return (
-    <main>
+    <main className='max-w-full w-5xl mx-auto px-4 py-4'>
       <Suspense>
-        <Current params={searchParams} />
+        <ForecastWrapper searchParams={searchParams} />
       </Suspense>
     </main>
   );
