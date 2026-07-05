@@ -3,7 +3,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Open_Sans } from "next/font/google";
 import Header from "@/components/Header";
-import SearchProvider from "@/components/search/search-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -36,9 +35,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${openSans.variable} antialiased md:py-4`}
       >
-        <SearchProvider>
-          <Header />
-        </SearchProvider>
+        <Header />
         {children}
       </body>
     </html>

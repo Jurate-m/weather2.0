@@ -36,14 +36,14 @@ export default function Nav() {
         />
       </div>
       <div
-        className={`${open ? "block" : "hidden xs:contents"} absolute z-10 xs:static left-0 top-[calc(100%-1px)] w-full px-5 xs:px-0 pb-4 pt-2 xs:py-0 bg-primary border-b border-border-2 xs:border-0`}
+        className={`${open ? "block" : "hidden xs:contents"} absolute z-10 xs:static left-0 top-[calc(100%-1px)] w-full px-5 xs:px-0 pb-4 pt-2 xs:py-0 bg-primary`}
       >
-        <ul className='flex w-fit py-1 px-1 bg-secondary rounded-full'>
+        <ul className='flex w-fit py-1 px-1 bg-secondary rounded-full border border-border'>
           {routes.map(({ name, path }, index) => {
             return (
               <li
                 key={name + path + index}
-                className={`${path === pathname ? "bg-white shadow-md shadow-shdw/10" : ""} text-font-1 px-4 py-1 rounded-full hover:text-font-2`}
+                className={`${path === pathname ? "bg-white dark:bg-[#2e2519] shadow-md shadow-shdw" : ""} text-font-secondary px-4 py-1 rounded-full hover:text-font-primary`}
               >
                 <Link
                   href={path}

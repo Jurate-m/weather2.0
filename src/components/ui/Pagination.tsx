@@ -1,8 +1,6 @@
 "use client";
 import { useSearchParams, usePathname } from "next/navigation";
-import Image from "next/image";
-import Button from "./Button-old";
-import Arrow from "@/assets/arrow_down.svg";
+import Link from "next/link";
 
 type PaginationType = {
   title: {
@@ -11,6 +9,29 @@ type PaginationType = {
   };
   page: number;
   totalPages: number;
+};
+
+const PaginationItem = ({
+  children,
+  href,
+  className,
+}: {
+  children: React.ReactNode;
+  href: string;
+  className?: string;
+}) => {
+  return (
+    <Link
+      href={href}
+      className={[
+        "hover:bg-accent focus:bg-accent hover:text-[#1a1612] focus:text-[#1a1612] text-font-primary border border-accent py-2 px-4 font-bold text-sm rounded-full transition-all duration-150 ease-in-out",
+        className,
+      ].join(" ")}
+      prefetch={false}
+    >
+      {children}
+    </Link>
+  );
 };
 
 export default function Pagination({
@@ -28,24 +49,16 @@ export default function Pagination({
   };
 
   return (
-    <div className='flex gap-6 py-6 px-4'>
+    <div className='flex gap-4 py-6'>
       {page > 1 && (
-        <Button
-          href={buildHref(page - 1)}
-          title={title.prev}
-          className='mr-auto flex! flex-row-reverse pl-2 bg-transparent!'
-        >
-          <Image src={Arrow} alt='' className='rotate-90' aria-hidden='true' />
-        </Button>
+        <PaginationItem href={buildHref(page - 1)} className='mr-auto'>
+          {title.prev}
+        </PaginationItem>
       )}
       {page < totalPages && (
-        <Button
-          href={buildHref(page + 1)}
-          title={title.next}
-          className='ml-auto flex! pr-2 bg-transparent!'
-        >
-          <Image src={Arrow} alt='' className='-rotate-90' aria-hidden='true' />
-        </Button>
+        <PaginationItem href={buildHref(page + 1)} className='ml-auto'>
+          {title.next}
+        </PaginationItem>
       )}
     </div>
   );

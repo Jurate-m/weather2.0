@@ -13,15 +13,12 @@ export default function NotFound() {
   return (
     <>
       <section className='max-w-full w-xl mx-auto px-4 py-20 text-center'>
-        <h1 className='pb-5 font-bold text-font-2 text-2xl'>
+        <h1 className='pb-5 font-bold text-font-primary text-2xl'>
           Error
-          <span
-            className='flex justify-center items-center text-8xl bg-font-2 [-webkit-text-fill-color:white] bg-clip-text 
-    [-webkit-text-stroke-width:4px] text-transparent leading-none py-2'
-          >
+          <span className='flex justify-center items-center text-8xl bg-font-primary py-2 bg-clip-text'>
             {[...ERROR_CODE].map((letter) =>
               letter === "0" ? (
-                <span className='block relative text-white'>
+                <span className='block relative text-transparent'>
                   {letter}
                   <Icon
                     iconId={2}
@@ -30,7 +27,12 @@ export default function NotFound() {
                   />
                 </span>
               ) : (
-                letter
+                <span
+                  className='[-webkit-text-fill-color:white] dark:[-webkit-text-fill-color:var(--color-primary)]
+    [-webkit-text-stroke-width:4px] text-transparent leading-none'
+                >
+                  {letter}
+                </span>
               ),
             )}
           </span>
@@ -41,7 +43,7 @@ export default function NotFound() {
         </p>
         <Link
           href='/'
-          className='py-2 px-5 text-font-2 font-semibold rounded-full border-2 border-accent hover:bg-accent transition-all duration-50 ease-in shadow-md shadow-shdw/10'
+          className='py-2 px-5 text-font-primary font-semibold rounded-full border-2 border-accent hover:bg-accent transition-all duration-50 ease-in shadow-md shadow-shdw'
         >
           Back to today's forecast
         </Link>

@@ -5,6 +5,10 @@ import drop from "@/assets/drop.svg";
 import temp from "@/assets/temp.svg";
 import windIcon from "@/assets/wind.svg";
 
+import Drop from "../ui/icons/Drop";
+import Temp from "../ui/icons/Temp";
+import Wind from "../ui/icons/Wind";
+
 import ForecastDetailsItem from "./foreacst-details-list";
 
 import Icon from "../ui/Icon";
@@ -16,25 +20,25 @@ const forecastDetails = (item: any, units: string) => {
       name: "Feels like",
       val: Math.round(feels_like),
       unit: getUnits(units, "temperature"),
-      icon: temp,
+      icon: <Temp fill='var(--color-font-primary)' />,
     },
     {
       name: "Wind",
       val: Math.round(wind.speed),
       unit: `${getUnits(units, "speed")} ${wind.dir}`,
-      icon: windIcon,
+      icon: <Wind fill='var(--color-font-primary)' />,
     },
     {
       name: "Humidity",
       val: Math.round(humidity),
       unit: getUnits(units, "humidity"),
-      icon: drop,
+      icon: <Drop fill='var(--color-font-primary)' />,
     },
     {
       name: "Precipitation",
       val: Math.round(precipitation.total),
       unit: getUnits(units, "humidity"),
-      icon: drop,
+      icon: <Drop fill='var(--color-font-primary)' />,
     },
   ];
 };
@@ -86,7 +90,8 @@ export default function TabsContent({
                     <ForecastDetailsItem
                       key={i}
                       item={detail}
-                      className='bg-white'
+                      icon={detail.icon}
+                      className='bg-elevated'
                     />
                   );
                 })}

@@ -60,19 +60,19 @@ export default function SearchResults() {
     return (
       <>
         {!error && (
-          <>
+          <div className='absolute z-10 top-[calc(100%+5px)] left-0 w-full bg-elevated border border-border md:rounded-xl shadow-md shadow-shdw overflow-hidden'>
             <CtaList
               data={results}
               ctaDisabled={disabledResult}
               onClick={handleClick}
-              className='absolute z-10 top-[calc(100%+10px)] left-0 w-full bg-white border border-secondary md:rounded-xl [&_button]:py-2 [&_button]:hover:bg-primary'
+              className='[&_button]:py-2 [&_button]:hover:bg-primary'
             />
             {loading && !results && (
-              <span className='absolute z-10 top-[calc(100%+10px)] left-0 w-full bg-white border border-secondary md:rounded-xl px-4 py-2'>
+              <span className='block md:rounded-xl px-4 py-2'>
                 Searching...
               </span>
             )}
-          </>
+          </div>
         )}
       </>
     );

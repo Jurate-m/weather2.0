@@ -6,10 +6,9 @@ type CardType = {
 export default function Card({ children, className, ...props }: CardType) {
   return (
     <div
-      className={[
-        "rounded-xl py-5 px-5 border border-font-1/10",
-        className,
-      ].join(" ")}
+      className={["rounded-xl py-5 px-5 border border-border", className].join(
+        " ",
+      )}
       {...props}
     >
       {children}

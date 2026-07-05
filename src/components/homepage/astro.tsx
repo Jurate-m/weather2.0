@@ -11,7 +11,7 @@ export default async function Astro({ placeId }: { placeId: string }) {
   const sun = data?.sun;
 
   return (
-    <Card className='shadow-md shadow-shdw/10'>
+    <Card className='shadow-md shadow-shdw bg-primary'>
       {sun && (
         <div className='flex gap-4 items-center'>
           <Icon iconId={2} className='h-20' />

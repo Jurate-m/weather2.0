@@ -8,12 +8,11 @@ import {
 } from "@/utils/functions";
 import ForecastDetailsItem from "./foreacst-details-list";
 import Icon from "../ui/Icon";
-
-import eye from "@/assets/eye.svg";
-import drop from "@/assets/drop.svg";
-import temp from "@/assets/temp.svg";
-import press from "@/assets/press.svg";
-import windIcon from "@/assets/wind.svg";
+import Drop from "../ui/icons/Drop";
+import Temp from "../ui/icons/Temp";
+import Wind from "../ui/icons/Wind";
+import Eye from "../ui/icons/Eye";
+import Press from "../ui/icons/Press";
 
 type CurrentDetailsType = {
   location: {
@@ -30,7 +29,6 @@ export default async function CurrentDetails({
   units,
   data,
   className,
-  ...props
 }: CurrentDetailsType & React.HTMLAttributes<HTMLDivElement>) {
   const {
     date,
@@ -50,41 +48,40 @@ export default async function CurrentDetails({
       name: "Feels like",
       val: Math.round(feels_like),
       unit: getUnits(units, "temperature"),
-      icon: temp,
+      icon: <Temp fill='var(--color-font-primary)' />,
     },
     {
       name: "Wind",
       val: Math.round(wind.speed),
       unit: `${getUnits(units, "speed")} ${wind.dir}`,
-      icon: windIcon,
+      icon: <Wind fill='var(--color-font-primary)' />,
     },
     {
       name: "Humidity",
       val: Math.round(humidity),
       unit: getUnits(units, "humidity"),
-      icon: drop,
+      icon: <Drop fill='var(--color-font-primary)' />,
     },
     {
       name: "Precipitation",
       val: Math.round(precipitation.total),
       unit: getUnits(units, "humidity"),
-      icon: drop,
+      icon: <Drop fill='var(--color-font-primary)' />,
     },
     {
       name: "Visibility",
       val: Math.round(visibility),
       unit: getUnits(units, "visibility"),
-      icon: eye,
+      icon: <Eye fill='var(--color-font-primary)' />,
     },
     {
       name: "Pressure",
       val: Math.round(pressure),
       unit: getUnits(units, "pressure"),
-      icon: press,
+      icon: <Press fill='var(--color-font-primary)' />,
     },
   ];
 
-  // const weekday = getWeekday(date)[1];
   const weekday = weekDays[getDayOfWeek(date)][1];
 
   const month = getMonth(date)[1];
@@ -94,7 +91,7 @@ export default async function CurrentDetails({
     <>
       <Card className={["bg-card-1 overflow-hidden", className].join(" ")}>
         <div className='xs:grid grid-cols-5 pb-4 relative'>
-          <div className='col-span-3 flex flex-col justify-between relative z-10'>
+          <div className='col-span-3 flex flex-col justify-between relative z-10 '>
             <div>
               <h1 className='font-semibold'>
                 {location.name}, {location.country}
@@ -115,18 +112,21 @@ export default async function CurrentDetails({
           </div>
           <Icon
             iconId={icon}
-            className='absolute xs:static right-[-30%] bottom-4 w-full col-span-2 mt-auto'
+            className='absolute xs:static -right-25 bottom-4 w-full col-span-2 mt-auto'
             aspectRatio='aspect-2/1'
           />
         </div>
         <ul className='grid xs:grid-cols-2 gap-2'>
-          {details.map((item) => (
-            <ForecastDetailsItem
-              key={item.name}
-              item={item}
-              className='bg-white/50'
-            />
-          ))}
+          {details.map((item) => {
+            return (
+              <ForecastDetailsItem
+                key={item.name}
+                item={item}
+                icon={item.icon}
+                className='bg-elevated'
+              />
+            );
+          })}
         </ul>
       </Card>
     </>

@@ -36,7 +36,7 @@ export default function Tabs({ data, units }: TabsType) {
   };
 
   return (
-    <Card className='bg-primary overflow-hidden shadow-md shadow-shdw/10'>
+    <Card className='bg-primary overflow-hidden shadow-md shadow-shdw'>
       <h2 className='font-semibold text-lg pb-4'>Next {data.length} hours</h2>
       <Carousel className='mb-4'>
         <ul className='flex py-1' role='tablist' aria-label='Hourly forecast'>
@@ -49,7 +49,7 @@ export default function Tabs({ data, units }: TabsType) {
                   label={TabContent(item)}
                   className={[
                     active === index
-                      ? " border-accent! bg-white hover:bg-white"
+                      ? " border-accent! bg-elevated hover:bg-elevated"
                       : undefined,
                     "px-2 py-2 rounded-xl border-2 border-transparent w-full hover:-translate-y-1 hover:bg-secondary transition-all duration-100 ease-in",
                   ].join(" ")}

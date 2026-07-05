@@ -36,7 +36,7 @@ export default function GradientBar({
     >
       <span
         className={[
-          "block w-6 h-6 top-[50%] -translate-y-[50%] -translate-x-[50%] absolute rounded-full border-4 border-black bg-white",
+          "block w-6 h-6 top-[50%] -translate-y-[50%] -translate-x-[50%] absolute rounded-full border-4 border-black dark:border-white bg-white",
           posClass,
         ].join(" ")}
       ></span>
