@@ -23,7 +23,7 @@ export default function SearchButton() {
     <Button
       label={label}
       onClick={open}
-      className='block bg-secondary rounded-full relative h-10 w-10 md:hidden border border-border-2 focus:bg-border-2 hover:bg-border-2'
+      className='block bg-secondary rounded-full relative h-10 w-10 md:hidden'
       aria-label='Open search'
     />
   );

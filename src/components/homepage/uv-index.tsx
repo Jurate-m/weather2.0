@@ -16,7 +16,7 @@ export default function UvIndex({
   );
 
   return (
-    <Card className={["shadow-md shadow-shdw", className].join(" ")}>
+    <Card className={["shadow-md shadow-shdw bg-primary", className].join(" ")}>
       <div className='flex justify-between'>
         <h2 className='font-semibold text-lg'>UV Index</h2>
         <p className='text-sm'>{uvIndex && uvIndex[0].category}</p>

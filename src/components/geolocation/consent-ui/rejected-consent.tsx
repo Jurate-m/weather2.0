@@ -11,7 +11,6 @@ export default function RejectedConsent({
   message,
   acceptHandler,
 }: RejectedConsentType) {
-  console.log(message);
   return (
     <Card className='text-center shadow-md shadow-shdw'>
       <Icon

@@ -63,13 +63,13 @@ export default function AccordionContent({
   ];
 
   return (
-    <ul className='flex flex-wrap bg-secondary py-4 px-4 border-t border-border-1 gap-y-2 sm:gap-x-2 sm:justify-between'>
+    <ul className='flex flex-wrap bg-secondary py-4 px-4 border-t border-border gap-y-2 sm:gap-x-2 sm:justify-between'>
       {details.map((item) => {
         if (item) {
           const { title, val, units } = item;
           return (
             <li key={title} className='w-1/2 sm:w-auto'>
-              <h3 className='text-sm text-font-1 font-bold'>
+              <h3 className='text-sm text-font-secondary font-bold'>
                 {title.toUpperCase()}
               </h3>
               <p className='font-bold'>

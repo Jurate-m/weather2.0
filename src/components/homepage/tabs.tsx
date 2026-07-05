@@ -49,7 +49,7 @@ export default function Tabs({ data, units }: TabsType) {
                   label={TabContent(item)}
                   className={[
                     active === index
-                      ? " border-accent! bg-white hover:bg-white"
+                      ? " border-accent! bg-elevated hover:bg-elevated"
                       : undefined,
                     "px-2 py-2 rounded-xl border-2 border-transparent w-full hover:-translate-y-1 hover:bg-secondary transition-all duration-100 ease-in",
                   ].join(" ")}

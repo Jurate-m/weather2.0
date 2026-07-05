@@ -27,12 +27,12 @@ export default function RequestConsent({
           <Button
             onClick={denyHandler}
             label='No thanks'
-            className='block py-2 px-4 rounded-lg border-2 border-red-700 text-font-2 hover:bg-red-700 hover:text-white focus:bg-red-700 focus:text-white font-semibold text-semibold'
+            className='block py-2 px-4 rounded-lg border-2 border-red-700 text-font-primary hover:bg-red-700 hover:text-white focus:bg-red-700 focus:text-white font-semibold text-semibold'
           />
           <Button
             onClick={acceptHandler}
             label='Allow'
-            className='block py-2 px-4 rounded-lg border-2 border-green-700  text-font-2 hover:bg-green-700 hover:text-white focus:bg-green-700 focus:text-white font-semibold text-semibold'
+            className='block py-2 px-4 rounded-lg border-2 border-green-700  text-font-primary hover:bg-green-700 hover:text-white focus:bg-green-700 focus:text-white font-semibold text-semibold'
           />
         </div>
       </div>

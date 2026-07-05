@@ -39,7 +39,7 @@ export default async function ForecastListing({
         <h1 className='text-4xl font-semibold pb-2'>{title}</h1>
         <p className='text-sm font-light'>{subtitle}</p>
       </div>
-      <div className='rounded-xl border border-font-1/10 overflow-hidden'>
+      <div className='rounded-xl border border-border overflow-hidden'>
         <div>
           {data.map((item: any, i: number) => {
             return (
@@ -58,8 +58,8 @@ export default async function ForecastListing({
                 content={
                   <AccordionContent data={item} units={units} param={param} />
                 }
-                className='border-b border-border-1 last:border-b-0 [&>button]:hover:bg-secondary [&_img]:transition-transform [&_img]:duration-75 [&_img]:ease-in'
-                activeStyles='[&_img]:rotate-90'
+                className='border-b border-border last:border-b-0 [&>button]:hover:bg-secondary [&_.chevron]:transition-transform [&_.chevron]:duration-75 [&_.chevron]:ease-in'
+                activeStyles='[&_.chevron]:rotate-90'
               />
             );
           })}
