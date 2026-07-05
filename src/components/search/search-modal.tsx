@@ -28,7 +28,7 @@ export default function SearchModal({
         role='dialog'
         className={[
           isOpen ? "block" : "hidden",
-          "fixed md:hidden inset-0 z-10 bg-black/20 blur-sm",
+          "fixed md:hidden inset-0 z-10 bg-black/80",
         ].join(" ")}
         onClick={close}
       ></div>
