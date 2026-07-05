@@ -8,6 +8,8 @@ import { useSearch } from "./search-provider";
 
 import { useEffect, useState } from "react";
 
+import FloatingContainer from "../ui/floating-container";
+
 export default function SearchResults() {
   const [results, setResults] = useState<null | []>(null);
   const params = useSearchParams();
@@ -60,19 +62,20 @@ export default function SearchResults() {
     return (
       <>
         {!error && (
-          <div className='absolute z-10 top-[calc(100%+5px)] left-0 w-full bg-elevated border border-border md:rounded-xl shadow-md shadow-shdw overflow-hidden'>
-            <CtaList
-              data={results}
-              ctaDisabled={disabledResult}
-              onClick={handleClick}
-              className='[&_button]:py-2 [&_button]:hover:bg-primary'
-            />
-            {loading && !results && (
+          <FloatingContainer
+            components={[
+              <CtaList
+                data={results}
+                ctaDisabled={disabledResult}
+                onClick={handleClick}
+                className='[&_button]:py-2 [&_button]:hover:bg-primary'
+              />,
               <span className='block md:rounded-xl px-4 py-2'>
                 Searching...
-              </span>
-            )}
-          </div>
+              </span>,
+            ]}
+            displayCondition={[!!results, loading && !results]}
+          />
         )}
       </>
     );

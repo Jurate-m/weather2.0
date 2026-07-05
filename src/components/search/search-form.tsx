@@ -5,8 +5,8 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 import Form, { FormHandle } from "../ui/form";
 import { useSearch } from "./search-provider";
-
 import Search from "../ui/icons/Search";
+import FloatingContainer from "../ui/floating-container";
 
 import {
   validateParam,
@@ -97,9 +97,11 @@ export default function SearchForm() {
         focusHandler={() => open()}
         icon={<Search fill='var(--color-font-primary)' />}
       />
-      {error && isOpen && (
-        <p className='absolute py-2 text-error text-sm'>{error}</p>
-      )}
+      <FloatingContainer
+        components={[<p className='text-white text-sm px-4 py-2'>{error}</p>]}
+        displayCondition={[!!error && isOpen]}
+        className='bg-error'
+      />
     </>
   );
 }
