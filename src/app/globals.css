@@ -18,6 +18,7 @@
     --font-sans: var(--font-sans), sans-serif;
     --breakpoint-xs: 430px;
 
+    --color-backdrop: var(--bg);
     --color-primary: #fffbf2;
     --color-secondary: #f4ecdb;
     --color-elevated: #ffffff50;
