@@ -4,8 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 import Form, { FormHandle } from "../ui/form";
-import Icon from "@/assets/search-icon.svg";
 import { useSearch } from "./search-provider";
+
+import Search from "../ui/icons/Search";
 
 import {
   validateParam,
@@ -89,12 +90,12 @@ export default function SearchForm() {
         ref={formRef}
         role='search'
         className={`relative ${error ? "border-error!" : ""} max-w-full`}
-        icon={{ src: Icon, alt: "Search" }}
         changeHandler={handleChange}
         error={error ?? ""}
         inputPlaceholder='Search for location'
         clearHandler={() => setQ("")}
         focusHandler={() => open()}
+        icon={<Search fill='var(--color-font-primary)' />}
       />
       {error && isOpen && (
         <p className='absolute py-2 text-error text-sm'>{error}</p>

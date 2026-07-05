@@ -7,8 +7,8 @@ import {
   time,
   getUnits,
 } from "@/utils/functions";
-import chevron from "@/assets/chevron.svg";
 import Icon from "../ui/Icon";
+import Chevron from "../ui/icons/Chevron";
 
 type AccordionLabelType = {
   data: any;
@@ -33,7 +33,7 @@ export default function AccordionLabel({
 
   return (
     <div className='py-4 px-4'>
-      <div className='flex gap-2'>
+      <div className='flex gap-2 items-center'>
         <div className='flex justify-between flex-1 items-center pb-2 sm:pb-0'>
           <div className='flex gap-2 sm:gap-4 text-left items-center'>
             <Icon iconId={icon} className='h-10 sm:h-12 sm:hidden' />
@@ -50,7 +50,7 @@ export default function AccordionLabel({
             {temperature_min && (
               <span>
                 {Math.round(temperature_max)}/
-                <span className='text-font-1'>
+                <span className='text-font-secondary'>
                   {Math.round(temperature_min)}
                 </span>
               </span>
@@ -59,7 +59,11 @@ export default function AccordionLabel({
             <span className='text-sm'>{getUnits(units, "temperature")}</span>
           </span>
         </div>
-        <Image src={chevron} alt='chevron' aria-hidden='true' />
+        <Chevron
+          fill='var(--color-accent)'
+          className='chevron'
+          aria-hidden='true'
+        />
       </div>
       <span className='font-medium text-left text-sm block sm:hidden'>
         {description}
