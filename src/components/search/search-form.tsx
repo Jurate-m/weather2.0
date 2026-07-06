@@ -40,6 +40,8 @@ export default function SearchForm() {
   const handleChange = (val: string) => {
     if (val) setLoading(true);
 
+    if (!val) setLoading(false);
+
     const { valid, error, sanitized } = validateParam(
       val,
       Q_REGEX,
