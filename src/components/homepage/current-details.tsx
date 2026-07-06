@@ -16,8 +16,8 @@ import Press from "../ui/icons/Press";
 
 type CurrentDetailsType = {
   location: {
-    name: string;
-    country: string;
+    name: string | null;
+    country: string | null;
   };
   units: string;
   data: any;

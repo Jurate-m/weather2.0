@@ -44,8 +44,8 @@ export default async function ForecastWrapper({
         {slug && (
           <ForecastListing
             location_id={place_id}
-            name={name}
-            country={country}
+            name={name ?? undefined}
+            country={country ?? undefined}
             page={page ?? 1}
             param={slug}
           />

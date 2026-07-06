@@ -8,8 +8,8 @@ import Tabs from "./tabs";
 type LocationType = {
   location: {
     place_id: string;
-    name: string;
-    country: string;
+    name: string | null;
+    country: string | null;
   };
 };
 

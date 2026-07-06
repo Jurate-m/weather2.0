@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { Suspense } from "react";
-import Button from "@/components/ui/Button-old";
+import Link from "next/link";
 
 const ERROR_MESSAGE = {
   ip: "You have made too many requests. Please wait a moment before searching again.",
@@ -17,7 +17,9 @@ async function SomethingWentWrong() {
     <section className='h-screen flex flex-col items-center justify-center'>
       <h1 className='text-8xl font-bold pb-5'>Oh no!</h1>
       <p className='text-2xl font-semibold text-center pb-6'>{message}</p>
-      <Button href='/' title='Return Home' />
+      <Link href='/' prefetch={false}>
+        Return Home
+      </Link>
     </section>
   );
 }
