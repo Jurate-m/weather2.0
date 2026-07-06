@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
-import Form, { FormHandle } from "../ui/form";
+import Form from "../ui/form";
 import { useSearch } from "./search-provider";
-
 import Search from "../ui/icons/Search";
+import FloatingContainer from "../ui/floating-container";
 
 import {
   validateParam,
@@ -17,9 +17,7 @@ import {
 } from "@/_lib/validate";
 
 export default function SearchForm() {
-  const formRef = useRef<FormHandle>(null);
-  const [q, setQ] = useState("");
-
+  const query = useRef("");
   const router = useRouter();
   const path = usePathname();
   const searchParams = useSearchParams();
@@ -28,6 +26,16 @@ export default function SearchForm() {
   const location = params.get("location");
 
   const { isOpen, open, error, setError, setLoading } = useSearch();
+
+  const navigateQuery = (query: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (query) params.set("q", encodeURIComponent(query));
+
+    if (!query) params.delete("q");
+
+    router.replace(`${path}?${params.toString()}`);
+  };
 
   const handleChange = (val: string) => {
     if (val) setLoading(true);
@@ -42,64 +50,59 @@ export default function SearchForm() {
     );
 
     if (error) {
-      setQ("");
+      query.current = "";
       setError(ERROR_MESSAGE[error as keyof typeof ERROR_MESSAGE]);
       return;
     }
 
-    if (valid && sanitized) {
-      setQ(sanitized);
+    setError("");
+
+    query.current = valid && sanitized ? sanitized : "";
+
+    if (timer.current) clearTimeout(timer.current);
+
+    if (!query.current) {
+      navigateQuery("");
+      return;
     }
 
-    if (!error) {
-      setError("");
-    }
+    timer.current = setTimeout(() => {
+      navigateQuery(query.current);
+    }, 1000);
+  };
+
+  const handleClear = () => {
+    query.current = "";
+    if (timer.current) clearTimeout(timer.current);
+    setError("");
+    setLoading(false);
+    navigateQuery("");
   };
 
   useEffect(() => {
-    if (!q && params.get("q")) {
-      params.delete("q");
-      router.replace(`${path}?${params.toString()}`);
-    }
-
-    if (!q) return;
-
-    // set Timeout
-    timer.current = setTimeout(() => {
-      // if q param exists - set a param prop
-      if (q) params.set("q", encodeURIComponent(q));
-      // triger client navigation
-      router.replace(`${path}?${params.toString()}`);
-    }, 1000);
-
-    // cleanup
     return () => {
-      // clear timer
       if (timer.current) clearTimeout(timer.current);
     };
-  }, [q]);
-
-  useEffect(() => {
-    if (q) setQ("");
-    formRef.current?.setValue("");
-  }, [location]);
+  }, []);
 
   return (
     <>
       <Form
-        ref={formRef}
+        key={`${path}?${location ?? ""}`}
         role='search'
         className={`relative ${error ? "border-error!" : ""} max-w-full`}
         changeHandler={handleChange}
         error={error ?? ""}
         inputPlaceholder='Search for location'
-        clearHandler={() => setQ("")}
+        clearHandler={handleClear}
         focusHandler={() => open()}
         icon={<Search fill='var(--color-font-primary)' />}
       />
-      {error && isOpen && (
-        <p className='absolute py-2 text-error text-sm'>{error}</p>
-      )}
+      <FloatingContainer
+        components={[<p className='text-white text-sm px-4 py-2'>{error}</p>]}
+        displayCondition={[!!error && isOpen]}
+        className='bg-error'
+      />
     </>
   );
 }

@@ -26,11 +26,8 @@ export default function UserConsent({ cookies }: { cookies: boolean }) {
   const params = useSearchParams();
   const location = params.get("location");
 
-  // Hydration mismatch hotfix
   useEffect(() => {
     setLoaded(true);
-
-    return () => setLoaded(false);
   }, [token]);
 
   if (!loaded || location || cookies) return;

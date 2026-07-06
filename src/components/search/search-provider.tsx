@@ -38,11 +38,9 @@ export default function SearchProvider({
   const clickOut = (e: MouseEvent) => {
     const target = wrapperRef.current?.contains(e.target as Node);
 
-    if (target) {
-      return open();
+    if (!target) {
+      return close();
     }
-
-    return close();
   };
 
   useEffect(() => {

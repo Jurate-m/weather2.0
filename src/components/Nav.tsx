@@ -25,6 +25,7 @@ export default function Nav() {
     if (query) params.delete("q");
 
     router.push(`${url}?${params.toString()}`);
+    setOpen(false);
   };
 
   return (
