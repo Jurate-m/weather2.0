@@ -1,15 +1,9 @@
 "use client";
 
-import { useState, useEffect, useImperativeHandle } from "react";
-import { usePathname } from "next/navigation";
+import { useState } from "react";
 import Button from "@/components/ui/Button";
 
-export interface FormHandle {
-  setValue: (val: string) => void;
-}
-
 interface FormProps {
-  ref?: React.Ref<FormHandle>;
   changeHandler: (val: string) => void;
   focusHandler?: () => void;
   blurHandler?: () => void;
@@ -21,7 +15,6 @@ interface FormProps {
 }
 
 export default function Form({
-  ref,
   changeHandler,
   focusHandler,
   blurHandler,
@@ -32,11 +25,6 @@ export default function Form({
   ...props
 }: FormProps) {
   const [input, setInput] = useState("");
-  const pathname = usePathname();
-
-  useImperativeHandle(ref, () => ({
-    setValue: (val: string) => setInput(val),
-  }));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -51,11 +39,6 @@ export default function Form({
 
     return clearHandler();
   };
-
-  useEffect(() => {
-    setInput("");
-  }, [pathname]);
-
   return (
     <form onSubmit={(e) => e.preventDefault()} {...props}>
       <span

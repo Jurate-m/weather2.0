@@ -20,7 +20,7 @@ export default function SearchModal({
     document.addEventListener("keydown", onKeyDown);
 
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [!isOpen]);
 
   return (
     <>
@@ -28,7 +28,7 @@ export default function SearchModal({
         role='dialog'
         className={[
           isOpen ? "block" : "hidden",
-          "fixed md:hidden inset-0 z-10 bg-black/80",
+          "fixed md:hidden inset-0 z-10 bg-backdrop/90",
         ].join(" ")}
         onClick={close}
       ></div>

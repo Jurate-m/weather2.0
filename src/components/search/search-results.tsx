@@ -16,6 +16,7 @@ export default function SearchResults() {
   const path = usePathname();
   const router = useRouter();
   const q = params.get("q")?.trim() ?? "";
+
   const controller = new AbortController();
 
   const { isOpen, close, error, setError, loading } = useSearch();
@@ -32,7 +33,8 @@ export default function SearchResults() {
 
   useEffect(() => {
     if (!q) {
-      return setResults(null);
+      setResults(null);
+      return;
     }
 
     fetch(`/api/locations?q=${encodeURIComponent(q)}`, {
