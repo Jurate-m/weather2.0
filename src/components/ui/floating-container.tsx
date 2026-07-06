@@ -1,5 +1,7 @@
 // it works
 
+import { Fragment } from "react/jsx-runtime";
+
 export default function FloatingContainer({
   components,
   displayCondition,
@@ -20,11 +22,11 @@ export default function FloatingContainer({
     >
       {components.length &&
         components.map((component, i) => (
-          <>
+          <Fragment key={i}>
             {displayCondition[i] && (
               <div className='border border-border'>{component}</div>
             )}
-          </>
+          </Fragment>
         ))}
     </div>
   );
