@@ -5,8 +5,8 @@ import AccordionContent from "./accordionContent";
 import AccordionLabel from "./accordionLabel";
 
 type ForecastListingType = {
-  name: string;
-  country: string;
+  name?: string;
+  country?: string;
   location_id: string;
   param: "daily" | "hourly";
   page: number;
