@@ -38,9 +38,9 @@ export default function SearchForm() {
   };
 
   const handleChange = (val: string) => {
-    if (val) setLoading(true);
+    if (!val) handleClear();
 
-    if (!val) setLoading(false);
+    setLoading(true);
 
     const { valid, error, sanitized } = validateParam(
       val,
