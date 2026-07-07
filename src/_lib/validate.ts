@@ -50,7 +50,6 @@ export function validateParam(
 }
 
 const blankCoordsVal = (val: unknown) =>
-  !val ||
   (typeof val !== "string" && typeof val !== "number") ||
   (typeof val === "string" && !val.trim());
 
