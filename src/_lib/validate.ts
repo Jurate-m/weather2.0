@@ -49,9 +49,12 @@ export function validateParam(
   return { valid: true, sanitized: q.toLowerCase() };
 }
 
-// export function isValidCoords(lat: unknown, lon: unknown): boolean {
+const blankCoordsVal = (val: unknown) =>
+  (typeof val !== "string" && typeof val !== "number") ||
+  (typeof val === "string" && !val.trim());
+
 export function validCoords(lat: unknown, lon: unknown): boolean {
-  // if (!lat || !lon) return false;
+  if (blankCoordsVal(lat) || blankCoordsVal(lon)) return false;
 
   const latitude = Number(lat);
   const longitude = Number(lon);
@@ -64,15 +67,7 @@ export function validCoords(lat: unknown, lon: unknown): boolean {
 }
 
 export const sanitize = (arg: any) => {
-  // const query = arg.toString();
   return arg.toString().trim().toLowerCase() || "";
-};
-
-type ValidateType = {
-  query: string;
-  REGEX: RegExp;
-  min_length: number;
-  max_length: number;
 };
 
 export const validateString = (

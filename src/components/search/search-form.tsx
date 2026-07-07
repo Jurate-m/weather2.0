@@ -38,9 +38,9 @@ export default function SearchForm() {
   };
 
   const handleChange = (val: string) => {
-    if (val) setLoading(true);
+    if (!val) return handleClear();
 
-    if (!val) setLoading(false);
+    setLoading(true);
 
     const { valid, error, sanitized } = validateParam(
       val,
@@ -72,11 +72,11 @@ export default function SearchForm() {
   };
 
   const handleClear = () => {
-    query.current = "";
     if (timer.current) clearTimeout(timer.current);
-    setError("");
     setLoading(false);
     navigateQuery("");
+    query.current = "";
+    setError("");
   };
 
   useEffect(() => {
@@ -99,7 +99,11 @@ export default function SearchForm() {
         icon={<Search fill='var(--color-font-primary)' />}
       />
       <FloatingContainer
-        components={[<p className='text-white text-sm px-4 py-2'>{error}</p>]}
+        components={[
+          <p className='text-white text-sm px-4 py-2' role='alert'>
+            {error}
+          </p>,
+        ]}
         displayCondition={[!!error && isOpen]}
         className='bg-error'
       />
