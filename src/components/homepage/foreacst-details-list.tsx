@@ -17,7 +17,8 @@ export default function ForecastDetailsItem({
           <h3 className='text-sm font-semibold'>{item.name.toUpperCase()}</h3>
         </span>
         <p className='font-semibold text-xl'>
-          {item.val} <span className='font-normal text-sm'>{item.unit}</span>
+          {Math.round(item.val)}{" "}
+          <span className='font-normal text-sm'>{item.unit}</span>
         </p>
       </Card>
     </li>

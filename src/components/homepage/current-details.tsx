@@ -8,11 +8,7 @@ import {
 } from "@/utils/functions";
 import ForecastDetailsItem from "./foreacst-details-list";
 import Icon from "../ui/Icon";
-import Drop from "../ui/icons/Drop";
-import Temp from "../ui/icons/Temp";
-import Wind from "../ui/icons/Wind";
-import Eye from "../ui/icons/Eye";
-import Press from "../ui/icons/Press";
+import { forecastDetails, FIELD_ICONS } from "@/utils/forecast-details";
 
 type CurrentDetailsType = {
   location: {
@@ -30,57 +26,20 @@ export default async function CurrentDetails({
   data,
   className,
 }: CurrentDetailsType & React.HTMLAttributes<HTMLDivElement>) {
-  const {
-    date,
-    humidity,
-    icon,
-    feels_like,
-    temperature,
-    precipitation,
-    pressure,
-    summary,
-    visibility,
-    wind,
-  } = data;
+  const { date, icon, temperature, summary } = data;
 
-  const details = [
-    {
-      name: "Feels like",
-      val: Math.round(feels_like),
-      unit: getUnits(units, "temperature"),
-      icon: <Temp fill='var(--color-font-primary)' />,
-    },
-    {
-      name: "Wind",
-      val: Math.round(wind.speed),
-      unit: `${getUnits(units, "speed")} ${wind.dir}`,
-      icon: <Wind fill='var(--color-font-primary)' />,
-    },
-    {
-      name: "Humidity",
-      val: Math.round(humidity),
-      unit: getUnits(units, "humidity"),
-      icon: <Drop fill='var(--color-font-primary)' />,
-    },
-    {
-      name: "Precipitation",
-      val: Math.round(precipitation.total),
-      unit: getUnits(units, "humidity"),
-      icon: <Drop fill='var(--color-font-primary)' />,
-    },
-    {
-      name: "Visibility",
-      val: Math.round(visibility),
-      unit: getUnits(units, "visibility"),
-      icon: <Eye fill='var(--color-font-primary)' />,
-    },
-    {
-      name: "Pressure",
-      val: Math.round(pressure),
-      unit: getUnits(units, "pressure"),
-      icon: <Press fill='var(--color-font-primary)' />,
-    },
-  ];
+  const details = forecastDetails(
+    [
+      "feels_like",
+      "wind",
+      "humidity",
+      "precipitation",
+      "visibility",
+      "pressure",
+    ],
+    data,
+    units,
+  );
 
   const weekday = weekDays[getDayOfWeek(date)][1];
 
@@ -122,7 +81,7 @@ export default async function CurrentDetails({
               <ForecastDetailsItem
                 key={item.name}
                 item={item}
-                icon={item.icon}
+                icon={FIELD_ICONS[item.key as keyof typeof FIELD_ICONS]}
                 className='bg-elevated'
               />
             );
