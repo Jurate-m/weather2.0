@@ -40,9 +40,24 @@ export default function SearchResults() {
     fetch(`/api/locations?q=${encodeURIComponent(q)}`, {
       signal: controller.signal,
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (resp.status === 429) {
+          setError("Too many requests — please wait a moment.");
+          return null;
+        }
+
+        if (!resp.ok) {
+          setError("No results were found");
+          return null;
+        }
+        return resp.json();
+      })
       .then((data) => {
-        if (!data.length) return setError("No results were found");
+        if (!data) return;
+        if (!data.length) {
+          setError("No results were found");
+          return;
+        }
 
         setResults(() =>
           data.map(({ place_id, name, country }: SearchResultsType) => ({
@@ -53,8 +68,8 @@ export default function SearchResults() {
         );
       })
       .catch((err) => {
-        setError("No results were found");
         if (err?.name === "AbortError") return;
+        setError("No results were found");
       });
 
     return () => controller.abort();
