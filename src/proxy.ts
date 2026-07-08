@@ -3,10 +3,11 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { NextRequest, NextResponse } from "next/server";
 
 import {
-  validateParam,
   MIN_LENGTH,
   Q_MAX_LENGTH,
   Q_REGEX,
+  sanitize,
+  validateString,
 } from "@/_lib/validate";
 
 const redis = new Redis({
@@ -25,21 +26,21 @@ export default async function proxy(req: NextRequest) {
   const q = req.nextUrl.searchParams.get("q");
   const location = req.nextUrl.searchParams.get("location");
 
-  // * validate q
-  const validateQ =
-    q && q.toString()
-      ? validateParam(q.toString(), Q_REGEX, MIN_LENGTH, Q_MAX_LENGTH)
-      : "";
+  if (!q && !location) return;
 
-  const validQ = validateQ && validateQ.sanitized ? validateQ.sanitized : "";
+  const sanitized = q ? sanitize(q) : null;
 
-  if (q && !validQ) {
+  const invalidMessage = sanitized
+    ? validateString(sanitized, Q_REGEX, MIN_LENGTH, Q_MAX_LENGTH)
+    : null;
+
+  if (invalidMessage?.message) {
     const url = req.nextUrl.clone();
     url.searchParams.delete("q");
     return NextResponse.redirect(url);
   }
 
-  const query = validQ || location;
+  const query = sanitized || location;
 
   const ip =
     req.headers.get("x-real-ip") ?? //* Vercel added header
@@ -50,6 +51,13 @@ export default async function proxy(req: NextRequest) {
     const { success } = await ratelimit.limit(ip);
 
     if (!success) {
+      if (req.nextUrl.pathname.startsWith("/api/")) {
+        return NextResponse.json(
+          { error: "Too many requests" },
+          { status: 429, headers: { "Retry-After": "60" } },
+        );
+      }
+
       return NextResponse.rewrite(new URL("/something-went-wrong", req.url), {
         request: {
           headers: new Headers({
