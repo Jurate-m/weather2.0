@@ -33,7 +33,7 @@ export default function UserConsent({ cookies }: { cookies: boolean }) {
   if (!loaded || location || cookies) return;
 
   return (
-    <main className='max-w-full w-5xl mx-auto px-5 pt-12'>
+    <section className='pt-8'>
       {token === null && (
         <RequestConsent
           acceptHandler={handleAccept}
@@ -50,6 +50,6 @@ export default function UserConsent({ cookies }: { cookies: boolean }) {
           acceptHandler={handleAccept}
         />
       )}
-    </main>
+    </section>
   );
 }
