@@ -14,10 +14,13 @@ async function SomethingWentWrong() {
     : "Something went wrong - Please come back later";
 
   return (
-    <main className='h-screen flex flex-col items-center justify-center'>
-      <h1 className='text-8xl font-bold pb-5'>Oh no!</h1>
-      <p className='text-2xl font-semibold text-center pb-6'>{message}</p>
-      <Link href='/' prefetch={false}>
+    <main className='max-w-full w-xl mx-auto px-4 py-20 text-center'>
+      <h1 className='text-6xl font-bold pb-5'>Oh no!</h1>
+      <p className='pb-6'>{message}</p>
+      <Link
+        href='/'
+        className='py-2 px-5 text-font-primary hover:text-(--primary) font-semibold rounded-full border-2 border-accent hover:bg-accent transition-all duration-50 ease-in shadow-md shadow-shdw'
+      >
         Return Home
       </Link>
     </main>
