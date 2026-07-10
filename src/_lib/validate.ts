@@ -17,38 +17,6 @@ export const ERROR_MESSAGE = {
   not_found: "No results were found based on your query",
 };
 
-export function validateParam(
-  query: string | undefined,
-  REGEX: RegExp,
-  min_length: number,
-  max_length: number,
-): validateQueryType {
-  const q = query?.trim();
-
-  if (!q)
-    return {
-      valid: false,
-      error: "empty",
-    };
-
-  if (!REGEX.test(q)) {
-    return { valid: false, error: "invalid_chars" };
-  }
-
-  if (q.length < min_length) {
-    return {
-      valid: false,
-      error: "too_short",
-    };
-  }
-
-  if (q.length > max_length) {
-    return { valid: false, error: "too_long" };
-  }
-
-  return { valid: true, sanitized: q.toLowerCase() };
-}
-
 const blankCoordsVal = (val: unknown) =>
   (typeof val !== "string" && typeof val !== "number") ||
   (typeof val === "string" && !val.trim());

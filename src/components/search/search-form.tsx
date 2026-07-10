@@ -9,7 +9,8 @@ import Search from "../ui/icons/Search";
 import FloatingContainer from "../ui/floating-container";
 
 import {
-  validateParam,
+  sanitize,
+  validateString,
   MIN_LENGTH,
   Q_MAX_LENGTH,
   Q_REGEX,
@@ -42,22 +43,24 @@ export default function SearchForm() {
 
     setLoading(true);
 
-    const { valid, error, sanitized } = validateParam(
-      val,
+    const sanitized = sanitize(val);
+
+    const invalid = validateString(
+      sanitized,
       Q_REGEX,
       MIN_LENGTH,
       Q_MAX_LENGTH,
     );
 
-    if (error) {
+    if (invalid.message) {
       query.current = "";
-      setError(ERROR_MESSAGE[error as keyof typeof ERROR_MESSAGE]);
+      setError(ERROR_MESSAGE[invalid.message as keyof typeof ERROR_MESSAGE]);
       return;
     }
 
     setError("");
 
-    query.current = valid && sanitized ? sanitized : "";
+    query.current = sanitized ?? "";
 
     if (timer.current) clearTimeout(timer.current);
 

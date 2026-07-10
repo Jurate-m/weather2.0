@@ -3,19 +3,15 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { NextRequest, NextResponse } from "next/server";
 
 import {
-  validateParam,
   MIN_LENGTH,
   Q_MAX_LENGTH,
   Q_REGEX,
+  sanitize,
+  validateString,
 } from "@/_lib/validate";
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
-
 const ratelimit = new Ratelimit({
-  redis,
+  redis: Redis.fromEnv(),
   limiter: Ratelimit.slidingWindow(30, "1 m"),
   analytics: true,
   prefix: "weather_app",
@@ -25,21 +21,21 @@ export default async function proxy(req: NextRequest) {
   const q = req.nextUrl.searchParams.get("q");
   const location = req.nextUrl.searchParams.get("location");
 
-  // * validate q
-  const validateQ =
-    q && q.toString()
-      ? validateParam(q.toString(), Q_REGEX, MIN_LENGTH, Q_MAX_LENGTH)
-      : "";
+  if (!q && !location) return;
 
-  const validQ = validateQ && validateQ.sanitized ? validateQ.sanitized : "";
+  const sanitized = q ? sanitize(q) : null;
 
-  if (q && !validQ) {
+  const invalidMessage = sanitized
+    ? validateString(sanitized, Q_REGEX, MIN_LENGTH, Q_MAX_LENGTH)
+    : null;
+
+  if (invalidMessage?.message) {
     const url = req.nextUrl.clone();
     url.searchParams.delete("q");
     return NextResponse.redirect(url);
   }
 
-  const query = validQ || location;
+  const query = sanitized || location;
 
   const ip =
     req.headers.get("x-real-ip") ?? //* Vercel added header
@@ -47,15 +43,31 @@ export default async function proxy(req: NextRequest) {
     "unknown";
 
   if (query) {
-    const { success } = await ratelimit.limit(ip);
+    const { success, reset } = await ratelimit.limit(ip);
 
     if (!success) {
+      const retryAfter = Math.ceil((reset - Date.now()) / 1000);
+
+      if (req.nextUrl.pathname.startsWith("/api/")) {
+        return NextResponse.json(
+          { error: "Too many requests" },
+          {
+            status: 429,
+            headers: {
+              "Retry-After": retryAfter.toString(),
+            },
+          },
+        );
+      }
+
       return NextResponse.rewrite(new URL("/something-went-wrong", req.url), {
         request: {
           headers: new Headers({
             ...Object.fromEntries(req.headers),
             //* custom headers
             "x-rate-limit-reason": "ip",
+            "retry-after": retryAfter.toString(),
+            "x-RateLimit-Reset": reset.toString(),
           }),
         },
       });

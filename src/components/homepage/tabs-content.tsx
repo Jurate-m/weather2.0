@@ -1,47 +1,8 @@
 import Card from "../ui/card";
 import { time, getUnits } from "@/utils/functions";
-
-import drop from "@/assets/drop.svg";
-import temp from "@/assets/temp.svg";
-import windIcon from "@/assets/wind.svg";
-
-import Drop from "../ui/icons/Drop";
-import Temp from "../ui/icons/Temp";
-import Wind from "../ui/icons/Wind";
-
 import ForecastDetailsItem from "./foreacst-details-list";
-
+import { forecastDetails, FIELD_ICONS } from "@/utils/forecast-details";
 import Icon from "../ui/Icon";
-
-const forecastDetails = (item: any, units: string) => {
-  const { feels_like, wind, humidity, precipitation } = item;
-  return [
-    {
-      name: "Feels like",
-      val: Math.round(feels_like),
-      unit: getUnits(units, "temperature"),
-      icon: <Temp fill='var(--color-font-primary)' />,
-    },
-    {
-      name: "Wind",
-      val: Math.round(wind.speed),
-      unit: `${getUnits(units, "speed")} ${wind.dir}`,
-      icon: <Wind fill='var(--color-font-primary)' />,
-    },
-    {
-      name: "Humidity",
-      val: Math.round(humidity),
-      unit: getUnits(units, "humidity"),
-      icon: <Drop fill='var(--color-font-primary)' />,
-    },
-    {
-      name: "Precipitation",
-      val: Math.round(precipitation.total),
-      unit: getUnits(units, "humidity"),
-      icon: <Drop fill='var(--color-font-primary)' />,
-    },
-  ];
-};
 
 export default function TabsContent({
   data,
@@ -58,7 +19,11 @@ export default function TabsContent({
         {data.map((item: any, i: number) => {
           const { date, summary, icon, temperature } = item;
 
-          const details = forecastDetails(item, units);
+          const details = forecastDetails(
+            ["feels_like", "wind", "humidity", "precipitation"],
+            item,
+            units,
+          );
 
           return (
             <li
@@ -90,7 +55,7 @@ export default function TabsContent({
                     <ForecastDetailsItem
                       key={i}
                       item={detail}
-                      icon={detail.icon}
+                      icon={FIELD_ICONS[detail.key as keyof typeof FIELD_ICONS]}
                       className='bg-elevated'
                     />
                   );
