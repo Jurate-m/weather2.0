@@ -54,7 +54,7 @@ export default function SearchForm() {
 
     if (invalid.message) {
       query.current = "";
-      setError(ERROR_MESSAGE[error as keyof typeof ERROR_MESSAGE]);
+      setError(ERROR_MESSAGE[invalid.message as keyof typeof ERROR_MESSAGE]);
       return;
     }
 
