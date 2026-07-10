@@ -10,14 +10,9 @@ import {
   validateString,
 } from "@/_lib/validate";
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
-
 const ratelimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(30, "1 m"),
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(2, "1 m"),
   analytics: true,
   prefix: "weather_app",
 });
@@ -48,13 +43,20 @@ export default async function proxy(req: NextRequest) {
     "unknown";
 
   if (query) {
-    const { success } = await ratelimit.limit(ip);
+    const { success, reset } = await ratelimit.limit(ip);
 
     if (!success) {
+      const retryAfter = Math.ceil((reset - Date.now()) / 1000);
+
       if (req.nextUrl.pathname.startsWith("/api/")) {
         return NextResponse.json(
           { error: "Too many requests" },
-          { status: 429, headers: { "Retry-After": "60" } },
+          {
+            status: 429,
+            headers: {
+              "Retry-After": retryAfter.toString(),
+            },
+          },
         );
       }
 
@@ -64,6 +66,8 @@ export default async function proxy(req: NextRequest) {
             ...Object.fromEntries(req.headers),
             //* custom headers
             "x-rate-limit-reason": "ip",
+            "retry-after": retryAfter.toString(),
+            "x-RateLimit-Reset": reset.toString(),
           }),
         },
       });
