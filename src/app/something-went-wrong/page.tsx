@@ -14,13 +14,13 @@ async function SomethingWentWrong() {
     : "Something went wrong - Please come back later";
 
   return (
-    <section className='h-screen flex flex-col items-center justify-center'>
+    <main className='h-screen flex flex-col items-center justify-center'>
       <h1 className='text-8xl font-bold pb-5'>Oh no!</h1>
       <p className='text-2xl font-semibold text-center pb-6'>{message}</p>
       <Link href='/' prefetch={false}>
         Return Home
       </Link>
-    </section>
+    </main>
   );
 }
 
