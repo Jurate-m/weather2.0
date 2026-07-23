@@ -30,6 +30,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  Some invalid Syntax;
   return (
     <html lang='en'>
       <body
