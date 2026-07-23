@@ -42,9 +42,8 @@ export default function Tabs({ data, units }: TabsType) {
         <ul className='flex py-1' role='tablist' aria-label='Hourly forecast'>
           {data.map((item: any, index: number) => {
             return (
-              <li key={item.date} className='min-w-18 w-full'>
+              <li key={item.date} className='min-w-18 w-full' role='tab'>
                 <Button
-                  role='tab'
                   onClick={(e) => handleClick(e, index)}
                   label={TabContent(item)}
                   className={[

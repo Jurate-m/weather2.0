@@ -37,7 +37,7 @@ export default function RejectedConsent({
             <Button
               label='Grant permission'
               onClick={acceptHandler}
-              className='block py-2 px-4 rounded-lg bg-emerald-700 hover:bg-green-700 focus:bg-green-700 text-white font-semibold mx-auto'
+              className='block py-2 px-4 rounded-lg border-2 border-green-700  text-font-primary hover:bg-green-700 hover:text-white focus:bg-green-700 focus:text-white font-semibold text-semibold mx-auto'
             />
           </>
         )}
