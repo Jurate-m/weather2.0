@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${inter.variable} ${openSans.variable} antialiased md:py-4`}
+        className={`${inter.variable} ${openSans.variable} antialiased md:py-4 block`}
       >
         <Header />
         {children}
