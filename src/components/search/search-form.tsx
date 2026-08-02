@@ -31,7 +31,7 @@ export default function SearchForm() {
   const navigateQuery = (query: string) => {
     const params = new URLSearchParams(searchParams);
 
-    if (query) params.set("q", encodeURIComponent(query));
+    if (query) params.set("q", query);
 
     if (!query) params.delete("q");
 
