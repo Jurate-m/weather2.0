@@ -12,9 +12,9 @@ export const LOCATION_ERR_MSG = {
   err_404:
     "Feel free to use the search form to search for desired location forecast",
   err_3:
-    "It took to long to reach your location. Please check if permission is granted and location services are turned on.",
+    "It took too long to reach your location. Please check if permission is granted and location services are turned on.",
   err_2:
-    "There was an error retrieving geolocation possition. Please check if permission is granted and location services are turned on and try again.",
+    "There was an error retrieving geolocation possition. Please check if permission is granted and location services are turned on, and try again.",
   err_1:
     "If you would like to see forecasts for your area, you can enable location permissions in your browser settings and refresh the page.",
 };
