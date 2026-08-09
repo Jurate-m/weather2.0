@@ -1,9 +1,3 @@
-type validateQueryType = {
-  valid: boolean;
-  error?: string;
-  sanitized?: string;
-};
-
 export const MIN_LENGTH = 2;
 export const Q_MAX_LENGTH = 25;
 export const Q_REGEX = /^[\p{L}\p{N}\s\-,.']+$/u;
@@ -21,17 +15,16 @@ const blankCoordsVal = (val: unknown) =>
   (typeof val !== "string" && typeof val !== "number") ||
   (typeof val === "string" && !val.trim());
 
+const inRange = (val: unknown, range: number) => {
+  if (blankCoordsVal(val)) return false;
+
+  const numb = Number(val);
+
+  return !isNaN(numb) && numb >= -range && numb <= range;
+};
+
 export function validCoords(lat: unknown, lon: unknown): boolean {
-  if (blankCoordsVal(lat) || blankCoordsVal(lon)) return false;
-
-  const latitude = Number(lat);
-  const longitude = Number(lon);
-
-  if (isNaN(latitude) || isNaN(longitude)) return false;
-
-  return (
-    latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180
-  );
+  return inRange(lat, 90) && inRange(lon, 180);
 }
 
 export const sanitize = (arg: any) => {
