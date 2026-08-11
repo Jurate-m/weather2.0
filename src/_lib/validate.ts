@@ -62,9 +62,9 @@ export const validateString = (
 
   if (sanitized.length < min) return { message: "too_short", sanitized };
 
-  if (sanitized.length > max) return { message: "too_long", sanitized };
-
   if (!regex.test(sanitized)) return { message: "invalid_chars", sanitized };
+
+  if (sanitized.length > max) return { message: "too_long", sanitized };
 
   return { message: "", sanitized };
 };
