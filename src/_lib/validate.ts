@@ -1,8 +1,3 @@
-type validateStringType = {
-  query: unknown;
-  type: keyof typeof VALIDATE_RULES | "q" | "param";
-};
-
 const MIN_LENGTH = 1;
 const Q_MAX_LENGTH = 25;
 const Q_REGEX = /^[\p{L}\p{N}\s\-,.']+$/u;
