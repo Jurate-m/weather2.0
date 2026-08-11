@@ -2,7 +2,7 @@ import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
 import { NextRequest, NextResponse } from "next/server";
 
-import { sanitize, validateString } from "@/_lib/validate";
+import { normalize, validateString } from "@/_lib/validate";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -17,9 +17,9 @@ export default async function proxy(req: NextRequest) {
 
   if (!q && !location) return;
 
-  const sanitized = q ? sanitize(q) : null;
+  const normalized = q ? normalize(q) : null;
 
-  const invalidMessage = sanitized ? validateString(sanitized, "q") : null;
+  const invalidMessage = normalized ? validateString(normalized, "q") : null;
 
   if (invalidMessage?.message) {
     const url = req.nextUrl.clone();
@@ -27,7 +27,7 @@ export default async function proxy(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  const query = sanitized || location;
+  const query = normalized || location;
 
   const ip =
     req.headers.get("x-real-ip") ?? //* Vercel added header

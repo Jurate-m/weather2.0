@@ -8,7 +8,7 @@ import { useSearch } from "./search-provider";
 import Search from "../ui/icons/Search";
 import FloatingContainer from "../ui/floating-container";
 
-import { sanitize, validateString, err_message } from "@/_lib/validate";
+import { normalize, validateString, err_message } from "@/_lib/validate";
 
 export default function SearchForm() {
   const query = useRef("");
@@ -36,9 +36,9 @@ export default function SearchForm() {
 
     setLoading(true);
 
-    const sanitized = sanitize(val);
+    const normalized = normalize(val);
 
-    const invalid = validateString(sanitized, "q");
+    const invalid = validateString(normalized, "q");
 
     if (invalid.message) {
       query.current = "";
@@ -48,7 +48,7 @@ export default function SearchForm() {
 
     setError("");
 
-    query.current = sanitized ?? "";
+    query.current = normalized ?? "";
 
     if (timer.current) clearTimeout(timer.current);
 

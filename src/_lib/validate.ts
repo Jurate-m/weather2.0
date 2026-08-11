@@ -42,7 +42,7 @@ export function validCoords(lat: unknown, lon: unknown): boolean {
   return inRange(lat, 90) && inRange(lon, 180);
 }
 
-export const sanitize = (arg: unknown) => {
+export const normalize = (arg: unknown) => {
   if (typeof arg !== "string" && typeof arg !== "number") return "";
   return arg.toString().trim().toLowerCase();
 };
@@ -53,13 +53,13 @@ export const validateString = (
 ) => {
   const { regex, min, max } = VALIDATE_RULES[type];
 
-  const sanitized = sanitize(query);
+  const normalized = normalize(query);
 
-  if (sanitized.length < min) return { message: "too_short", sanitized };
+  if (normalized.length < min) return { message: "too_short", normalized };
 
-  if (!regex.test(sanitized)) return { message: "invalid_chars", sanitized };
+  if (!regex.test(normalized)) return { message: "invalid_chars", normalized };
 
-  if (sanitized.length > max) return { message: "too_long", sanitized };
+  if (normalized.length > max) return { message: "too_long", normalized };
 
-  return { message: "", sanitized };
+  return { message: "", normalized };
 };

@@ -1,4 +1,4 @@
-import { sanitize, validateString } from "./validate";
+import { normalize, validateString } from "./validate";
 
 import { findPlaces } from "@/_lib/data";
 
@@ -23,27 +23,27 @@ export const paramsLocation = async (param: string) => {
     },
   };
 
-  const sanitized = sanitize(param);
+  const normalized = normalize(param);
 
-  if (!sanitized) {
+  if (!normalized) {
     location.error.code = "too_short";
     location.error.query = param.toString();
     return location;
   }
 
-  const invalid = validateString(sanitized, "param");
+  const invalid = validateString(normalized, "param");
 
   if (invalid.message) {
     location.error.code = invalid.message;
     return location;
   }
 
-  const places = await findPlaces(sanitized);
-  const match = places?.find((p: any) => p.place_id === sanitized);
+  const places = await findPlaces(normalized);
+  const match = places?.find((p: any) => p.place_id === normalized);
 
   if (!match) {
     location.error.code = "not_found";
-    location.error.query = sanitized;
+    location.error.query = normalized;
     return location;
   }
 
