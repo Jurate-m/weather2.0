@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { cookiesLocation } from "@/_lib/cookies-location";
 import { paramsLocation } from "@/_lib/params-location";
-import { ERROR_MESSAGE } from "@/_lib/validate";
+import { err_message } from "@/_lib/validate";
 import Error from "./ui/Error";
 import ForecastListing from "./params/forecastListing";
 import CurrentWrapper from "./homepage/current-wrapper";
@@ -28,8 +28,8 @@ export default async function ForecastWrapper({
     return (
       <Error>
         <p className='text-2xl font-semibold pb-2'>
-          {ERROR_MESSAGE[error.code as keyof typeof ERROR_MESSAGE]
-            ? ERROR_MESSAGE[error.code as keyof typeof ERROR_MESSAGE]
+          {err_message("param")[error.code as keyof typeof err_message]
+            ? err_message("param")[error.code as keyof typeof err_message]
             : error.code}
           {error.query ? `: ${error.query}` : null}
         </p>

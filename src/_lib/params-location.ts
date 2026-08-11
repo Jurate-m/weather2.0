@@ -1,10 +1,4 @@
-import {
-  sanitize,
-  validateString,
-  MIN_LENGTH,
-  LOCATION_REGEX,
-  MAX_LENGTH,
-} from "./validate";
+import { sanitize, validateString } from "./validate";
 
 import { findPlaces } from "@/_lib/data";
 
@@ -37,12 +31,7 @@ export const paramsLocation = async (param: string) => {
     return location;
   }
 
-  const invalid = validateString(
-    sanitized,
-    LOCATION_REGEX,
-    MIN_LENGTH,
-    MAX_LENGTH,
-  );
+  const invalid = validateString(sanitized, "param");
 
   if (invalid.message) {
     location.error.code = invalid.message;
