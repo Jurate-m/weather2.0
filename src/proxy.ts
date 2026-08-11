@@ -2,13 +2,7 @@ import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
 import { NextRequest, NextResponse } from "next/server";
 
-import {
-  MIN_LENGTH,
-  Q_MAX_LENGTH,
-  Q_REGEX,
-  sanitize,
-  validateString,
-} from "@/_lib/validate";
+import { sanitize, validateString } from "@/_lib/validate";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -25,9 +19,7 @@ export default async function proxy(req: NextRequest) {
 
   const sanitized = q ? sanitize(q) : null;
 
-  const invalidMessage = sanitized
-    ? validateString(sanitized, Q_REGEX, MIN_LENGTH, Q_MAX_LENGTH)
-    : null;
+  const invalidMessage = sanitized ? validateString(sanitized, "q") : null;
 
   if (invalidMessage?.message) {
     const url = req.nextUrl.clone();
