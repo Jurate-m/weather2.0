@@ -22,9 +22,9 @@ export default async function ForecastWrapper({
     ? await paramsLocation(location)
     : await cookiesLocation(cookie);
 
-  if (!place_id) return;
-
   if (error.code) {
+    if (!location) return null;
+
     return (
       <Error>
         <p className='text-2xl font-semibold pb-2'>
@@ -37,6 +37,8 @@ export default async function ForecastWrapper({
       </Error>
     );
   }
+
+  if (!place_id) return;
 
   if (place_id) {
     return (
